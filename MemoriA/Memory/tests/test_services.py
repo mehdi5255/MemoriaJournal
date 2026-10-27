@@ -268,3 +268,98 @@ class RetrospectiveAnalysisTest(MemoryServicesTestBase):
                                              end_date=self.today - timedelta(days=55))
         with self.assertRaisesMessage(services.AIServiceError, 'Aucun texte'):
             services.extract_keywords(empty, self.user)
+
+
+class ImageBackendTest(MemoryServicesTestBase):
+    """Choix du moteur d'illustration : huggingface (défaut), local ou auto (secours)."""
+
+    def setUp(self):
+        super().setUp()
+        services.get_local_text_to_image.cache_clear()
+        services.get_local_image_to_image.cache_clear()
+        self.story = Story.objects.create(entry=self.entry, text=STORY)
+
+    def local_pipe(self, mock_get):
+        mock_get.return_value.return_value.images = [Image.new('RGB', (8, 8), 'green')]
+        return mock_get.return_value
+
+    @override_settings(IMAGE_BACKEND='local')
+    @patch('Memory.services.get_hf_client')
+    @patch('Memory.services.get_local_text_to_image')
+    @patch('Memory.services.call_gemini', return_value='A calm beach')
+    def test_moteur_local(self, mock_gemini, mock_local, mock_hf):
+        pipe = self.local_pipe(mock_local)
+        png, prompt = services.generate_illustration(self.story, 'Aquarelle', self.user)
+        self.assertTrue(png.startswith(b'\x89PNG'))
+        self.assertEqual(pipe.call_args.kwargs['num_inference_steps'], 1)      # SD-Turbo : 1 étape
+        mock_hf.assert_not_called()
+        self.assertTrue(ActivityLog.objects.filter(ai_service='SD-Turbo (local)', status='Succes').exists())
+
+    @override_settings(IMAGE_BACKEND='auto')
+    @patch('Memory.services.get_hf_client')
+    @patch('Memory.services.get_local_text_to_image')
+    @patch('Memory.services.call_gemini', return_value='A calm beach')
+    def test_auto_bascule_sur_le_local_si_hugging_face_echoue(self, mock_gemini, mock_local, mock_hf):
+        mock_hf.return_value.text_to_image.side_effect = RuntimeError('402 Payment Required')
+        self.local_pipe(mock_local)
+        tasks.generate_image_task.delay(self.story.pk, 'Dessin', self.user.pk).get()
+        self.assertEqual(GeneratedImage.objects.count(), 1)
+        self.assertTrue(ActivityLog.objects.filter(ai_service='Stable Diffusion', status='Echec').exists())
+        self.assertTrue(ActivityLog.objects.filter(ai_service='SD-Turbo (local)', status='Succes').exists())
+
+    @override_settings(IMAGE_BACKEND='auto')
+    @patch('Memory.services.get_hf_client')
+    @patch('Memory.services.get_local_text_to_image')
+    @patch('Memory.services.call_gemini', return_value='A calm beach')
+    def test_auto_garde_hugging_face_s_il_repond(self, mock_gemini, mock_local, mock_hf):
+        mock_hf.return_value.text_to_image.return_value = Image.new('RGB', (8, 8))
+        services.generate_illustration(self.story, 'Dessin', self.user)
+        mock_local.assert_not_called()
+
+    @override_settings(IMAGE_BACKEND='auto')
+    @patch('Memory.services.get_hf_client')
+    @patch('Memory.services.get_local_text_to_image', side_effect=OSError('modèle absent'))
+    @patch('Memory.services.call_gemini', return_value='A calm beach')
+    def test_auto_les_deux_moteurs_echouent(self, mock_gemini, mock_local, mock_hf):
+        mock_hf.return_value.text_to_image.side_effect = RuntimeError('402')
+        with self.assertRaisesMessage(services.AIServiceError, 'modèle d\'illustration local'):
+            services.generate_illustration(self.story, 'Dessin', self.user)
+
+    @patch('Memory.services.get_hf_client')
+    @patch('Memory.services.get_local_text_to_image')
+    @patch('Memory.services.call_gemini', return_value='A calm beach')
+    def test_par_defaut_pas_de_secours_local(self, mock_gemini, mock_local, mock_hf):
+        mock_hf.return_value.text_to_image.side_effect = RuntimeError('402')
+        with self.assertRaises(services.AIServiceError):
+            services.generate_illustration(self.story, 'Dessin', self.user)
+        mock_local.assert_not_called()
+
+    @override_settings(IMAGE_BACKEND='local')
+    @patch('Memory.services.get_local_image_to_image')
+    @patch('Memory.services.call_gemini', return_value='A calm beach')
+    def test_transformation_de_photo_en_local(self, mock_gemini, mock_local):
+        pipe = self.local_pipe(mock_local)
+        photo = Photo.objects.create(entry=self.entry, image=SimpleUploadedFile('p.png', png_bytes(), 'image/png'))
+        services.generate_illustration(self.story, 'Dessin', self.user, source_photo=photo)
+        kwargs = pipe.call_args.kwargs
+        self.assertEqual(kwargs['image'].size, (512, 512))
+        self.assertGreaterEqual(kwargs['num_inference_steps'] * kwargs['strength'], 1)
+
+
+class DownloadImageModelCommandTest(TestCase):
+
+    @patch('huggingface_hub.snapshot_download', return_value='C:/cache/sd-turbo')
+    def test_telechargement(self, mock_download):
+        from io import StringIO
+        from django.core.management import call_command
+        out = StringIO()
+        call_command('download_image_model', stdout=out)
+        self.assertIn('Modèle prêt', out.getvalue())
+        self.assertIn('unet/*.fp16.safetensors', mock_download.call_args.kwargs['allow_patterns'])
+
+    @patch('huggingface_hub.snapshot_download', side_effect=OSError('réseau coupé'))
+    def test_echec_message_clair(self, mock_download):
+        from django.core.management import call_command
+        from django.core.management.base import CommandError
+        with self.assertRaisesMessage(CommandError, 'Relancez la commande'):
+            call_command('download_image_model')

@@ -41,6 +41,13 @@ HF_IMAGE_MODEL = os.getenv('HF_IMAGE_MODEL', 'stabilityai/stable-diffusion-xl-ba
 HF_IMAGE_TO_IMAGE_MODEL = os.getenv('HF_IMAGE_TO_IMAGE_MODEL', 'stabilityai/stable-diffusion-xl-refiner-1.0')
 KEYBERT_MODEL = os.getenv('KEYBERT_MODEL', 'paraphrase-multilingual-MiniLM-L12-v2')
 
+# Moteur des illustrations :
+#   huggingface : Stable Diffusion XL via l'API Hugging Face (par défaut)
+#   local       : SD-Turbo sur le processeur, gratuit et sans Internet (plus lent)
+#   auto        : Hugging Face, puis SD-Turbo local si l'API échoue (ex. plus de crédit)
+IMAGE_BACKEND = os.getenv('IMAGE_BACKEND', 'huggingface').lower()
+LOCAL_IMAGE_MODEL = os.getenv('LOCAL_IMAGE_MODEL', 'stabilityai/sd-turbo')
+
 
 # --- Applications ---
 
@@ -169,6 +176,8 @@ if TESTING:
     CELERY_TASK_ALWAYS_EAGER = True
     CELERY_TASK_EAGER_PROPAGATES = True
     CELERY_TASK_STORE_EAGER_RESULT = True
+    # Tests identiques sur tous les PC : jamais de modèle local chargé
+    IMAGE_BACKEND = 'huggingface'
     # Pas de dossier staticfiles/ pendant les tests : on masque l'avertissement de whitenoise
     import warnings
     warnings.filterwarnings('ignore', message='No directory at')

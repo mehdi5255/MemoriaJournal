@@ -15,14 +15,19 @@ from .models import GeneratedImage, Retrospective, Story
 
 
 @worker_ready.connect
-def preload_keybert(**kwargs):
-    """Charge KeyBERT au démarrage du worker : la première analyse ne paie pas les ~25 s de chargement."""
+def preload_models(**kwargs):
+    """Charge les modèles locaux au démarrage du worker : la première tâche ne paie pas le chargement
+    (~25 s pour KeyBERT, ~90 s pour SD-Turbo)."""
     if getattr(settings, 'TESTING', False):
         return
-    try:
-        services.get_keybert_model()
-    except Exception:
-        pass        # le modèle sera chargé à la première analyse
+    loaders = [services.get_keybert_model]
+    if settings.IMAGE_BACKEND in ('local', 'auto'):
+        loaders.append(services.get_local_text_to_image)
+    for load in loaders:
+        try:
+            load()
+        except Exception:
+            pass        # le modèle sera chargé à la première utilisation
 
 
 @shared_task

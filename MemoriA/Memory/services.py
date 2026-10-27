@@ -36,6 +36,24 @@ def get_hf_client():
 
 
 @lru_cache(maxsize=1)
+def get_local_text_to_image():
+    # SD-Turbo : poids fp16 téléchargés une fois (~2,5 Go), calculs en float32 sur le processeur
+    import torch
+    from diffusers import AutoPipelineForText2Image
+    pipe = AutoPipelineForText2Image.from_pretrained(settings.LOCAL_IMAGE_MODEL, variant='fp16',
+                                                     torch_dtype=torch.float32)
+    pipe.set_progress_bar_config(disable=True)
+    return pipe.to('cpu')
+
+
+@lru_cache(maxsize=1)
+def get_local_image_to_image():
+    # Réutilise les poids déjà chargés du pipeline texte vers image
+    from diffusers import AutoPipelineForImage2Image
+    return AutoPipelineForImage2Image.from_pipe(get_local_text_to_image())
+
+
+@lru_cache(maxsize=1)
 def get_keybert_model():
     # Le modèle (environ 500 Mo) est chargé une seule fois par processus
     from keybert import KeyBERT
@@ -167,15 +185,50 @@ def call_image_to_image(photo_bytes, prompt):
         raise AIServiceError("Le service de transformation de photo ne répond pas. Réessayez dans un instant.") from error
 
 
+def call_local_text_to_image(prompt):
+    try:
+        # SD-Turbo produit une image en 1 seule étape, sans guidage
+        return get_local_text_to_image()(prompt, num_inference_steps=1, guidance_scale=0.0,
+                                         width=512, height=512).images[0]
+    except Exception as error:
+        raise AIServiceError("Le modèle d'illustration local n'a pas pu créer l'image. "
+                             "Vérifiez qu'il est bien téléchargé, puis réessayez.") from error
+
+
+def call_local_image_to_image(photo_bytes, prompt):
+    try:
+        photo = Image.open(io.BytesIO(photo_bytes)).convert('RGB').resize((512, 512))
+        # strength x étapes doit valoir au moins 1 : 0,5 x 2 = 1 étape réelle
+        return get_local_image_to_image()(prompt, image=photo, num_inference_steps=2, strength=0.5,
+                                          guidance_scale=0.0).images[0]
+    except Exception as error:
+        raise AIServiceError("Le modèle local n'a pas pu transformer la photo. Réessayez.") from error
+
+
+def create_image(user, prompt, photo_bytes=None):
+    """Choisit le moteur selon IMAGE_BACKEND (huggingface, local ou auto) et renvoie une image PIL."""
+    backend = settings.IMAGE_BACKEND
+    action = 'Transformation de photo' if photo_bytes else 'Illustration du récit'
+    remote = (call_image_to_image, photo_bytes, prompt) if photo_bytes else (call_text_to_image, prompt)
+    local = (call_local_image_to_image, photo_bytes, prompt) if photo_bytes else (call_local_text_to_image, prompt)
+
+    if backend == 'local':
+        return log_ai_call(user, action, 'SD-Turbo (local)', *local)
+    try:
+        return log_ai_call(user, action, 'Stable Diffusion', *remote)
+    except AIServiceError:
+        if backend != 'auto':
+            raise
+        # Solution de secours : l'échec de l'API est déjà enregistré, on passe au modèle local
+        return log_ai_call(user, action, 'SD-Turbo (local)', *local)
+
+
 def generate_illustration(story, style, user, source_photo=None):
     """Crée l'illustration du récit. Renvoie (octets PNG, prompt utilisé)."""
-    scene = build_image_prompt(story, user)
+    scene = build_image_prompt(story, user).strip().rstrip('.')
     prompt = f"{scene}, {IMAGE_STYLES.get(style, IMAGE_STYLES['Realiste'])}"
-    if source_photo:
-        image = log_ai_call(user, 'Transformation de photo', 'Stable Diffusion',
-                            call_image_to_image, photo_to_bytes(source_photo), prompt)
-    else:
-        image = log_ai_call(user, 'Illustration du récit', 'Stable Diffusion', call_text_to_image, prompt)
+    photo_bytes = photo_to_bytes(source_photo) if source_photo else None
+    image = create_image(user, prompt, photo_bytes)
     buffer = io.BytesIO()
     image.save(buffer, format='PNG')
     return buffer.getvalue(), prompt
