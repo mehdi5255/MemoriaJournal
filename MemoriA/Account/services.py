@@ -4,6 +4,13 @@ import time
 from .models import ActivityLog
 
 
+class AIServiceError(Exception):
+    """Erreur d'un service IA avec un message clair en français, affiché tel quel à l'utilisateur.
+
+    Commune à toutes les apps : la vue ai/task/<task_id>/ renvoie ce message à la page.
+    """
+
+
 def log_ai_call(user, action, service, func, *args, **kwargs):
     """Appelle func(*args, **kwargs), mesure sa durée et crée une ligne ActivityLog.
 

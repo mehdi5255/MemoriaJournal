@@ -22,6 +22,7 @@ from Voice.models import MoodRecord
 
 from .forms import ProfileForm, SignupForm
 from .models import ActivityLog, Profile
+from .services import AIServiceError
 
 # Couleur de la pastille d'humeur (pastels de la charte, toujours accompagnés du texte)
 MOOD_CLASSES = {'Joie': 'mood-joie', 'Tristesse': 'mood-tristesse', 'Colere': 'mood-colere',
@@ -145,6 +146,9 @@ class TaskStatusView(LoginRequiredMixin, View):
             data = {'status': 'SUCCESS', 'result': result.result if isinstance(result.result, dict) else {}}
         elif result.state in ('FAILURE', 'REVOKED'):
             data = {'status': 'FAILURE'}
+            # Message clair seulement pour les erreurs IA prévues (jamais les détails techniques)
+            if isinstance(result.result, AIServiceError):
+                data['message'] = str(result.result)
         else:
             # PENDING, STARTED, RETRY : la tâche n'est pas terminée
             data = {'status': 'PENDING'}

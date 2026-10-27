@@ -1,0 +1,8 @@
+{% comment %}Nouvelle illustration créée par l'IA (insérée dans la page sans la recharger).{% endcomment %}
+<figure class="polaroid mb-2" style="max-width: 260px;">
+    <a href="{% url 'memory:image_detail' image.pk %}">
+        <img src="{{ image.image.url }}" alt="{{ image.prompt|truncatechars:120 }}" class="cover">
+    </a>
+    <figcaption>{{ image.get_style_display }}</figcaption>
+</figure>
+<p class="mb-0"><a href="{% url 'memory:image_detail' image.pk %}">Voir l'illustration</a>{% if image.is_main %} · <span class="badge badge-main">Image principale</span>{% endif %}</p>

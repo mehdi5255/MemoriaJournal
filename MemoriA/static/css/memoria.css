@@ -62,6 +62,9 @@ h3 { font-size: 1.1rem; }
 
 /* ---------- Accessibilité ---------- */
 
+/* L'attribut hidden gagne toujours (même sur un élément .d-flex de Bootstrap) */
+[hidden] { display: none !important; }
+
 .skip-link {
     position: absolute;
     left: 1rem;

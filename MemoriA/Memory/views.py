@@ -1,13 +1,29 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, TemplateView, UpdateView
 
-from .forms import GeneratedImageForm, RetrospectiveForm, StoryForm
+from . import tasks
+from .forms import (GenerateImageForm, GenerateStoryForm, GeneratedImageForm, RetrospectiveForm,
+                    StoryForm)
 from .models import GeneratedImage, Retrospective, Story
+from .services import AIServiceError, retrospective_stats
+
+
+def launch_task(request, task, *args):
+    """Lance une tâche Celery et renvoie son identifiant, ou None si le service est indisponible."""
+    try:
+        return task.delay(*args).id
+    except AIServiceError as error:
+        # En mode « eager » (tests), l'erreur de l'IA remonte directement
+        messages.error(request, str(error))
+    except Exception:
+        messages.error(request, "Le service de génération est indisponible pour le moment "
+                                "(Redis ou le worker Celery ne répond pas). Réessayez dans un instant.")
+    return None
 
 
 # ---------- Filtrage par utilisateur (un utilisateur ne voit que ses données) ----------
@@ -89,6 +105,17 @@ class StoryDetailView(StoryOwnerMixin, DetailView):
     template_name = 'Memory/story_detail.html'
     context_object_name = 'story'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['regenerate_styles'] = Story.STYLE_CHOICES
+        context['image_form'] = GenerateImageForm(story=self.object)
+        # Tâche IA en cours (après un clic sur « Régénérer » ou « Créer une illustration »)
+        context['task_id'] = self.request.GET.get('task', '')
+        context['task_type'] = self.request.GET.get('type', 'story')
+        context['retry_data'] = {key: value for key, value in self.request.GET.items()
+                                 if key in ('style', 'source_photo')}
+        return context
+
 
 class StoryCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Story
@@ -107,6 +134,11 @@ class StoryCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         if self.request.GET.get('entry', '').isdigit():
             initial['entry'] = self.request.GET['entry']
         return initial
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['generate_form'] = GenerateStoryForm(user=self.request.user, initial=self.get_initial())
+        return context
 
     def get_success_url(self):
         return reverse('memory:story_detail', args=[self.object.pk])
@@ -256,6 +288,8 @@ class RetrospectiveDetailView(RetrospectiveOwnerMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['entries'] = self.object.entries.order_by('entry_date')
+        context['stats'] = retrospective_stats(self.object)
+        context['task_id'] = self.request.GET.get('task', '')
         return context
 
 
@@ -290,3 +324,75 @@ class RetrospectiveDeleteView(RetrospectiveOwnerMixin, DeleteMessageMixin, Delet
     template_name = 'Memory/confirm_delete.html'
     success_url = reverse_lazy('memory:retrospective_list')
     success_message = "La rétrospective a été supprimée."
+
+
+# ---------- Fonctionnalités IA (lancement des tâches Celery) ----------
+
+class StoryGenerateView(LoginRequiredMixin, View):
+    """Fait écrire un nouveau récit par Gemini pour une entrée choisie."""
+    http_method_names = ['post']
+
+    def post(self, request):
+        form = GenerateStoryForm(request.POST, user=request.user)
+        if not form.is_valid():
+            messages.error(request, "Choisissez une de vos entrées sans récit et un style.")
+            return redirect('memory:story_create')
+        entry, style = form.cleaned_data['entry'], form.cleaned_data['style']
+        task_id = launch_task(request, tasks.generate_story_task, entry.pk, style, request.user.pk, True)
+        if not task_id:
+            return redirect('memory:story_create')
+        return render(request, 'Memory/story_generating.html', {
+            'entry': entry, 'task_id': task_id,
+            'retry_data': {'ia-entry': entry.pk, 'ia-style': style},
+        })
+
+
+class StoryRegenerateView(StoryOwnerMixin, View):
+    """« Régénérer » : nouveau texte, la version augmente de 1."""
+    http_method_names = ['post']
+
+    def post(self, request, pk):
+        story = get_object_or_404(self.get_queryset(), pk=pk)
+        style = request.POST.get('style')
+        if style not in dict(Story.STYLE_CHOICES):
+            style = story.style
+        task_id = launch_task(request, tasks.generate_story_task, story.entry_id, style, request.user.pk)
+        url = reverse('memory:story_detail', args=[story.pk])
+        if task_id:
+            url += f'?task={task_id}&type=story&style={style}'
+        return redirect(url)
+
+
+class ImageGenerateView(StoryOwnerMixin, View):
+    """« Créer une illustration » avec Stable Diffusion (ou transformer une photo)."""
+    http_method_names = ['post']
+
+    def post(self, request, pk):
+        story = get_object_or_404(self.get_queryset(), pk=pk)
+        form = GenerateImageForm(request.POST, story=story)
+        url = reverse('memory:story_detail', args=[story.pk])
+        if not form.is_valid():
+            messages.error(request, "Choisissez un style valide et une photo de cette entrée.")
+            return redirect(url)
+        style = form.cleaned_data['style']
+        photo = form.cleaned_data['source_photo']
+        task_id = launch_task(request, tasks.generate_image_task, story.pk, style, request.user.pk,
+                              photo.pk if photo else None)
+        if task_id:
+            url += f'?task={task_id}&type=image&style={style}'
+            if photo:
+                url += f'&source_photo={photo.pk}'
+        return redirect(url)
+
+
+class RetrospectiveAnalyzeView(RetrospectiveOwnerMixin, View):
+    """« Analyser avec l'IA » : thèmes KeyBERT et statistiques d'humeur."""
+    http_method_names = ['post']
+
+    def post(self, request, pk):
+        retrospective = get_object_or_404(self.get_queryset(), pk=pk)
+        task_id = launch_task(request, tasks.analyze_retrospective_task, retrospective.pk, request.user.pk)
+        url = reverse('memory:retrospective_detail', args=[retrospective.pk])
+        if task_id:
+            url += f'?task={task_id}'
+        return redirect(url)

@@ -1,0 +1,15 @@
+{
+  "description": "10 scènes (en anglais, comme celles écrites par Gemini pour le modèle d'image) pour mesurer le CLIP score texte-image.",
+  "scenes": [
+    {"id": 1, "style": "Aquarelle", "scene": "Two friends swimming in a calm turquoise sea under a striped beach umbrella"},
+    {"id": 2, "style": "Realiste", "scene": "A young intern sitting at a desk with a laptop in a bright modern office"},
+    {"id": 3, "style": "Dessin", "scene": "An old grandmother serving a large plate of fish couscous on a wooden table"},
+    {"id": 4, "style": "Realiste", "scene": "A crowded metro carriage stopped in a dark tunnel"},
+    {"id": 5, "style": "Aquarelle", "scene": "A wedding hall decorated with white jasmine flowers and people dancing"},
+    {"id": 6, "style": "Realiste", "scene": "Hikers resting on a rocky mountain summit overlooking a wide green plain"},
+    {"id": 7, "style": "Dessin", "scene": "A small ginger kitten climbing on long living room curtains"},
+    {"id": 8, "style": "Aquarelle", "scene": "A family playing cards by candlelight on a rainy evening"},
+    {"id": 9, "style": "Realiste", "scene": "Ancient Roman ruins with tall stone columns facing a blue sea"},
+    {"id": 10, "style": "Dessin", "scene": "Hands shaping a clay bowl on a spinning pottery wheel"}
+  ]
+}

@@ -26,8 +26,10 @@
         var success = box.querySelector('.ai-success');
         var error = box.querySelector('.ai-error');
 
-        function fail() {
+        function fail(message) {
             show(loading, false);
+            var text = error && error.querySelector('p');
+            if (text && typeof message === 'string' && message) { text.textContent = message; }
             show(error, true);
             box.setAttribute('aria-busy', 'false');
             var retry = error && error.querySelector('button, a');
@@ -60,10 +62,10 @@
                 })
                 .then(function (data) {
                     if (data.status === 'SUCCESS') { done(data.result); }
-                    else if (data.status === 'FAILURE') { fail(); }
+                    else if (data.status === 'FAILURE') { fail(data.message); }
                     else { setTimeout(poll, INTERVAL_MS); }
                 })
-                .catch(fail);
+                .catch(function () { fail(); });
         }
 
         box.setAttribute('aria-busy', 'true');
