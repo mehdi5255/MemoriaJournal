@@ -1,121 +1,111 @@
 {
   "recits": {
     "n": 15,
-    "reussis": 1,
+    "reussis": 0,
     "lignes": [
       {
         "id": 1,
         "titre": "Journée à la plage",
         "style": "Simple",
-        "duree_ms": 13346,
-        "texte": "12 juillet 2026\n\nQuelle journée magnifique, celle d'aujourd'hui ! Je suis encore sur mon petit nuage après cette virée à la plage, à Hammamet, avec Sarah et Karim. Dès le matin, le soleil tapait fort ; il faisait au moins trente-cinq degrés, une vraie chaleur estivale comme je les aime. On ne rêvait que d'une chose : l'eau !\n\nEt la mer n'a pas déçu. L'eau était absolument parfaite, ni trop chaude, ni trop froide, juste ce qu'il fallait pour se rafraîchir. On a nagé toute la matinée, sans voir le temps passer, à barboter et à rire sous le grand ciel bleu. C'était un pur bonheur de sentir les petites vagues nous porter.\n\nAprès tant d'efforts, on a sorti nos sandwichs thon-harissa et on les a dévorés à l'ombre salvatrice de notre parasol. C'était délicieux, le sel sur la peau et le ventre plein, une sensation simple mais tellement agréable. Par contre, en rentrant, j'ai découvert un bon coup de soleil sur les épaules. Ça pique un peu, mais ça n'enlève rien à la joie de cette journée si parfaite.",
-        "mots": 177,
-        "rappel_faits": 1.0,
-        "faits_manquants": [],
-        "inventions": [],
-        "fidelite": 5,
-        "longueur": 5,
-        "style_note": 1,
-        "commentaire_juge": "Le texte est beaucoup trop descriptif et expressif pour correspondre au style simple demandé.",
-        "note": 3.67
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
       },
       {
         "id": 2,
         "titre": "Premier jour de stage",
         "style": "Simple",
-        "erreur": "Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant."
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
       },
       {
         "id": 3,
         "titre": "Couscous chez grand-mère",
         "style": "Poetique",
-        "erreur": "Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant."
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
       },
       {
         "id": 4,
         "titre": "Panne de métro",
         "style": "Humoristique",
-        "erreur": "Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant."
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
       },
       {
         "id": 5,
         "titre": "Mariage de ma cousine",
         "style": "Poetique",
-        "erreur": "Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant."
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
       },
       {
         "id": 6,
         "titre": "Randonnée au Zaghouan",
         "style": "Simple",
-        "erreur": "Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant."
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
       },
       {
         "id": 7,
         "titre": "Rendez-vous chez le dentiste",
         "style": "Humoristique",
-        "erreur": "Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant."
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
       },
       {
         "id": 8,
         "titre": "Soirée match",
         "style": "Humoristique",
-        "erreur": "Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant."
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
       },
       {
         "id": 9,
         "titre": "Journée pluvieuse",
         "style": "Poetique",
-        "erreur": "Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant."
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
       },
       {
         "id": 10,
         "titre": "Adoption d'un chaton",
         "style": "Simple",
-        "erreur": "Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant."
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
       },
       {
         "id": 11,
         "titre": "Résultats du bac de mon frère",
         "style": "Simple",
-        "erreur": "Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant."
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
       },
       {
         "id": 12,
         "titre": "Déménagement",
         "style": "Humoristique",
-        "erreur": "Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant."
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
       },
       {
         "id": 13,
         "titre": "Visite de Carthage",
         "style": "Poetique",
-        "erreur": "Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant."
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
       },
       {
         "id": 14,
         "titre": "Journée difficile",
         "style": "Simple",
-        "erreur": "Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant."
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
       },
       {
         "id": 15,
         "titre": "Atelier de poterie",
         "style": "Poetique",
-        "erreur": "Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant."
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
       }
     ],
-    "fidelite": 5,
-    "longueur": 5,
-    "style": 1,
-    "note": 3.67,
-    "rappel_faits": 1.0,
-    "mots_moyen": 177,
-    "dans_la_fourchette": 1,
+    "fidelite": 0,
+    "longueur": 0,
+    "style": 0,
+    "note": 0,
+    "rappel_faits": 0,
+    "mots_moyen": 0,
+    "dans_la_fourchette": 0,
     "inventions_total": 0,
     "temps": {
-      "moyenne_ms": 13346,
-      "max_ms": 13346,
-      "n": 1
+      "moyenne_ms": 0,
+      "max_ms": 0,
+      "n": 0
     },
     "humain": null
   },

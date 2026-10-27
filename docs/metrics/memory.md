@@ -11,45 +11,9 @@ Jeux de données annotés : `MemoriA/Memory/evaluation/`. Valeurs brutes : `memo
 - **Longueur** (automatique) : 5 si le récit fait entre 120 et 250 mots (consigne du prompt), puis -1 par tranche de 15 % d'écart.
 - **Style** : note donnée par un autre modèle, `gemini-3.5-flash-lite`, qui reçoit la même définition du style que le rédacteur (méthode « LLM-as-a-judge » ; un modèle différent évite qu'il juge son propre texte).
 
-> **Résultats partiels** : 14 récit(s) sur 15 n'ont pas pu être générés (« Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant. »). Relancez `python manage.py evaluate_memory --only recits` quand le quota est renouvelé.
+> **Résultats partiels** : 15 récit(s) sur 15 n'ont pas pu être générés (« Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour). »). Relancez `python manage.py evaluate_memory --only recits` quand le quota est renouvelé.
 
-![Grille des récits](memory_recits.png)
-
-| Critère | Note moyenne |
-|---|---|
-| Fidélité | 5 / 5 (faits retrouvés : 100 %) |
-| Longueur | 5 / 5 (1 récits sur 1 dans la fourchette, 177 mots en moyenne) |
-| Style | 1 / 5 |
-| **Note globale** | **3.67 / 5** |
-
-Temps de génération : **13.3 s** en moyenne, 13.3 s au maximum.
-
-| # | Entrée | Style | Mots | Faits | Inventions | Fidélité | Longueur | Style | Note |
-|---|---|---|---|---|---|---|---|---|---|
-| 1 | Journée à la plage | Simple | 177 | 100 % | — | 5 | 5 | 1 | 3.67 |
-| 2 | Premier jour de stage | Simple | échec : Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant. ||||||| 
-| 3 | Couscous chez grand-mère | Poetique | échec : Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant. ||||||| 
-| 4 | Panne de métro | Humoristique | échec : Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant. ||||||| 
-| 5 | Mariage de ma cousine | Poetique | échec : Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant. ||||||| 
-| 6 | Randonnée au Zaghouan | Simple | échec : Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant. ||||||| 
-| 7 | Rendez-vous chez le dentiste | Humoristique | échec : Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant. ||||||| 
-| 8 | Soirée match | Humoristique | échec : Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant. ||||||| 
-| 9 | Journée pluvieuse | Poetique | échec : Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant. ||||||| 
-| 10 | Adoption d'un chaton | Simple | échec : Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant. ||||||| 
-| 11 | Résultats du bac de mon frère | Simple | échec : Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant. ||||||| 
-| 12 | Déménagement | Humoristique | échec : Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant. ||||||| 
-| 13 | Visite de Carthage | Poetique | échec : Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant. ||||||| 
-| 14 | Journée difficile | Simple | échec : Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant. ||||||| 
-| 15 | Atelier de poterie | Poetique | échec : Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant. ||||||| 
-
-**Commentaire**
-
-- La fidélité est très bonne : les faits importants de la journée sont repris. (moyenne 5 / 5)
-- Aucun des éléments interdits n'apparaît : la consigne « n'invente rien » est respectée.
-- La longueur demandée est bien respectée. (moyenne 5 / 5)
-- Le style demandé est mal respecté. (moyenne 1 / 5)
-
-**Notes humaines** : complétez les colonnes « humain » de `memory_recits.csv`, copiez le fichier dans `MemoriA/Memory/evaluation/notes_humaines.csv` puis relancez `python manage.py evaluate_memory --only recits` pour comparer avec les notes automatiques.
+Aucun récit généré : vérifiez `GEMINI_API_KEY` et le quota.
 
 ## 2. Illustration (Stable Diffusion) : CLIP score
 
