@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Supprimer : {{ object }}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'memory:souvenirs' %}">Souvenirs</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Suppression</li>
+{% endblock %}
+{% block page_title %}Confirmer la suppression{% endblock %}
+
+{% block content %}
+<div class="card p-4" style="max-width: 620px;">
+    <p class="fs-5">Voulez-vous vraiment supprimer <strong>« {{ object }} »</strong> ?</p>
+    {% if story %}
+        <p>Les illustrations de ce récit seront aussi supprimées. L'entrée du journal est conservée.</p>
+    {% endif %}
+    <p class="mb-4">Cette action est définitive.</p>
+    <form method="post" class="d-flex flex-wrap gap-2">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Oui, supprimer</button>
+        <a href="{% if story %}{% url 'memory:story_detail' story.pk %}{% elif image %}{% url 'memory:image_detail' image.pk %}{% elif retrospective %}{% url 'memory:retrospective_detail' retrospective.pk %}{% else %}{% url 'memory:souvenirs' %}{% endif %}" class="btn btn-outline-secondary">Non, annuler</a>
+    </form>
+</div>
+{% endblock %}
