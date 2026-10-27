@@ -17,8 +17,9 @@ from .models import MoodRecord
 
 # Étiquettes du modèle xlm-emo-t -> émotions de MoodRecord
 EMOTION_LABELS = {'joy': 'Joie', 'sadness': 'Tristesse', 'anger': 'Colere', 'fear': 'Peur'}
-# Sous ce score, le modèle hésite : on considère l'humeur comme neutre
-NEUTRAL_THRESHOLD = 0.5
+# Sous ce score, le modèle hésite : on considère l'humeur comme neutre.
+# Valeur choisie avec python manage.py evaluate_voice (voir docs/metrics/voice.md).
+NEUTRAL_THRESHOLD = 0.6
 NEGATIVE_EMOTIONS = {'Tristesse', 'Colere', 'Peur'}
 ALERT_DAYS = 3
 

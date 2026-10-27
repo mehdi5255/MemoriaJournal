@@ -1,0 +1,25 @@
+{
+  "description": "10 enregistrements avec leur texte exact (référence) pour mesurer le WER de Whisper. Les fichiers de audio/ sont générés avec les voix de Windows (python manage.py evaluate_voice --generer-audio) ; on peut les remplacer par de vrais enregistrements en gardant le même nom de fichier et le même texte.",
+  "enregistrements": [
+    {"id": 1, "fichier": "note_01.wav", "langue": "fr", "voix": "Microsoft Hortense Desktop",
+     "reference": "Aujourd'hui je suis allé à la plage avec mes amis. Il faisait très beau et nous avons beaucoup ri."},
+    {"id": 2, "fichier": "note_02.wav", "langue": "fr", "voix": "Microsoft Hortense Desktop",
+     "reference": "Ce matin j'ai raté le bus et je suis arrivé en retard au cours de mathématiques."},
+    {"id": 3, "fichier": "note_03.wav", "langue": "fr", "voix": "Microsoft Hortense Desktop",
+     "reference": "Ma grand-mère a préparé un couscous au poisson pour toute la famille. C'était délicieux."},
+    {"id": 4, "fichier": "note_04.wav", "langue": "fr", "voix": "Microsoft Hortense Desktop",
+     "reference": "J'ai peur de la soutenance de demain. Je vais encore relire mes diapositives avant de dormir."},
+    {"id": 5, "fichier": "note_05.wav", "langue": "fr", "voix": "Microsoft Hortense Desktop",
+     "reference": "Nous avons visité les ruines de Carthage puis nous avons bu un thé à Sidi Bou Saïd."},
+    {"id": 6, "fichier": "note_06.wav", "langue": "fr", "voix": "Microsoft Hortense Desktop",
+     "reference": "Le médecin m'a conseillé de me reposer pendant trois jours et de boire beaucoup d'eau."},
+    {"id": 7, "fichier": "note_07.wav", "langue": "fr", "voix": "Microsoft Hortense Desktop",
+     "reference": "Mon frère a eu son baccalauréat avec mention bien. Ma mère était tellement fière de lui."},
+    {"id": 8, "fichier": "note_08.wav", "langue": "en", "voix": "Microsoft Zira Desktop",
+     "reference": "Today I started my internship at a software company. My tutor showed me the whole team."},
+    {"id": 9, "fichier": "note_09.wav", "langue": "en", "voix": "Microsoft Zira Desktop",
+     "reference": "It rained all afternoon so I stayed home and read a novel with a cup of coffee."},
+    {"id": 10, "fichier": "note_10.wav", "langue": "en", "voix": "Microsoft Zira Desktop",
+     "reference": "We won the football match in the last minute and everybody was shouting with joy."}
+  ]
+}
