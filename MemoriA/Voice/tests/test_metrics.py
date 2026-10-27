@@ -108,15 +108,15 @@ class EvaluateVoiceCommandTest(TestCase):
         self.assertIn('ne répond pas', results['transcription']['lignes'][0]['erreur'])
         self.assertIn('Aucune transcription réussie', (self.out / 'voice.md').read_text(encoding='utf-8'))
 
-    @patch('Voice.management.commands.evaluate_voice.sys.platform', 'linux')
-    def test_generer_audio_hors_windows(self):
+    @patch('Voice.management.commands.evaluate_voice.on_windows', return_value=False)
+    def test_generer_audio_hors_windows(self, mock_windows):
         with self.assertRaisesMessage(CommandError, 'voix de Windows'):
             call_command('evaluate_voice', '--generer-audio', '--output', str(self.out), stdout=StringIO())
 
     @patch('Voice.management.commands.evaluate_voice.subprocess.run')
-    @patch('Voice.management.commands.evaluate_voice.sys.platform', 'win32')
+    @patch('Voice.management.commands.evaluate_voice.on_windows', return_value=True)
     @patch('Voice.services.call_hf_emotion', return_value=scores('fear', 0.8))
-    def test_generer_audio_appelle_powershell(self, mock_emotion, mock_run):
+    def test_generer_audio_appelle_powershell(self, mock_emotion, mock_windows, mock_run):
         call_command('evaluate_voice', '--generer-audio', '--only', 'emotions', '--limit', '1',
                      '--output', str(self.out), stdout=StringIO())
         self.assertEqual(mock_run.call_count, 1)

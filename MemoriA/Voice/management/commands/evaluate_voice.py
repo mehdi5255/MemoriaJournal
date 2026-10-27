@@ -39,6 +39,11 @@ TTS_SCRIPT = (
 )
 
 
+def on_windows():
+    """Les voix de synthèse n'existent que sous Windows (fonction séparée pour pouvoir la simuler en test)."""
+    return sys.platform == 'win32'
+
+
 def timed(func, *args):
     start = time.perf_counter()
     result = func(*args)
@@ -96,7 +101,7 @@ class Command(BaseCommand):
     # ---------- Enregistrements de test ----------
 
     def generate_audio(self):
-        if sys.platform != 'win32':
+        if not on_windows():
             raise CommandError("--generer-audio utilise les voix de Windows : lancez-le sous Windows.")
         audio_dir = self.data_dir / 'audio'
         audio_dir.mkdir(exist_ok=True)
