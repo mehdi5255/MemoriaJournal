@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Supprimer : {{ object }}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'voice:mood_list' %}">Voix et humeur</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Suppression</li>
+{% endblock %}
+{% block page_title %}Confirmer la suppression{% endblock %}
+
+{% block content %}
+<div class="card p-4" style="max-width: 620px;">
+    <p class="fs-5">Voulez-vous vraiment supprimer <strong>« {{ object }} »</strong> ?</p>
+    {% if note %}<p>Le fichier audio et sa transcription seront supprimés. L'entrée du journal est conservée.</p>{% endif %}
+    <p class="mb-4">Cette action est définitive.</p>
+    <form method="post" class="d-flex flex-wrap gap-2">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Oui, supprimer</button>
+        <a href="{% if note %}{% url 'voice:note_detail' note.pk %}{% elif mood %}{% url 'voice:mood_detail' mood.pk %}{% else %}{% url 'voice:mood_list' %}{% endif %}" class="btn btn-outline-secondary">Non, annuler</a>
+    </form>
+</div>
+{% endblock %}

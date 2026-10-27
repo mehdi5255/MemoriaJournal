@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Mes notes vocales{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'voice:mood_list' %}">Voix et humeur</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Notes vocales</li>
+{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <h1 class="mb-0">Mes notes vocales</h1>
+        <a href="{% url 'voice:note_create' %}" class="btn btn-primary"><span aria-hidden="true">+</span> Nouvelle note vocale</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+<form method="get" class="d-flex flex-wrap align-items-end gap-2 mb-4" aria-label="Filtrer les notes vocales">
+    <div>
+        <label for="filtre-statut" class="form-label">Transcription</label>
+        <select id="filtre-statut" name="statut" class="form-select">
+            <option value="">Toutes</option>
+            {% for value, label in statuses %}
+                <option value="{{ value }}" {% if value == current_status %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-outline-secondary">Filtrer</button>
+    {% if current_status %}<a href="{% url 'voice:note_list' %}" class="btn btn-link">Effacer le filtre</a>{% endif %}
+</form>
+
+{% if notes %}
+    <h2 class="visually-hidden">Liste des notes vocales</h2>
+    <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3">
+        {% for note in notes %}
+            <li class="col">
+                <article class="card p-3 h-100">
+                    <h3 class="h5 mb-1"><a href="{% url 'voice:note_detail' note.pk %}">{{ note.title }}</a></h3>
+                    <p class="text-muted small mb-2">{{ note.entry.title }} · {{ note.duration }} s · {{ note.creation_date|date:"j F Y" }}</p>
+                    <p class="mb-0">
+                        <span class="badge {% if note.status == 'Termine' %}badge-main{% elif note.status == 'Echec' %}text-bg-danger{% else %}text-bg-light border{% endif %}">Transcription : {{ note.get_status_display|lower }}</span>
+                    </p>
+                    {% if note.transcription %}<p class="mt-2 mb-0">{{ note.transcription|truncatewords:20 }}</p>{% endif %}
+                </article>
+            </li>
+        {% endfor %}
+    </ul>
+    {% if is_paginated %}
+        <nav aria-label="Pagination" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}<li class="page-item"><a class="page-link" href="?{% if current_status %}statut={{ current_status }}&amp;{% endif %}page={{ page_obj.previous_page_number }}">Précédent</a></li>{% endif %}
+                <li class="page-item active" aria-current="page"><span class="page-link">Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}</span></li>
+                {% if page_obj.has_next %}<li class="page-item"><a class="page-link" href="?{% if current_status %}statut={{ current_status }}&amp;{% endif %}page={{ page_obj.next_page_number }}">Suivant</a></li>{% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+{% else %}
+    <div class="empty-state">
+        {% if current_status %}
+            <p class="mb-0">Aucune note vocale avec ce statut.</p>
+        {% else %}
+            <p class="mb-3">Aucune note vocale pour l'instant. Racontez votre journée à voix haute !</p>
+            <a href="{% url 'voice:note_create' %}" class="btn btn-primary">Enregistrer ma première note</a>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}
