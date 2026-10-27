@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Regrouper les visages inconnus{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'face:person_list' %}">Mes proches</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'face:face_list' %}">Visages</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Regrouper</li>
+{% endblock %}
+{% block page_title %}Regrouper les visages inconnus{% endblock %}
+
+{% block content %}
+<section class="ai-block mb-4" aria-labelledby="titre-methode">
+    <h2 id="titre-methode" class="h5 ai-label">IA · SFace + DBSCAN</h2>
+    <p>L'IA compare les {{ unknown_count }} visage{{ unknown_count|pluralize }} sans nom et rassemble ceux qui semblent être la même personne.
+        Vous n'avez plus qu'à donner un nom à chaque groupe.</p>
+    {% if unknown_count >= 2 %}
+        <form method="post" class="m-0">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-ai">Regrouper les visages</button>
+        </form>
+    {% else %}
+        <p class="mb-0 text-muted">Il faut au moins deux visages sans nom pour former un groupe.</p>
+    {% endif %}
+</section>
+
+{% if task_id %}
+    {% url 'face:face_groups' as groups_url %}
+    {% include "includes/ai_status.html" with task_id=task_id label="Comparaison des visages en cours…" success_message="Groupes trouvés, affichage…" error_message="Le regroupement a échoué. Réessayez dans un instant." retry_url=groups_url reload="true" %}
+{% endif %}
+
+{% if groups is not None %}
+    {% if groups %}
+        {% for group in groups %}
+            <section class="card p-4 mb-4" aria-labelledby="titre-groupe-{{ forloop.counter }}">
+                <h2 id="titre-groupe-{{ forloop.counter }}" class="h5">Groupe {{ forloop.counter }} : {{ group|length }} visages</h2>
+                <ul class="list-unstyled d-flex flex-wrap gap-3 mb-3">
+                    {% for item in group %}
+                        <li class="text-center">
+                            <a href="{% url 'face:photo_detail' item.tag.photo_id %}" class="d-block face-crop" style="{{ item.style }}">
+                                <span class="visually-hidden">Visage {{ forloop.counter }} sur la photo « {{ item.tag.photo.entry.title }} »</span>
+                            </a>
+                            <span class="small text-muted">{{ item.tag.photo.entry.title|truncatechars:18 }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <form method="post" action="{% url 'face:face_group_name' %}" class="d-flex flex-wrap align-items-end gap-2">
+                    {% csrf_token %}
+                    {% for item in group %}<input type="hidden" name="faces" value="{{ item.tag.pk }}">{% endfor %}
+                    <div>
+                        <label for="personne-{{ forloop.counter }}" class="form-label">Proche existant</label>
+                        <select id="personne-{{ forloop.counter }}" name="personne" class="form-select">
+                            <option value="">Choisir…</option>
+                            {% for person in persons %}<option value="{{ person.pk }}">{{ person.name }}</option>{% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="nom-{{ forloop.counter }}" class="form-label">ou nouveau nom</label>
+                        <input id="nom-{{ forloop.counter }}" name="nouveau_nom" class="form-control" maxlength="100">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Nommer ce groupe</button>
+                </form>
+            </section>
+        {% endfor %}
+    {% else %}
+        <div class="empty-state">
+            <p class="mb-0">Aucun groupe trouvé : les visages sans nom semblent tous appartenir à des personnes différentes.</p>
+        </div>
+    {% endif %}
+{% endif %}
+{% endblock %}

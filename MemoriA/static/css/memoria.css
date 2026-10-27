@@ -348,3 +348,10 @@ h3 { font-size: 1.1rem; }
 }
 .face-box.is-unknown { border-style: dashed; }
 .person-card .avatar, .person-card .avatar-placeholder { width: 88px; height: 88px; }
+.face-crop {
+    width: 96px; height: 96px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: var(--m-shadow);
+    background-repeat: no-repeat;
+}

@@ -56,6 +56,12 @@ HF_WHISPER_MODEL = os.getenv('HF_WHISPER_MODEL', 'openai/whisper-large-v3')
 LOCAL_WHISPER_MODEL = os.getenv('LOCAL_WHISPER_MODEL', 'openai/whisper-base')
 EMOTION_MODEL = os.getenv('EMOTION_MODEL', 'MilaNLProc/xlm-emo-t')
 
+# Module Face : légende et objets (huggingface, local ou auto) ; visages toujours en local avec OpenCV
+FACE_BACKEND = os.getenv('FACE_BACKEND', 'huggingface').lower()
+CAPTION_MODEL = os.getenv('CAPTION_MODEL', 'Salesforce/blip-image-captioning-base')
+OBJECT_MODEL = os.getenv('OBJECT_MODEL', 'facebook/detr-resnet-50')
+TRANSLATION_MODEL = os.getenv('TRANSLATION_MODEL', 'Helsinki-NLP/opus-mt-en-fr')
+
 
 # --- Applications ---
 
@@ -187,6 +193,7 @@ if TESTING:
     # Tests identiques sur tous les PC : jamais de modèle local chargé
     IMAGE_BACKEND = 'huggingface'
     VOICE_BACKEND = 'huggingface'
+    FACE_BACKEND = 'huggingface'
     # Jamais de vrai appel IA pendant les tests (CLAUDE.md : tous les appels sont mockés)
     GEMINI_API_KEY = ''
     HF_TOKEN = ''

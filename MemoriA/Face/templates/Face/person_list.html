@@ -20,7 +20,7 @@
 {% if unknown_faces %}
     <div class="alert alert-info d-flex flex-wrap justify-content-between align-items-center gap-2">
         <span>{{ unknown_faces }} visage{{ unknown_faces|pluralize }} sans nom sur vos photos.</span>
-        <a href="{% url 'face:face_list' %}?etat=inconnus" class="btn btn-outline-secondary btn-sm">Les identifier</a>
+        <span class="d-flex gap-2"><a href="{% url 'face:face_groups' %}" class="btn btn-ai btn-sm">Les regrouper avec l'IA</a><a href="{% url 'face:face_list' %}?etat=inconnus" class="btn btn-outline-secondary btn-sm">Les identifier</a></span>
     </div>
 {% endif %}
 

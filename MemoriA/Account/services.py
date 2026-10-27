@@ -28,6 +28,22 @@ def launch_task(request, task, *args):
     return None
 
 
+def run_with_fallback(backend, user, action, remote, local, *args):
+    """Choisit le moteur IA : 'huggingface' (API), 'local' (modèle sur le processeur)
+    ou 'auto' (API puis modèle local si l'API échoue). remote et local = (nom du service, fonction)."""
+    name_remote, func_remote = remote
+    name_local, func_local = local
+    if backend == 'local':
+        return log_ai_call(user, action, name_local, func_local, *args)
+    try:
+        return log_ai_call(user, action, name_remote, func_remote, *args)
+    except AIServiceError:
+        if backend != 'auto':
+            raise
+        # L'échec de l'API est déjà enregistré dans ActivityLog : on passe au modèle local
+        return log_ai_call(user, action, name_local, func_local, *args)
+
+
 def log_ai_call(user, action, service, func, *args, **kwargs):
     """Appelle func(*args, **kwargs), mesure sa durée et crée une ligne ActivityLog.
 

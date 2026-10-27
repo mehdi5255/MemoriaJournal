@@ -11,7 +11,7 @@ from functools import lru_cache
 from django.conf import settings
 from django.utils import timezone
 
-from Account.services import AIServiceError, log_ai_call
+from Account.services import AIServiceError, log_ai_call, run_with_fallback
 
 from .models import MoodRecord
 
@@ -99,17 +99,7 @@ def detect_language(text):
 
 def run_with_backend(user, action, remote, local, *args):
     """Choix du moteur selon VOICE_BACKEND : huggingface, local, ou auto (secours local si l'API échoue)."""
-    backend = settings.VOICE_BACKEND
-    name_remote, func_remote = remote
-    name_local, func_local = local
-    if backend == 'local':
-        return log_ai_call(user, action, name_local, func_local, *args)
-    try:
-        return log_ai_call(user, action, name_remote, func_remote, *args)
-    except AIServiceError:
-        if backend != 'auto':
-            raise
-        return log_ai_call(user, action, name_local, func_local, *args)
+    return run_with_fallback(settings.VOICE_BACKEND, user, action, remote, local, *args)
 
 
 def transcribe(data, user):

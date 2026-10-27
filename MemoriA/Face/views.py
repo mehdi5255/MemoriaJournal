@@ -1,11 +1,17 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from celery.result import AsyncResult
 from django.db.models import Count
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
+from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
+from Account.services import launch_task
+from MemoriA.celery import app as celery_app
+
+from . import tasks
 from .forms import FaceTagForm, PersonForm, PhotoForm
 from .models import FaceTag, Person, Photo
 
@@ -89,7 +95,20 @@ class PhotoDetailView(PhotoOwnerMixin, DetailView):
         except (OSError, ValueError):
             context['faces'] = []         # fichier image absent : la page s'affiche quand même
             context['image_missing'] = True
+        context['task_id'] = self.request.GET.get('task', '')      # analyse IA en cours
+        context['with_forms'] = True
         return context
+
+
+class PhotoAnalyzeView(PhotoOwnerMixin, View):
+    """Bouton « Analyser à nouveau » (et « Réessayer » après un échec)."""
+    http_method_names = ['post']
+
+    def post(self, request, pk):
+        photo = get_object_or_404(self.get_queryset(), pk=pk)
+        task_id = launch_task(request, tasks.analyze_photo_task, photo.pk, request.user.pk)
+        url = reverse('face:photo_detail', args=[photo.pk])
+        return redirect(f"{url}?task={task_id}" if task_id else url)
 
 
 class PhotoCreateView(LoginRequiredMixin, UserFormKwargsMixin, SuccessMessageMixin, CreateView):
@@ -105,8 +124,15 @@ class PhotoCreateView(LoginRequiredMixin, UserFormKwargsMixin, SuccessMessageMix
             initial['entry'] = self.request.GET['entry']
         return initial
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        # L'analyse (légende, objets, visages) démarre tout de suite, en arrière-plan
+        self.task_id = launch_task(self.request, tasks.analyze_photo_task, self.object.pk, self.request.user.pk)
+        return redirect(self.get_success_url()) if self.task_id else response
+
     def get_success_url(self):
-        return reverse('face:photo_detail', args=[self.object.pk])
+        url = reverse('face:photo_detail', args=[self.object.pk])
+        return f"{url}?task={self.task_id}" if getattr(self, 'task_id', None) else url
 
 
 class PhotoUpdateView(PhotoOwnerMixin, UserFormKwargsMixin, SuccessMessageMixin, UpdateView):
@@ -276,8 +302,40 @@ class FaceTagUpdateView(FaceTagOwnerMixin, UserFormKwargsMixin, SuccessMessageMi
         context['photo'] = self.object.photo
         return context
 
+    def form_valid(self, form):
+        previous = FaceTag.objects.get(pk=self.object.pk).person
+        response = super().form_valid(form)
+        refresh_encodings(self.request, {previous, self.object.person})
+        return response
+
     def get_success_url(self):
         return reverse('face:photo_detail', args=[self.object.photo_id])
+
+
+def refresh_encodings(request, persons):
+    """Après une identification, l'empreinte des personnes concernées est recalculée en arrière-plan."""
+    for person in persons:
+        if person is not None:
+            launch_task(request, tasks.update_person_encoding_task, person.pk, request.user.pk)
+
+
+class FaceTagAnswerView(FaceTagOwnerMixin, View):
+    """Réponse à « C'est Sarah ? » : oui confirme, non retire le nom proposé."""
+    http_method_names = ['post']
+
+    def post(self, request, pk):
+        face = get_object_or_404(self.get_queryset(), pk=pk, person__isnull=False)
+        person = face.person
+        if request.POST.get('reponse') == 'oui':
+            face.is_confirmed = True
+            messages.success(request, f"C'est bien {person.name} : visage confirmé.")
+        else:
+            face.person = None
+            face.is_confirmed = False
+            messages.info(request, f"D'accord, ce n'est pas {person.name}.")
+        face.save(update_fields=['person', 'is_confirmed'])
+        refresh_encodings(request, {person})
+        return redirect('face:photo_detail', pk=face.photo_id)
 
 
 class FaceTagDeleteView(FaceTagOwnerMixin, DeleteMessageMixin, DeleteView):
@@ -286,3 +344,70 @@ class FaceTagDeleteView(FaceTagOwnerMixin, DeleteMessageMixin, DeleteView):
 
     def get_success_url(self):
         return reverse('face:photo_detail', args=[self.object.photo_id])
+
+
+# ---------- Regroupement des visages inconnus (DBSCAN) ----------
+
+def crop_style(tag):
+    """Style CSS qui montre seulement le visage (la photo en fond, agrandie et décalée sur le cadre)."""
+    width, height = tag.photo.image.width, tag.photo.image.height
+    position_x = 100 * tag.x / (width - tag.width) if width > tag.width else 0
+    position_y = 100 * tag.y / (height - tag.height) if height > tag.height else 0
+    return (f"background-image:url('{tag.photo.image.url}');"
+            f"background-size:{100 * width / tag.width:.1f}% {100 * height / tag.height:.1f}%;"
+            f"background-position:{position_x:.1f}% {position_y:.1f}%")
+
+
+class FaceGroupsView(LoginRequiredMixin, View):
+    """Page « Regrouper les visages inconnus » : lance DBSCAN puis propose de nommer chaque groupe."""
+
+    def get(self, request):
+        task_id = request.GET.get('task', '')
+        groups = None
+        if task_id:
+            result = AsyncResult(task_id, app=celery_app)
+            if result.state == 'SUCCESS' and isinstance(result.result, dict):
+                groups = self.load_groups(request.user, result.result.get('groups', []))
+        unknown = FaceTag.objects.filter(photo__entry__user=request.user, person__isnull=True).count()
+        return render(request, 'Face/face_groups.html', {
+            'task_id': task_id if groups is None else '', 'groups': groups, 'unknown_count': unknown,
+            'persons': Person.objects.filter(user=request.user).order_by('name'),
+        })
+
+    def post(self, request):
+        task_id = launch_task(request, tasks.group_unknown_faces_task, request.user.pk)
+        url = reverse('face:face_groups')
+        return redirect(f"{url}?task={task_id}" if task_id else url)
+
+    @staticmethod
+    def load_groups(user, groups):
+        """Recharge les visages depuis la base : seulement ceux de l'utilisateur, encore sans nom."""
+        loaded = []
+        for ids in groups:
+            faces = list(FaceTag.objects.filter(pk__in=ids, photo__entry__user=user, person__isnull=True)
+                         .select_related('photo__entry'))
+            if len(faces) >= 2:
+                loaded.append([{'tag': face, 'style': crop_style(face)} for face in faces])
+        return loaded
+
+
+class FaceGroupNameView(LoginRequiredMixin, View):
+    """« Nommer ce groupe » : tous les visages du groupe reçoivent la même personne (existante ou nouvelle)."""
+    http_method_names = ['post']
+
+    def post(self, request):
+        faces = FaceTag.objects.filter(pk__in=request.POST.getlist('faces'), photo__entry__user=request.user,
+                                       person__isnull=True)
+        name = request.POST.get('nouveau_nom', '').strip()[:100]
+        person_id = request.POST.get('personne', '')
+        if name:
+            person, _ = Person.objects.get_or_create(user=request.user, name=name)
+        elif person_id.isdigit():
+            person = get_object_or_404(Person, pk=person_id, user=request.user)
+        else:
+            messages.error(request, "Choisissez une personne ou écrivez un nouveau nom.")
+            return redirect('face:face_groups')
+        count = faces.update(person=person, is_confirmed=True)
+        refresh_encodings(request, {person})
+        messages.success(request, f"{count} visage(s) attribué(s) à {person.name}.")
+        return redirect('face:person_detail', pk=person.pk)

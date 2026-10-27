@@ -3,6 +3,7 @@ import io
 import shutil
 import tempfile
 from datetime import timedelta
+from unittest.mock import MagicMock, patch
 
 from django.contrib.auth.models import User
 from django.core.files.base import ContentFile
@@ -43,6 +44,10 @@ class FaceViewsTestBase(TestCase):
         return photo
 
     def setUp(self):
+        # Tests du CRUD : l'analyse IA lancée après un upload est simulée (testée dans test_services.py)
+        patcher = patch('Face.tasks.analyze_photo_task.delay', return_value=MagicMock(id='tache-test'))
+        self.mock_analyze = patcher.start()
+        self.addCleanup(patcher.stop)
         self.today = timezone.localdate()
         self.user = User.objects.create_user('sabri', password=PASSWORD)
         self.other = User.objects.create_user('amine', password=PASSWORD)
