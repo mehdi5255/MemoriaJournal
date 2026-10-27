@@ -1,0 +1,105 @@
+{
+  "description": "10 périodes annotées : les entrées de la période et les thèmes attendus. Un mot-clé est correct s'il contient une des formes acceptées d'un thème (sans accents ni majuscules).",
+  "periodes": [
+    {
+      "id": 1, "titre": "Semaine de vacances à la mer",
+      "entrees": [
+        "Arrivée à Hammamet. Première baignade dans une mer très calme, puis glace au bord de la plage.",
+        "Sortie en bateau avec mes cousins, on a vu des dauphins au large. Coup de soleil terrible.",
+        "Après-midi à la plage, construction d'un château de sable avec ma petite sœur.",
+        "Dernier dîner de vacances : poisson grillé au port avec toute la famille."
+      ],
+      "themes": [["plage", "mer", "baignade"], ["bateau", "dauphin"], ["famille", "cousin", "soeur"], ["vacances"], ["poisson", "diner", "glace"]]
+    },
+    {
+      "id": 2, "titre": "Semaine d'examens",
+      "entrees": [
+        "Révisions de mathématiques toute la journée à la bibliothèque, les intégrales me rendent fou.",
+        "Examen d'algèbre ce matin, je pense avoir réussi les exercices mais pas le problème.",
+        "Nuit blanche pour réviser la physique, trois cafés et beaucoup de stress.",
+        "Dernier examen, l'informatique. Soulagement total, les vacances commencent enfin."
+      ],
+      "themes": [["examen", "revision", "reviser"], ["mathematique", "algebre", "integrale"], ["physique"], ["stress", "nuit blanche", "soulagement"], ["bibliotheque", "cafe"]]
+    },
+    {
+      "id": 3, "titre": "Mois du mariage d'Amira",
+      "entrees": [
+        "Essayage de la robe de mariée d'Amira, toute la famille a pleuré d'émotion.",
+        "Préparation du henné avec mes tantes, les mains couvertes de motifs.",
+        "Le grand jour du mariage : jasmin partout, musique et danse jusqu'au matin.",
+        "Brunch avec les mariés le lendemain, on a regardé les photos de la fête."
+      ],
+      "themes": [["mariage", "mariee", "maries", "fete"], ["robe"], ["henne"], ["famille", "tante"], ["danse", "musique", "jasmin"]]
+    },
+    {
+      "id": 4, "titre": "Premier mois de stage",
+      "entrees": [
+        "Premier jour de stage dans une startup, mon tuteur Youssef m'a présenté l'équipe.",
+        "J'ai codé ma première fonctionnalité avec Django, revue de code très instructive.",
+        "Réunion avec le client, j'ai présenté la maquette de l'application.",
+        "Pause déjeuner avec les collègues, on a parlé de football et de projets personnels."
+      ],
+      "themes": [["stage", "startup", "tuteur"], ["django", "code", "fonctionnalite", "application"], ["equipe", "collegue"], ["client", "reunion", "maquette"], ["football", "dejeuner"]]
+    },
+    {
+      "id": 5, "titre": "Semaine sportive",
+      "entrees": [
+        "Footing de dix kilomètres le long de la corniche au lever du soleil.",
+        "Match de basket avec les amis du quartier, on a perdu de deux points.",
+        "Séance de natation à la piscine municipale, mes épaules sont en feu.",
+        "Randonnée au djebel Zaghouan avec le club de marche, vue magnifique au sommet."
+      ],
+      "themes": [["footing", "course", "kilometre", "corniche"], ["basket", "match"], ["natation", "piscine"], ["randonnee", "marche", "zaghouan", "sommet"], ["amis", "club", "quartier"]]
+    },
+    {
+      "id": 6, "titre": "Mois du déménagement",
+      "entrees": [
+        "Visite de trois appartements à Ben Arous, le dernier a un grand balcon.",
+        "Signature du bail et remise des clés par le propriétaire.",
+        "Jour du déménagement : le canapé est passé par le balcon avec une corde.",
+        "Premier dîner dans le nouvel appartement, assis sur des cartons."
+      ],
+      "themes": [["appartement", "demenagement", "logement"], ["balcon"], ["bail", "cles", "proprietaire"], ["canape", "carton", "corde"], ["diner"]]
+    },
+    {
+      "id": 7, "titre": "Semaine avec le nouveau chaton",
+      "entrees": [
+        "Adoption d'un chaton roux trouvé près de l'école, ma sœur l'a appelé Couscous.",
+        "Visite chez le vétérinaire pour les vaccins, Couscous a miaulé tout le trajet.",
+        "Le chaton a déchiré les rideaux du salon, maman n'était pas contente.",
+        "Couscous dort maintenant sur mon lit et ronronne toute la nuit."
+      ],
+      "themes": [["chaton", "chat", "couscous", "roux"], ["veterinaire", "vaccin"], ["rideau", "salon"], ["soeur", "maman"], ["dort", "lit", "ronronne"]]
+    },
+    {
+      "id": 8, "titre": "Ramadan en famille",
+      "entrees": [
+        "Premier ftour du ramadan chez mes parents : chorba, brick et dattes.",
+        "Soirée au café après la rupture du jeûne, on a joué aux cartes jusqu'à minuit.",
+        "Préparation des makroudh avec ma grand-mère pour l'Aïd.",
+        "Jour de l'Aïd : visites chez les oncles et les tantes, nouveaux habits pour les enfants."
+      ],
+      "themes": [["ramadan", "ftour", "jeune"], ["chorba", "brick", "datte", "makroudh"], ["aid"], ["famille", "parents", "grand-mere", "oncle", "tante"], ["cafe", "cartes"]]
+    },
+    {
+      "id": 9, "titre": "Voyage à Tozeur",
+      "entrees": [
+        "Arrivée à Tozeur en train, la chaleur du désert est impressionnante.",
+        "Balade en calèche dans la palmeraie, dégustation de dattes fraîches.",
+        "Excursion en 4x4 dans les dunes du Sahara jusqu'aux décors de cinéma.",
+        "Coucher de soleil sur le chott el-Jérid, un miroir de sel à perte de vue."
+      ],
+      "themes": [["tozeur", "voyage"], ["desert", "sahara", "dune"], ["palmeraie", "datte", "caleche"], ["coucher de soleil", "chott", "sel"], ["train", "4x4", "excursion"]]
+    },
+    {
+      "id": 10, "titre": "Semaine difficile",
+      "entrees": [
+        "Grippe carabinée, trois jours au lit avec de la fièvre.",
+        "Mon ordinateur a planté et j'ai perdu une partie de mon projet de base de données.",
+        "Retard à la soutenance à cause d'une panne de métro, le jury a été compréhensif.",
+        "Enfin guéri, soirée tranquille avec ma colocataire devant un film."
+      ],
+      "themes": [["grippe", "fievre", "malade", "gueri"], ["ordinateur", "planter", "projet", "base de donnees"], ["soutenance", "jury"], ["metro", "panne", "retard"], ["colocataire", "film"]]
+    }
+  ]
+}

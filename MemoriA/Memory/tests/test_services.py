@@ -363,3 +363,22 @@ class DownloadImageModelCommandTest(TestCase):
         from django.core.management.base import CommandError
         with self.assertRaisesMessage(CommandError, 'Relancez la commande'):
             call_command('download_image_model')
+
+
+class GeminiQuotaMessageTest(MemoryServicesTestBase):
+
+    @patch('Memory.services.get_gemini_client')
+    def test_quota_atteint_message_clair(self, mock_client):
+        mock_client.return_value.models.generate_content.side_effect = RuntimeError('429 RESOURCE_EXHAUSTED')
+        with self.assertRaisesMessage(services.AIServiceError, 'quota gratuit de Gemini est atteint'):
+            services.call_gemini(['Bonjour'])
+
+    @override_settings(GEMINI_JUDGE_MODEL='modele-juge')
+    @patch('Memory.services.get_gemini_client')
+    def test_le_juge_utilise_un_autre_modele(self, mock_client):
+        from Memory import metrics
+        mock_client.return_value.models.generate_content.return_value = gemini_response('{"style": 5}')
+        metrics.judge_style('texte', 'récit', 'Poetique')
+        call = mock_client.return_value.models.generate_content.call_args.kwargs
+        self.assertEqual(call['model'], 'modele-juge')
+        self.assertIn('métaphores', call['contents'][0])      # définition du style transmise au juge

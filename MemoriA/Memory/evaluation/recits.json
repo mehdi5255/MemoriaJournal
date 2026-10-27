@@ -1,0 +1,113 @@
+{
+  "description": "15 entrées de journal pour évaluer le récit Gemini. Chaque fait clé liste les formulations acceptées (sans accents ni majuscules). 'inventions' : éléments absents de l'entrée qui ne doivent PAS apparaître.",
+  "entrees": [
+    {
+      "id": 1, "titre": "Journée à la plage", "date": "2026-07-12", "lieu": "Hammamet", "style": "Simple",
+      "texte": "Journée à la plage avec Sarah et Karim. On a nagé toute la matinée, puis mangé un sandwich thon-harissa à l'ombre d'un parasol. Coup de soleil sur les épaules en rentrant.",
+      "transcription": "Il faisait au moins trente-cinq degrés, l'eau était parfaite.",
+      "humeur": "Joie",
+      "faits": [["sarah"], ["karim"], ["nage", "baign"], ["sandwich"], ["parasol", "ombre"], ["coup de soleil", "brul"], ["hammamet"]],
+      "inventions": ["chien", "anniversaire", "pluie"]
+    },
+    {
+      "id": 2, "titre": "Premier jour de stage", "date": "2026-09-01", "lieu": "Les Berges du Lac", "style": "Simple",
+      "texte": "Premier jour de stage dans une startup de développement web. Mon tuteur, Youssef, m'a présenté l'équipe et j'ai installé Django sur mon nouvel ordinateur. Un peu stressé mais l'ambiance est sympa.",
+      "humeur": "Surprise",
+      "faits": [["stage"], ["startup", "start-up", "entreprise"], ["youssef"], ["equipe"], ["django"], ["ordinateur", "pc", "machine"], ["stress", "trac", "nerv"]],
+      "inventions": ["licenci", "plage", "anniversaire"]
+    },
+    {
+      "id": 3, "titre": "Couscous chez grand-mère", "date": "2026-03-15", "lieu": "Sfax", "style": "Poetique",
+      "texte": "Déjeuner du dimanche chez ma grand-mère à Sfax. Elle a préparé un couscous au poisson et m'a raconté sa jeunesse au bord de la mer. Ses mains tremblent un peu maintenant.",
+      "humeur": "Joie",
+      "faits": [["grand-mere", "grand mere", "mamie"], ["sfax"], ["couscous"], ["poisson"], ["jeunesse", "souvenir", "autrefois"], ["mains", "tremble"]],
+      "inventions": ["voiture", "examen", "neige"]
+    },
+    {
+      "id": 4, "titre": "Panne de métro", "date": "2026-02-03", "lieu": "Tunis", "style": "Humoristique",
+      "texte": "Le métro est tombé en panne entre deux stations. Quarante minutes bloqué avec un monsieur qui racontait ses vacances à tout le wagon. Arrivé en retard à l'examen de statistiques, mais le professeur m'a laissé entrer.",
+      "humeur": "Colere",
+      "faits": [["metro"], ["panne"], ["quarante", "40"], ["vacances"], ["retard"], ["examen"], ["statistique"], ["professeur", "prof"]],
+      "inventions": ["accident", "police", "plage"]
+    },
+    {
+      "id": 5, "titre": "Mariage de ma cousine", "date": "2026-08-20", "lieu": "Nabeul", "style": "Poetique",
+      "texte": "Mariage de ma cousine Amira à Nabeul. La salle était décorée de jasmin, on a dansé jusqu'à deux heures du matin. Mon oncle a pleuré pendant le discours.",
+      "transcription": "La mariée portait une robe traditionnelle brodée d'or, c'était magnifique.",
+      "humeur": "Joie",
+      "faits": [["mariage", "noce"], ["amira"], ["cousine"], ["nabeul"], ["jasmin"], ["danse"], ["oncle"], ["pleur", "larme"], ["robe"]],
+      "inventions": ["divorce", "pluie", "voyage"]
+    },
+    {
+      "id": 6, "titre": "Randonnée au Zaghouan", "date": "2026-04-05", "lieu": "Zaghouan", "style": "Simple",
+      "texte": "Randonnée jusqu'au sommet du djebel Zaghouan avec le club de marche. Cinq heures de montée, des genoux en compote, mais la vue sur la plaine était incroyable. On a pique-niqué près du temple des eaux.",
+      "humeur": "Joie",
+      "faits": [["randonnee", "marche"], ["zaghouan"], ["club"], ["sommet"], ["genou"], ["vue", "panorama"], ["pique-nique", "pique nique", "piquenique"], ["temple"]],
+      "inventions": ["plage", "neige", "voiture"]
+    },
+    {
+      "id": 7, "titre": "Rendez-vous chez le dentiste", "date": "2026-01-20", "lieu": "Ariana", "style": "Humoristique",
+      "texte": "Rendez-vous chez le dentiste pour une carie. J'avais tellement peur que j'ai failli partir dans la salle d'attente. Finalement ça n'a duré que vingt minutes et le dentiste m'a offert une sucette.",
+      "humeur": "Peur",
+      "faits": [["dentiste"], ["carie"], ["peur", "angoiss", "trouille"], ["salle d'attente", "attente"], ["vingt", "20"], ["sucette"]],
+      "inventions": ["hopital", "operation", "chien"]
+    },
+    {
+      "id": 8, "titre": "Soirée match", "date": "2026-06-18", "lieu": "Sousse", "style": "Humoristique",
+      "texte": "Soirée match de l'équipe nationale au café avec les amis. Zéro à zéro jusqu'à la 89e minute, puis but de la victoire. Tout le café a explosé de joie et j'ai renversé mon thé à la menthe sur mon voisin.",
+      "humeur": "Joie",
+      "faits": [["match", "foot"], ["equipe nationale", "aigles", "selection"], ["cafe"], ["amis", "potes", "copains"], ["89"], ["but"], ["the"], ["voisin"]],
+      "inventions": ["defaite", "pluie", "stade"]
+    },
+    {
+      "id": 9, "titre": "Journée pluvieuse", "date": "2026-11-10", "lieu": "Bizerte", "style": "Poetique",
+      "texte": "Il a plu toute la journée. Je suis resté à la maison à lire un roman de Tahar Ben Jelloun en buvant un café. Le soir, coupure d'électricité : on a allumé des bougies et joué aux cartes en famille.",
+      "humeur": "Neutre",
+      "faits": [["plu", "pluie"], ["maison"], ["roman", "livre"], ["ben jelloun"], ["cafe"], ["coupure", "electricite", "courant"], ["bougie"], ["cartes"], ["famille"]],
+      "inventions": ["plage", "soleil", "restaurant"]
+    },
+    {
+      "id": 10, "titre": "Adoption d'un chaton", "date": "2026-05-02", "lieu": "La Marsa", "style": "Simple",
+      "texte": "On a adopté un chaton roux trouvé près de l'école. Ma petite sœur l'a appelé Couscous. Il a passé la nuit à grimper sur les rideaux et à miauler devant la porte.",
+      "humeur": "Joie",
+      "faits": [["chaton", "chat"], ["roux"], ["ecole"], ["soeur"], ["couscous"], ["rideau"], ["miaul"]],
+      "inventions": ["chien", "veterinaire", "plage"]
+    },
+    {
+      "id": 11, "titre": "Résultats du bac de mon frère", "date": "2026-07-01", "lieu": "Monastir", "style": "Simple",
+      "texte": "Mon frère Ahmed a eu son bac avec mention bien. Toute la famille attendait devant l'ordinateur. Ma mère a lancé des youyous et les voisins sont venus nous féliciter avec des gâteaux.",
+      "humeur": "Joie",
+      "faits": [["ahmed"], ["frere"], ["bac"], ["mention"], ["ordinateur"], ["mere", "maman"], ["youyou"], ["voisin"], ["gateau"]],
+      "inventions": ["echec", "plage", "voyage"]
+    },
+    {
+      "id": 12, "titre": "Déménagement", "date": "2026-10-04", "lieu": "Ben Arous", "style": "Humoristique",
+      "texte": "Déménagement dans le nouvel appartement. Le canapé ne passait pas dans l'escalier, on a dû le faire monter par le balcon avec une corde. Mon ami Walid a fait tomber un carton plein d'assiettes.",
+      "humeur": "Surprise",
+      "faits": [["demenag"], ["appartement"], ["canape"], ["escalier"], ["balcon"], ["corde"], ["walid"], ["carton"], ["assiette"]],
+      "inventions": ["chien", "accident", "plage"]
+    },
+    {
+      "id": 13, "titre": "Visite de Carthage", "date": "2026-03-28", "lieu": "Carthage", "style": "Poetique",
+      "texte": "Visite des ruines de Carthage avec une amie venue de France, Claire. Nous avons marché jusqu'aux thermes d'Antonin face à la mer. Le vent était froid mais le ciel d'un bleu parfait.",
+      "transcription": "Claire n'arrêtait pas de prendre des photos des colonnes.",
+      "humeur": "Joie",
+      "faits": [["carthage"], ["ruines", "vestige"], ["claire"], ["france"], ["thermes", "antonin"], ["mer"], ["vent"], ["ciel"], ["colonne"]],
+      "inventions": ["pluie", "musee du louvre", "neige"]
+    },
+    {
+      "id": 14, "titre": "Journée difficile", "date": "2026-12-09", "lieu": "Tunis", "style": "Simple",
+      "texte": "Journée difficile. J'ai raté le bus, mon projet de base de données a planté la veille de la soutenance et j'ai dû tout refaire jusqu'à minuit. Heureusement ma colocataire m'a préparé une soupe.",
+      "humeur": "Tristesse",
+      "faits": [["bus"], ["projet"], ["base de donnees", "bdd"], ["soutenance"], ["minuit"], ["coloc"], ["soupe"]],
+      "inventions": ["plage", "fete", "voyage"]
+    },
+    {
+      "id": 15, "titre": "Atelier de poterie", "date": "2026-05-23", "lieu": "Nabeul", "style": "Poetique",
+      "texte": "Atelier de poterie à Nabeul avec ma mère. Le potier nous a appris à tourner un bol sur le tour. Le mien était tout penché mais il a promis de le cuire quand même.",
+      "humeur": "Joie",
+      "faits": [["poterie"], ["nabeul"], ["mere", "maman"], ["potier", "artisan"], ["bol"], ["tour"], ["pench", "tordu", "bancal"], ["cuire", "cuisson", "four"]],
+      "inventions": ["plage", "voiture", "examen"]
+    }
+  ]
+}

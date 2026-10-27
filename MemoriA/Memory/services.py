@@ -118,12 +118,16 @@ def photo_to_bytes(photo, max_size=1024):
     return buffer.getvalue()
 
 
-def call_gemini(contents):
+def call_gemini(contents, model=None):
     try:
-        response = get_gemini_client().models.generate_content(model=settings.GEMINI_MODEL, contents=contents)
+        response = get_gemini_client().models.generate_content(model=model or settings.GEMINI_MODEL,
+                                                               contents=contents)
     except AIServiceError:
         raise
     except Exception as error:
+        if '429' in str(error) or 'RESOURCE_EXHAUSTED' in str(error):
+            raise AIServiceError("Le quota gratuit de Gemini est atteint pour le moment. "
+                                 "Réessayez plus tard (il se renouvelle chaque jour).") from error
         raise AIServiceError("Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant.") from error
     text = (response.text or '').strip()
     if not text:
@@ -316,4 +320,8 @@ FRENCH_STOP_WORDS = [
     'après', 'avant', 'aujourd', 'hui', 'jour', 'journée', 'beaucoup', 'vraiment', 'ensuite', 'donc',
     # Mots de temps : fréquents dans un journal mais ce ne sont pas des thèmes
     'matin', 'midi', 'soir', 'soirée', 'nuit', 'hier', 'demain', 'lendemain', 'semaine', 'fois', 'moment',
+    # Mots de liaison et nombres repérés pendant l'évaluation (docs/metrics/memory.md)
+    'toute', 'toutes', 'chez', 'jusqu', 'jusque', 'premier', 'première', 'dernier', 'dernière', 'deux', 'trois',
+    'dix', 'enfin', 'vu', 'fait', 'faire', 'mes', 'notre', 'nouveau', 'nouvelle', 'grand', 'petit', 'petite',
+    'impressionnante', 'magnifique', 'terrible', 'total', 'bord',
 ]
