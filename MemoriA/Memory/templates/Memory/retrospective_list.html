@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Mes rétrospectives{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'memory:souvenirs' %}">Souvenirs</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Rétrospectives</li>
+{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <h1 class="mb-0">Mes rétrospectives</h1>
+        <a href="{% url 'memory:retrospective_create' %}" class="btn btn-primary"><span aria-hidden="true">+</span> Nouvelle rétrospective</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+<form method="get" class="d-flex flex-wrap align-items-end gap-2 mb-4" aria-label="Filtrer les rétrospectives">
+    <div>
+        <label for="filtre-periode" class="form-label">Période</label>
+        <select id="filtre-periode" name="period" class="form-select">
+            <option value="">Toutes</option>
+            {% for value, label in periods %}
+                <option value="{{ value }}" {% if value == current_period %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-outline-secondary">Filtrer</button>
+    {% if current_period %}<a href="{% url 'memory:retrospective_list' %}" class="btn btn-link">Effacer le filtre</a>{% endif %}
+</form>
+
+{% if retrospectives %}
+    <h2 class="visually-hidden">Liste des rétrospectives</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+        {% for retro in retrospectives %}
+            <div class="col">
+                <article class="card p-3 h-100">
+                    {% if retro.cover_image %}
+                        <figure class="polaroid mb-3">
+                            <img src="{{ retro.cover_image.image.url }}" alt="{{ retro.cover_image.prompt|truncatechars:120 }}" class="cover" loading="lazy">
+                        </figure>
+                    {% endif %}
+                    <h3 class="h5 mb-1"><a href="{% url 'memory:retrospective_detail' retro.pk %}">{{ retro.title }}</a></h3>
+                    <p class="text-muted small mb-2">{{ retro.get_period_type_display }} du {{ retro.start_date|date:"j F" }} au {{ retro.end_date|date:"j F Y" }}</p>
+                    {% if retro.keywords %}<p class="mb-0">{% for word in retro.keywords|slice:":5" %}<span class="keyword">{{ word }}</span>{% endfor %}</p>{% endif %}
+                </article>
+            </div>
+        {% endfor %}
+    </div>
+    {% include "Memory/includes/pagination.html" %}
+{% else %}
+    <div class="empty-state">
+        {% if current_period %}
+            <p class="mb-0">Aucune rétrospective pour cette période.</p>
+        {% else %}
+            <p class="mb-3">Aucune rétrospective pour l'instant.</p>
+            <a href="{% url 'memory:retrospective_create' %}" class="btn btn-primary">Créer une rétrospective</a>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

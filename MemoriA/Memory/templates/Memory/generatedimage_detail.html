@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Illustration {{ image.pk }} : {{ image.story.entry.title }}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'memory:souvenirs' %}">Souvenirs</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'memory:story_detail' image.story.pk %}">{{ image.story.entry.title }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Illustration</li>
+{% endblock %}
+{% block page_title %}Illustration du récit « {{ image.story.entry.title }} »{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-md-6">
+        <figure class="polaroid w-100">
+            <img src="{{ image.image.url }}" alt="{{ image.prompt|truncatechars:150 }}">
+            <figcaption>{{ image.get_style_display }}</figcaption>
+        </figure>
+    </div>
+    <div class="col-md-6">
+        <div class="card p-4">
+            <h2 class="mb-3">Détails</h2>
+            <dl class="row mb-4">
+                <dt class="col-sm-4">Description</dt>
+                <dd class="col-sm-8">{{ image.prompt }}</dd>
+                <dt class="col-sm-4">Style</dt>
+                <dd class="col-sm-8">{{ image.get_style_display }}</dd>
+                <dt class="col-sm-4">Principale</dt>
+                <dd class="col-sm-8">{% if image.is_main %}Oui{% else %}Non{% endif %}</dd>
+                <dt class="col-sm-4">Photo d'origine</dt>
+                <dd class="col-sm-8">{{ image.source_photo|default:"Aucune" }}</dd>
+                <dt class="col-sm-4">Ajoutée le</dt>
+                <dd class="col-sm-8">{{ image.creation_date|date:"j F Y à H:i" }}</dd>
+            </dl>
+            <div class="d-flex flex-wrap gap-2">
+                {% if not image.is_main %}
+                    <form method="post" action="{% url 'memory:image_set_main' image.pk %}" class="m-0">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success">Choisir comme principale</button>
+                    </form>
+                {% endif %}
+                <a href="{% url 'memory:image_update' image.pk %}" class="btn btn-outline-primary">Modifier</a>
+                <a href="{% url 'memory:image_delete' image.pk %}" class="btn btn-outline-secondary">Supprimer</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

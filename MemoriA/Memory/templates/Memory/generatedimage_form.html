@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}{% if image %}Modifier l'illustration {{ image.pk }}{% else %}Nouvelle illustration : {{ story.entry.title }}{% endif %}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'memory:souvenirs' %}">Souvenirs</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'memory:story_detail' story.pk %}">{{ story.entry.title }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% if image %}Modifier l'illustration{% else %}Nouvelle illustration{% endif %}</li>
+{% endblock %}
+{% block page_title %}{% if image %}Modifier l'illustration{% else %}Ajouter une illustration{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card p-4" style="max-width: 720px;">
+    <p class="mb-1">Récit : <strong>{{ story.entry.title }}</strong></p>
+    <p class="text-muted">Les champs marqués d'une * sont obligatoires.</p>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% include "includes/form.html" %}
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <a href="{% if image %}{% url 'memory:image_detail' image.pk %}{% else %}{% url 'memory:story_detail' story.pk %}{% endif %}" class="btn btn-outline-secondary">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
