@@ -1,0 +1,10 @@
+{% comment %}Alerte bienveillante après plusieurs jours négatifs de suite (role="alert" : annoncée tout de suite).{% endcomment %}
+{% if alert %}
+    <div class="alert alert-warning d-flex gap-3 align-items-start" role="alert">
+        <span class="fs-4" aria-hidden="true">💛</span>
+        <div>
+            <p class="fw-bold mb-1">Prenez soin de vous</p>
+            <p class="mb-0">{{ alert.message }}</p>
+        </div>
+    </div>
+{% endif %}

@@ -4,6 +4,7 @@ import shutil
 import tempfile
 import wave
 from datetime import timedelta
+from unittest.mock import patch
 
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -143,13 +144,26 @@ class VoiceNoteViewsTest(VoiceViewsTestBase):
         self.assertContains(response, '<audio controls')
         self.assertContains(response, 'Bonne soirée.')
 
-    def test_creation_wav_duree_lue_par_le_serveur(self):
+    @patch('Voice.services.detect_emotion', return_value=('Joie', 0.91))
+    @patch('Voice.services.transcribe', return_value=('Quelle belle matinée.', 'fr'))
+    def test_creation_wav_duree_lue_par_le_serveur_puis_transcription(self, mock_transcribe, mock_emotion):
         response = self.client.post(reverse('voice:note_create'), {
             'entry': self.entry.pk, 'title': 'Matin', 'audio': make_wav(3), 'client_duration': 999})
         note = VoiceNote.objects.get(title='Matin')
-        self.assertRedirects(response, reverse('voice:note_detail', args=[note.pk]))
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(f"/voice/notes/{note.pk}/?task=", response.url)      # page avec l'indicateur IA
         self.assertEqual(note.duration, 3)          # la valeur du navigateur est ignorée
-        self.assertEqual(note.status, 'EnAttente')
+        self.assertEqual(note.status, 'Termine')    # mode eager : la tâche est déjà faite
+        self.assertEqual(note.mood_record.emotion, 'Joie')
+
+    def test_creation_sans_ia_disponible_garde_la_note(self):
+        # Pas de clé en test : la transcription échoue mais la note est bien enregistrée
+        response = self.client.post(reverse('voice:note_create'), {
+            'entry': self.entry.pk, 'title': 'Hors ligne', 'audio': make_wav(1)}, follow=True)
+        note = VoiceNote.objects.get(title='Hors ligne')
+        self.assertEqual(note.status, 'Echec')
+        self.assertContains(response, 'HF_TOKEN')
+        self.assertContains(response, 'Transcrire à nouveau')
 
     def test_creation_webm_duree_du_navigateur(self):
         self.client.post(reverse('voice:note_create'), {

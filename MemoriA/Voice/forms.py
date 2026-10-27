@@ -111,6 +111,16 @@ class VoiceNoteUpdateForm(forms.ModelForm):
         help_texts = {'transcription': "Remplie automatiquement par l'IA, vous pouvez la corriger."}
 
 
+class DetectMoodForm(forms.Form):
+    """Choix de l'entrée dont l'IA analyse le texte pour détecter l'humeur."""
+    entry = forms.ModelChoiceField(label='Entrée à analyser', queryset=JournalEntry.objects.none(),
+                                   empty_label='Choisissez une entrée')
+
+    def __init__(self, *args, user=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['entry'].queryset = JournalEntry.objects.filter(user=user)
+
+
 class MoodRecordForm(forms.ModelForm):
 
     class Meta:

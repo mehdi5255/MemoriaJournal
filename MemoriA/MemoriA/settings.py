@@ -50,6 +50,12 @@ KEYBERT_MODEL = os.getenv('KEYBERT_MODEL', 'paraphrase-multilingual-MiniLM-L12-v
 IMAGE_BACKEND = os.getenv('IMAGE_BACKEND', 'huggingface').lower()
 LOCAL_IMAGE_MODEL = os.getenv('LOCAL_IMAGE_MODEL', 'stabilityai/sd-turbo')
 
+# Module Voice : transcription et émotions (mêmes valeurs possibles : huggingface, local, auto)
+VOICE_BACKEND = os.getenv('VOICE_BACKEND', 'huggingface').lower()
+HF_WHISPER_MODEL = os.getenv('HF_WHISPER_MODEL', 'openai/whisper-large-v3')
+LOCAL_WHISPER_MODEL = os.getenv('LOCAL_WHISPER_MODEL', 'openai/whisper-base')
+EMOTION_MODEL = os.getenv('EMOTION_MODEL', 'MilaNLProc/xlm-emo-t')
+
 
 # --- Applications ---
 
@@ -180,6 +186,10 @@ if TESTING:
     CELERY_TASK_STORE_EAGER_RESULT = True
     # Tests identiques sur tous les PC : jamais de modèle local chargé
     IMAGE_BACKEND = 'huggingface'
+    VOICE_BACKEND = 'huggingface'
+    # Jamais de vrai appel IA pendant les tests (CLAUDE.md : tous les appels sont mockés)
+    GEMINI_API_KEY = ''
+    HF_TOKEN = ''
     # Pas de dossier staticfiles/ pendant les tests : on masque l'avertissement de whitenoise
     import warnings
     warnings.filterwarnings('ignore', message='No directory at')

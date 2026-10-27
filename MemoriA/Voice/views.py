@@ -5,12 +5,18 @@ from datetime import date, timedelta
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
+from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
-from .forms import MoodRecordForm, VoiceNoteForm, VoiceNoteUpdateForm
+from Account.services import launch_task
+
+from . import tasks
+from .forms import DetectMoodForm, MoodRecordForm, VoiceNoteForm, VoiceNoteUpdateForm
 from .models import MoodRecord, VoiceNote
+from .services import mood_alert
 
 # Couleur de chaque émotion dans le graphique (même code que les pastilles du tableau de bord)
 EMOTION_COLORS = {'Joie': '#F2C94C', 'Surprise': '#2E9E78', 'Neutre': '#8A8A96',
@@ -76,6 +82,12 @@ class VoiceNoteListView(VoiceNoteOwnerMixin, ListView):
 class VoiceNoteDetailView(VoiceNoteOwnerMixin, DetailView):
     template_name = 'Voice/voicenote_detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['task_id'] = self.request.GET.get('task', '')      # transcription en cours
+        context['mood'] = getattr(self.object, 'mood_record', None)
+        return context
+
 
 class VoiceNoteCreateView(LoginRequiredMixin, UserFormKwargsMixin, SuccessMessageMixin, CreateView):
     model = VoiceNote
@@ -90,8 +102,26 @@ class VoiceNoteCreateView(LoginRequiredMixin, UserFormKwargsMixin, SuccessMessag
             initial['entry'] = self.request.GET['entry']
         return initial
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        # La transcription démarre tout de suite, en arrière-plan
+        self.task_id = launch_task(self.request, tasks.transcribe_voice_note_task, self.object.pk, self.request.user.pk)
+        return redirect(self.get_success_url()) if self.task_id else response
+
     def get_success_url(self):
-        return reverse('voice:note_detail', args=[self.object.pk])
+        url = reverse('voice:note_detail', args=[self.object.pk])
+        return f"{url}?task={self.task_id}" if getattr(self, 'task_id', None) else url
+
+
+class VoiceNoteTranscribeView(VoiceNoteOwnerMixin, View):
+    """Bouton « Transcrire à nouveau » (et « Réessayer » après un échec)."""
+    http_method_names = ['post']
+
+    def post(self, request, pk):
+        note = get_object_or_404(self.get_queryset(), pk=pk)
+        task_id = launch_task(request, tasks.transcribe_voice_note_task, note.pk, request.user.pk)
+        url = reverse('voice:note_detail', args=[note.pk])
+        return redirect(f"{url}?task={task_id}" if task_id else url)
 
 
 class VoiceNoteUpdateView(VoiceNoteOwnerMixin, SuccessMessageMixin, UpdateView):
@@ -174,8 +204,27 @@ class MoodListView(MoodOwnerMixin, ListView):
                 'emotions': [d['label'] for d in days],
             },
             'latest': sorted(moods, key=lambda m: (m.record_date, m.creation_date), reverse=True),
+            'alert': mood_alert(self.request.user),
+            'detect_form': DetectMoodForm(user=self.request.user),
+            'task_id': self.request.GET.get('task', ''),
+            'retry_data': {'entry': self.request.GET.get('entry', '')},
         })
         return context
+
+
+class MoodDetectView(LoginRequiredMixin, View):
+    """« Détecter mon humeur » : l'IA analyse le texte d'une entrée choisie."""
+    http_method_names = ['post']
+
+    def post(self, request):
+        form = DetectMoodForm(request.POST, user=request.user)
+        url = reverse('voice:mood_list')
+        if not form.is_valid():
+            messages.error(request, "Choisissez une de vos entrées.")
+            return redirect(url)
+        entry = form.cleaned_data['entry']
+        task_id = launch_task(request, tasks.detect_entry_mood_task, entry.pk, request.user.pk)
+        return redirect(f"{url}?task={task_id}&entry={entry.pk}" if task_id else url)
 
 
 class MoodDetailView(MoodOwnerMixin, DetailView):

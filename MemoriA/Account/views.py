@@ -19,6 +19,7 @@ from Journal.models import JournalEntry
 from MemoriA.celery import app as celery_app
 from Reminder.models import DailyPrompt
 from Voice.models import MoodRecord
+from Voice.services import mood_alert
 
 from .forms import ProfileForm, SignupForm
 from .models import ActivityLog, Profile
@@ -61,6 +62,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
         context['week'] = week
         context['latest_entries'] = JournalEntry.objects.filter(user=user)[:5]
         context['daily_prompt'] = DailyPrompt.objects.filter(user=user, prompt_date=today).first()
+        context['alert'] = mood_alert(user)          # 3 jours négatifs de suite (module Voice)
         return context
 
 

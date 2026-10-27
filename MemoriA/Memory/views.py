@@ -6,24 +6,13 @@ from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, TemplateView, UpdateView
 
+from Account.services import launch_task
+
 from . import tasks
 from .forms import (GenerateImageForm, GenerateStoryForm, GeneratedImageForm, RetrospectiveForm,
                     StoryForm)
 from .models import GeneratedImage, Retrospective, Story
-from .services import AIServiceError, retrospective_stats
-
-
-def launch_task(request, task, *args):
-    """Lance une tâche Celery et renvoie son identifiant, ou None si le service est indisponible."""
-    try:
-        return task.delay(*args).id
-    except AIServiceError as error:
-        # En mode « eager » (tests), l'erreur de l'IA remonte directement
-        messages.error(request, str(error))
-    except Exception:
-        messages.error(request, "Le service de génération est indisponible pour le moment "
-                                "(Redis ou le worker Celery ne répond pas). Réessayez dans un instant.")
-    return None
+from .services import retrospective_stats
 
 
 # ---------- Filtrage par utilisateur (un utilisateur ne voit que ses données) ----------

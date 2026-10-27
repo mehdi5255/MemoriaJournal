@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static memoria_tags %}
 
 {% block title %}Mon humeur : {{ month|date:"F Y" }}{% endblock %}
 {% block breadcrumb %}<li class="breadcrumb-item active" aria-current="page">Voix et humeur</li>{% endblock %}
@@ -18,6 +18,26 @@
 {% endblock %}
 
 {% block content %}
+{% include "Voice/includes/mood_alert.html" %}
+
+{% if task_id %}
+    {% url 'voice:mood_detect' as detect_url %}
+    {% include "includes/ai_status.html" with task_id=task_id label="Analyse de l'humeur de l'entrée…" success_message="Humeur détectée !" error_message="La détection d'émotion a échoué. Réessayez dans un instant." retry_url=detect_url retry_data=retry_data result_target="#humeur-detectee" %}
+    <div id="humeur-detectee" class="mb-4"></div>
+{% endif %}
+
+{% if detect_form.fields.entry.queryset.exists %}
+    <form method="post" action="{% url 'voice:mood_detect' %}" class="ai-block d-flex flex-wrap align-items-end gap-2 mb-4">
+        {% csrf_token %}
+        <div>
+            <p class="ai-label mb-1">IA · détection d'émotion</p>
+            <label for="id_entry" class="form-label">Détecter mon humeur dans une entrée</label>
+            {% field_widget detect_form.entry %}
+        </div>
+        <button type="submit" class="btn btn-ai">Analyser</button>
+    </form>
+{% endif %}
+
 <nav class="d-flex align-items-center gap-3 mb-4" aria-label="Changer de mois">
     <a href="?mois={{ previous_month }}" class="btn btn-outline-secondary btn-sm"><span aria-hidden="true">‹</span> Mois précédent</a>
     <h2 class="h4 mb-0">{{ month|date:"F Y"|capfirst }}</h2>

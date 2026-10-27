@@ -13,9 +13,11 @@ urlpatterns = [
     path('notes/<int:pk>/', views.VoiceNoteDetailView.as_view(), name='note_detail'),
     path('notes/<int:pk>/modifier/', views.VoiceNoteUpdateView.as_view(), name='note_update'),
     path('notes/<int:pk>/supprimer/', views.VoiceNoteDeleteView.as_view(), name='note_delete'),
+    path('notes/<int:pk>/transcrire/', views.VoiceNoteTranscribeView.as_view(), name='note_transcribe'),
 
     # Humeurs
     path('humeurs/ajouter/', views.MoodCreateView.as_view(), name='mood_create'),
+    path('humeurs/detecter/', views.MoodDetectView.as_view(), name='mood_detect'),
     path('humeurs/<int:pk>/', views.MoodDetailView.as_view(), name='mood_detail'),
     path('humeurs/<int:pk>/modifier/', views.MoodUpdateView.as_view(), name='mood_update'),
     path('humeurs/<int:pk>/supprimer/', views.MoodDeleteView.as_view(), name='mood_delete'),

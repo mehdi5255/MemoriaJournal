@@ -1,0 +1,19 @@
+{% comment %}Transcription et humeur détectée (aussi renvoyé par la tâche Celery, affiché sans recharger).{% endcomment %}
+<div class="ai-block">
+    <p class="ai-label mb-2">IA · Whisper · statut : {{ note.get_status_display|lower }}{% if note.language %} · langue : {{ note.language }}{% endif %}</p>
+    {% if note.transcription %}
+        <p class="story-text mb-0">{{ note.transcription }}</p>
+    {% elif note.status == 'Echec' %}
+        <p class="mb-0">La transcription a échoué. Cliquez sur « Transcrire à nouveau ».</p>
+    {% else %}
+        <p class="mb-0">La transcription n'est pas encore disponible.</p>
+    {% endif %}
+</div>
+{% if mood %}
+    <p class="mt-3 mb-0">
+        <span class="mood-dot mood-{{ mood.emotion|lower }} me-2" style="width:1.4rem;height:1.4rem;" aria-hidden="true"></span>
+        Humeur détectée : <a href="{% url 'voice:mood_detail' mood.pk %}">{{ mood.get_emotion_display }}</a>
+        <span class="text-muted">(confiance {{ mood.score|floatformat:2 }})</span>
+    </p>
+{% endif %}
+{% if alert %}<div class="mt-3">{% include "Voice/includes/mood_alert.html" %}</div>{% endif %}

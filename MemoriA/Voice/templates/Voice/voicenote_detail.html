@@ -34,19 +34,17 @@
     <section class="col-lg-7" aria-labelledby="titre-transcription">
         <div class="card p-4 h-100">
             <h2 id="titre-transcription" class="mb-3">Transcription</h2>
-            <div class="ai-block">
-                <p class="ai-label mb-2">IA · Whisper · statut : {{ note.get_status_display|lower }}{% if note.language %} · langue : {{ note.language }}{% endif %}</p>
-                {% if note.transcription %}
-                    <p class="story-text mb-0">{{ note.transcription }}</p>
-                {% elif note.status == 'Echec' %}
-                    <p class="mb-0">La transcription a échoué.</p>
-                {% else %}
-                    <p class="mb-0">La transcription n'est pas encore disponible.</p>
-                {% endif %}
-            </div>
-            {% if note.mood_record %}
-                <p class="mt-3 mb-0">Humeur détectée : <a href="{% url 'voice:mood_detail' note.mood_record.pk %}">{{ note.mood_record.get_emotion_display }}</a></p>
+            {% url 'voice:note_transcribe' note.pk as transcribe_url %}
+            {% if task_id %}
+                {% include "includes/ai_status.html" with task_id=task_id label="Transcription en cours… (quelques secondes à une minute)" success_message="Transcription terminée !" error_message="Le service de transcription ne répond pas. Réessayez dans un instant." retry_url=transcribe_url result_target="#transcription" %}
             {% endif %}
+            <div id="transcription">
+                {% include "Voice/includes/transcription.html" %}
+            </div>
+            <form method="post" action="{{ transcribe_url }}" class="mt-3">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-ai btn-sm">Transcrire à nouveau</button>
+            </form>
         </div>
     </section>
 </div>
