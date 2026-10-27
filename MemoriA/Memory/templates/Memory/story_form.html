@@ -17,6 +17,19 @@
         </div>
     {% else %}
         {% if story %}<p class="mb-3">Entrée : <strong>{{ story.entry.title }}</strong> ({{ story.entry.entry_date|date:"j F Y" }})</p>{% endif %}
+
+        {% if generate_form %}
+            <section class="ai-block mb-4" aria-labelledby="titre-generer">
+                <h2 id="titre-generer" class="h5 ai-label">Faire écrire le récit par l'IA</h2>
+                <p>Gemini lit le texte, les notes vocales et les photos de l'entrée pour raconter votre journée.</p>
+                <form method="post" action="{% url 'memory:story_generate' %}">
+                    {% csrf_token %}
+                    {% for field in generate_form %}{% include "includes/form_field.html" with field=field %}{% endfor %}
+                    <button type="submit" class="btn btn-ai">Générer le récit</button>
+                </form>
+            </section>
+            <h2 class="h5">Ou écrire le récit vous-même</h2>
+        {% endif %}
         <p class="text-muted">Les champs marqués d'une * sont obligatoires.</p>
         <form method="post">
             {% csrf_token %}

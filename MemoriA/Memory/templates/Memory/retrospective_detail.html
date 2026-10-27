@@ -14,6 +14,10 @@
             <p class="text-muted mb-0">{{ retrospective.get_period_type_display }} du {{ retrospective.start_date|date:"j F Y" }} au {{ retrospective.end_date|date:"j F Y" }}</p>
         </div>
         <div class="d-flex flex-wrap gap-2">
+            <form method="post" action="{% url 'memory:retrospective_analyze' retrospective.pk %}" class="m-0">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-ai">Analyser avec l'IA</button>
+            </form>
             <a href="{% url 'memory:retrospective_update' retrospective.pk %}" class="btn btn-outline-primary">Modifier</a>
             <a href="{% url 'memory:retrospective_delete' retrospective.pk %}" class="btn btn-outline-secondary">Supprimer</a>
         </div>
@@ -21,45 +25,12 @@
 {% endblock %}
 
 {% block content %}
-<div class="row g-4">
-    <div class="col-lg-7">
-        <section class="card p-4 mb-4" aria-labelledby="titre-resume">
-            <h2 id="titre-resume" class="mb-3">Résumé</h2>
-            <p class="story-text mb-0">{{ retrospective.summary|default:"Pas encore de résumé." }}</p>
-        </section>
-        <section class="card p-4" aria-labelledby="titre-themes">
-            <h2 id="titre-themes" class="mb-3">Thèmes</h2>
-            {% if retrospective.keywords %}
-                <ul class="list-unstyled mb-0 d-flex flex-wrap">
-                    {% for word in retrospective.keywords %}<li class="keyword">{{ word }}</li>{% endfor %}
-                </ul>
-            {% else %}
-                <p class="text-muted mb-0">Aucun thème pour l'instant.</p>
-            {% endif %}
-        </section>
-    </div>
-    <div class="col-lg-5">
-        {% if retrospective.cover_image %}
-            <figure class="polaroid w-100 mb-4">
-                <img src="{{ retrospective.cover_image.image.url }}" alt="{{ retrospective.cover_image.prompt|truncatechars:150 }}">
-                <figcaption>Image de couverture</figcaption>
-            </figure>
-        {% endif %}
-        <section class="card p-4" aria-labelledby="titre-entrees">
-            <h2 id="titre-entrees" class="mb-3">Entrées de la période ({{ entries|length }})</h2>
-            {% if entries %}
-                <ul class="list-unstyled mb-0">
-                    {% for entry in entries %}
-                        <li class="border-bottom py-2">
-                            <strong>{{ entry.title }}</strong>
-                            <span class="d-block text-muted small">{{ entry.entry_date|date:"l j F" }}</span>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p class="text-muted mb-0">Aucune entrée liée à cette rétrospective.</p>
-            {% endif %}
-        </section>
-    </div>
+{% if task_id %}
+    {% url 'memory:retrospective_analyze' retrospective.pk as retry_url %}
+    {% include "includes/ai_status.html" with task_id=task_id label="Analyse des thèmes et des humeurs en cours…" success_message="Analyse terminée !" error_message="L'analyse des thèmes a échoué. Réessayez dans un instant." retry_url=retry_url result_target="#analyse" %}
+{% endif %}
+
+<div id="analyse">
+    {% include "Memory/includes/retrospective_analysis.html" %}
 </div>
 {% endblock %}

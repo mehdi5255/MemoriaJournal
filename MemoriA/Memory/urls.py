@@ -21,6 +21,13 @@ urlpatterns = [
     path('images/<int:pk>/supprimer/', views.ImageDeleteView.as_view(), name='image_delete'),
     path('images/<int:pk>/principale/', views.ImageSetMainView.as_view(), name='image_set_main'),
 
+    # Intelligence artificielle
+    path('recits/generer/', views.StoryGenerateView.as_view(), name='story_generate'),
+    path('recits/<int:pk>/regenerer/', views.StoryRegenerateView.as_view(), name='story_regenerate'),
+    path('recits/<int:pk>/illustrer/', views.ImageGenerateView.as_view(), name='image_generate'),
+    path('retrospectives/<int:pk>/analyser/', views.RetrospectiveAnalyzeView.as_view(),
+         name='retrospective_analyze'),
+
     # Rétrospectives
     path('retrospectives/', views.RetrospectiveListView.as_view(), name='retrospective_list'),
     path('retrospectives/ajouter/', views.RetrospectiveCreateView.as_view(), name='retrospective_create'),

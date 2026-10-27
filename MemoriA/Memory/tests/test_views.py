@@ -3,6 +3,7 @@ import io
 import shutil
 import tempfile
 from datetime import timedelta
+from unittest.mock import patch
 
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -13,6 +14,7 @@ from PIL import Image
 
 from Journal.models import JournalEntry
 from Memory.models import GeneratedImage, Retrospective, Story
+from Memory.services import AIServiceError
 
 PASSWORD = 'MotDePasse!2026'
 MEDIA_TEST = tempfile.mkdtemp()
@@ -382,3 +384,110 @@ class MemoryAccessibilityTest(MemoryViewsTestBase):
         html = self.client.get(reverse('memory:retrospective_create')).content.decode()
         self.assertIn('<legend', html)
         self.assertIn('Entrées de la période', html)
+
+
+class AIViewsTest(MemoryViewsTestBase):
+    """Boutons IA : la vue lance la tâche puis affiche l'indicateur de chargement."""
+
+    @patch('Memory.services.call_gemini', return_value=TEXT)
+    def test_generer_un_recit(self, mock_gemini):
+        entry = JournalEntry.objects.create(user=self.user, title='Montagne', content='Randonnée.')
+        response = self.client.post(reverse('memory:story_generate'), {'ia-entry': entry.pk, 'ia-style': 'Poetique'})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'Memory/story_generating.html')
+        self.assertContains(response, 'aria-live="polite"')
+        self.assertContains(response, 'data-ai-task')
+        self.assertEqual(Story.objects.get(entry=entry).style, 'Poetique')     # mode eager : déjà fait
+
+    def test_generer_refuse_l_entree_d_un_autre(self):
+        response = self.client.post(reverse('memory:story_generate'),
+                                    {'ia-entry': self.other_entry.pk, 'ia-style': 'Simple'})
+        self.assertRedirects(response, reverse('memory:story_create'))
+        self.assertEqual(Story.objects.filter(entry=self.other_entry).count(), 1)
+
+    def test_generer_refuse_en_get(self):
+        self.assertEqual(self.client.get(reverse('memory:story_generate')).status_code, 405)
+
+    @patch('Memory.services.call_gemini', return_value=TEXT + ' Nouvelle version.')
+    def test_regenerer(self, mock_gemini):
+        response = self.client.post(reverse('memory:story_regenerate', args=[self.story.pk]), {'style': 'Humoristique'})
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('?task=', response.url)
+        self.story.refresh_from_db()
+        self.assertEqual(self.story.version, 2)
+        page = self.client.get(response.url)
+        self.assertContains(page, 'Nouvelle version du récit en cours')
+        self.assertContains(page, 'name="style" value="Humoristique"')       # bouton Réessayer
+
+    def test_regenerer_le_recit_d_un_autre_404(self):
+        response = self.client.post(reverse('memory:story_regenerate', args=[self.other_story.pk]))
+        self.assertEqual(response.status_code, 404)
+
+    @patch('Memory.services.call_gemini', side_effect=Exception('boom'))
+    def test_erreur_de_l_ia_affiche_un_message(self, mock_gemini):
+        # call_gemini est appelé dans log_ai_call : l'erreur brute est transformée par launch_task
+        response = self.client.post(reverse('memory:story_regenerate', args=[self.story.pk]), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Réessayez dans un instant')
+        self.story.refresh_from_db()
+        self.assertEqual(self.story.version, 1)
+
+    @patch('Memory.services.call_gemini', side_effect=AIServiceError(
+        'Le service de rédaction (Gemini) ne répond pas. Réessayez dans un instant.'))
+    def test_message_clair_de_l_ia(self, mock_gemini):
+        response = self.client.post(reverse('memory:story_regenerate', args=[self.story.pk]), follow=True)
+        self.assertContains(response, 'Le service de rédaction (Gemini) ne répond pas.')
+
+    @patch('Memory.tasks.generate_story_task.delay', side_effect=ConnectionError('Redis absent'))
+    def test_redis_indisponible(self, mock_delay):
+        response = self.client.post(reverse('memory:story_regenerate', args=[self.story.pk]), follow=True)
+        self.assertContains(response, 'Redis ou le worker Celery ne répond pas')
+
+    @patch('Memory.services.get_hf_client')
+    @patch('Memory.services.call_gemini', return_value='A beach')
+    def test_creer_une_illustration(self, mock_gemini, mock_hf):
+        mock_hf.return_value.text_to_image.return_value = Image.new('RGB', (8, 8))
+        response = self.client.post(reverse('memory:image_generate', args=[self.story.pk]), {'style': 'Dessin'})
+        self.assertIn('type=image', response.url)
+        self.assertEqual(self.story.images.get().style, 'Dessin')
+        page = self.client.get(response.url)
+        self.assertContains(page, "Création de l'illustration")
+        self.assertContains(page, 'data-result-target="#nouvelle-image"')
+
+    def test_illustration_avec_la_photo_d_une_autre_entree_refusee(self):
+        from Face.models import Photo
+        photo = Photo.objects.create(entry=self.other_entry, image='photos/x.jpg')
+        response = self.client.post(reverse('memory:image_generate', args=[self.story.pk]),
+                                    {'style': 'Dessin', 'source_photo': photo.pk}, follow=True)
+        self.assertContains(response, 'Choisissez un style valide')
+        self.assertFalse(self.story.images.exists())
+
+    def test_illustrer_le_recit_d_un_autre_404(self):
+        response = self.client.post(reverse('memory:image_generate', args=[self.other_story.pk]), {'style': 'Dessin'})
+        self.assertEqual(response.status_code, 404)
+
+    @patch('Memory.services.get_keybert_model')
+    def test_analyser_une_retrospective(self, mock_model):
+        mock_model.return_value.extract_keywords.return_value = [('plage', 0.9)]
+        retro = Retrospective.objects.create(user=self.user, period_type='Semaine', title='S',
+                                             start_date=self.today - timedelta(days=3), end_date=self.today)
+        response = self.client.post(reverse('memory:retrospective_analyze', args=[retro.pk]))
+        self.assertIn('?task=', response.url)
+        retro.refresh_from_db()
+        self.assertEqual(retro.keywords, ['plage'])
+        page = self.client.get(response.url)
+        self.assertContains(page, 'Analyse des thèmes')
+        self.assertContains(page, 'Répartition des émotions')
+
+    def test_analyser_la_retrospective_d_un_autre_404(self):
+        response = self.client.post(reverse('memory:retrospective_analyze', args=[self.other_retro.pk]))
+        self.assertEqual(response.status_code, 404)
+
+    def test_boutons_ia_non_connecte(self):
+        self.client.logout()
+        for url in (reverse('memory:story_generate'), reverse('memory:story_regenerate', args=[self.story.pk]),
+                    reverse('memory:image_generate', args=[self.story.pk]),
+                    reverse('memory:retrospective_analyze', args=[self.other_retro.pk])):
+            response = self.client.post(url)
+            self.assertEqual(response.status_code, 302)
+            self.assertIn(reverse('account:login'), response.url)

@@ -42,6 +42,29 @@ class StoryForm(forms.ModelForm):
         return text
 
 
+class GenerateStoryForm(forms.Form):
+    """Choix de l'entrée et du style pour faire écrire le récit par l'IA."""
+    prefix = 'ia'           # évite des id en double avec le formulaire manuel sur la même page
+    entry =forms.ModelChoiceField(label='Entrée du journal', queryset=JournalEntry.objects.none(),
+                                   empty_label='Choisissez une entrée')
+    style = forms.ChoiceField(label='Style du récit', choices=Story.STYLE_CHOICES)
+
+    def __init__(self, *args, user=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['entry'].queryset = JournalEntry.objects.filter(user=user, story__isnull=True)
+
+
+class GenerateImageForm(forms.Form):
+    """Choix du style (et d'une photo à transformer) pour l'illustration IA."""
+    style = forms.ChoiceField(label="Style de l'illustration", choices=GeneratedImage.STYLE_CHOICES)
+    source_photo = forms.ModelChoiceField(label='Transformer une photo (facultatif)', required=False,
+                                          queryset=Photo.objects.none(), empty_label='Non, créer une image')
+
+    def __init__(self, *args, story=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['source_photo'].queryset = Photo.objects.filter(entry=story.entry)
+
+
 class GeneratedImageForm(forms.ModelForm):
 
     class Meta:

@@ -1,0 +1,6 @@
+{% comment %}Texte du récit (affiché aussi après une génération par l'IA, sans recharger la page).{% endcomment %}
+<p class="story-text mb-0">{{ story.text }}</p>
+<p class="text-muted small mt-3 mb-0">Style {{ story.get_style_display|lower }} · version {{ story.version }} · modifié le {{ story.update_date|date:"j F Y à H:i" }}</p>
+{% if show_link %}
+    <p class="mt-3 mb-0"><a href="{% url 'memory:story_detail' story.pk %}" class="btn btn-primary">Voir le récit et l'illustrer</a></p>
+{% endif %}

@@ -35,6 +35,12 @@ CSRF_TRUSTED_ORIGINS = [o.strip() for o in os.getenv('CSRF_TRUSTED_ORIGINS', '')
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '')
 HF_TOKEN = os.getenv('HF_TOKEN', '')
 
+# Modèles IA (modifiables dans .env si un modèle n'est plus disponible)
+GEMINI_MODEL = os.getenv('GEMINI_MODEL', 'gemini-2.5-flash')
+HF_IMAGE_MODEL = os.getenv('HF_IMAGE_MODEL', 'stabilityai/stable-diffusion-xl-base-1.0')
+HF_IMAGE_TO_IMAGE_MODEL = os.getenv('HF_IMAGE_TO_IMAGE_MODEL', 'stabilityai/stable-diffusion-xl-refiner-1.0')
+KEYBERT_MODEL = os.getenv('KEYBERT_MODEL', 'paraphrase-multilingual-MiniLM-L12-v2')
+
 
 # --- Applications ---
 
