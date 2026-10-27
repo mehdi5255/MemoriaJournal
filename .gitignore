@@ -1,0 +1,27 @@
+# Environnement virtuel
+env/
+venv/
+
+# Python
+__pycache__/
+*.pyc
+
+# Données locales
+db.sqlite3
+MemoriA/media/*
+!MemoriA/media/.gitkeep
+staticfiles/
+
+# Secrets
+.env
+
+# Couverture des tests
+htmlcov/
+.coverage
+
+# Éditeurs
+.vscode/
+.idea/
+
+# Réglages locaux de l'éditeur
+.claude/

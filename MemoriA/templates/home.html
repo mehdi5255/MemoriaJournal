@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block breadcrumb_wrapper %}{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <h1 class="mb-1">Bonjour {{ user.first_name|default:user.username }}</h1>
+            <p class="note-manuscrite mb-0" aria-hidden="true">Qu'avez-vous vécu aujourd'hui ?</p>
+        </div>
+        {% url 'journal:entry_create' as new_entry_url %}
+        {% if new_entry_url %}
+            <a href="{{ new_entry_url }}" class="btn btn-primary btn-lg"><span aria-hidden="true">+</span> Nouvelle entrée</a>
+        {% else %}
+            <button type="button" class="btn btn-primary btn-lg" disabled><span aria-hidden="true">+</span> Nouvelle entrée</button>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block content %}
+<section class="card p-3 p-md-4 mb-4" aria-labelledby="titre-semaine">
+    <h2 id="titre-semaine" class="mb-3">Mes 7 derniers jours</h2>
+    <ol class="week-grid list-unstyled mb-0">
+        {% for day in week %}
+            <li>
+                <div class="week-day{% if day.is_today %} is-today{% endif %}">
+                    <p class="day-name mb-1">{{ day.date|date:"D" }}<span class="visually-hidden"> {{ day.date|date:"j F" }}</span></p>
+                    <span class="mood-dot {{ day.mood_class }}" aria-hidden="true">{% if day.has_entry %}✓{% endif %}</span>
+                    <p class="day-mood mb-0 mt-1">
+                        {% if day.mood %}{{ day.mood.get_emotion_display }}{% else %}—<span class="visually-hidden">Aucune humeur</span>{% endif %}
+                        {% if day.has_entry %}<span class="visually-hidden">, entrée écrite</span>{% endif %}
+                    </p>
+                </div>
+            </li>
+        {% endfor %}
+    </ol>
+</section>
+
+<div class="row g-4">
+    <section class="col-lg-7" aria-labelledby="titre-entrees">
+        <div class="card p-3 p-md-4 h-100">
+            <h2 id="titre-entrees" class="mb-3">Mes dernières entrées</h2>
+            {% if latest_entries %}
+                <ul class="list-unstyled mb-0">
+                    {% for entry in latest_entries %}
+                        <li class="border-bottom py-2">
+                            {% url 'journal:entry_detail' entry.pk as entry_url %}
+                            <h3 class="h6 mb-0">
+                                {% if entry_url %}<a href="{{ entry_url }}">{{ entry.title }}</a>{% else %}{{ entry.title }}{% endif %}
+                                {% if entry.is_favorite %}<span aria-label="Favori" role="img">⭐</span>{% endif %}
+                            </h3>
+                            <p class="text-muted mb-0 small">{{ entry.entry_date|date:"l j F Y" }}{% if entry.location %} · {{ entry.location }}{% endif %}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="empty-state">
+                    <p class="mb-3">Aucune entrée pour l'instant.</p>
+                    {% if new_entry_url %}
+                        <a href="{{ new_entry_url }}" class="btn btn-primary">Écrire ma première entrée</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <section class="col-lg-5" aria-labelledby="titre-question">
+        <div class="card p-3 p-md-4 h-100">
+            <h2 id="titre-question" class="mb-3">Question du jour</h2>
+            {% if daily_prompt %}
+                <div class="ai-block">
+                    <p class="ai-label mb-1">Proposée par l'IA</p>
+                    <p class="fs-5 mb-3">{{ daily_prompt.question }}</p>
+                    <p class="mb-0 text-muted">Statut : {{ daily_prompt.get_status_display }}</p>
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <p class="mb-0">Pas encore de question aujourd'hui. Activez un rappel pour en recevoir une chaque jour.</p>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+</div>
+{% endblock %}

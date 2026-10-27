@@ -1,0 +1,25 @@
+{% comment %}
+Zone de suivi d'une tâche IA. Paramètres :
+  task_id (obligatoire), label, success_message, error_message,
+  retry_url (POST), result_target (sélecteur CSS), reload ("true")
+{% endcomment %}
+<div class="ai-block ai-status my-3" data-ai-task
+     data-status-url="{% url 'account:task_status' task_id %}"
+     {% if result_target %}data-result-target="{{ result_target }}"{% endif %}
+     {% if reload %}data-reload="{{ reload }}"{% endif %}
+     role="status" aria-live="polite" aria-busy="true">
+    <p class="ai-loading mb-0 d-flex align-items-center gap-2">
+        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        <span>{{ label|default:"Analyse en cours…" }}</span>
+    </p>
+    <p class="ai-success mb-0 text-success fw-bold" hidden>{{ success_message|default:"Terminé !" }}</p>
+    <div class="ai-error" hidden>
+        <p class="mb-2 fw-bold">{{ error_message|default:"Le service ne répond pas. Réessayez dans un instant." }}</p>
+        {% if retry_url %}
+            <form method="post" action="{{ retry_url }}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-ai btn-sm">Réessayer</button>
+            </form>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,19 @@
+{% load memoria_tags %}
+{% comment %}Champ de formulaire accessible : label lié, aide et erreurs reliées par aria-describedby.{% endcomment %}
+{% if field.is_hidden %}
+    {{ field }}
+{% elif field.widget_type == 'checkbox' %}
+    <div class="form-check mb-3">
+        {% field_widget field %}
+        <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span aria-hidden="true">*</span>{% endif %}</label>
+        {% if field.help_text %}<div id="{{ field.auto_id }}_helptext" class="form-text">{{ field.help_text|safe }}</div>{% endif %}
+        {% if field.errors %}<div id="{{ field.auto_id }}_errors" class="invalid-feedback d-block">{% for error in field.errors %}{{ error }}{% if not forloop.last %}<br>{% endif %}{% endfor %}</div>{% endif %}
+    </div>
+{% else %}
+    <div class="mb-3">
+        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span aria-hidden="true">*</span><span class="visually-hidden">(obligatoire)</span>{% endif %}</label>
+        {% field_widget field %}
+        {% if field.help_text %}<div id="{{ field.auto_id }}_helptext" class="form-text">{{ field.help_text|safe }}</div>{% endif %}
+        {% if field.errors %}<div id="{{ field.auto_id }}_errors" class="invalid-feedback d-block">{% for error in field.errors %}{{ error }}{% if not forloop.last %}<br>{% endif %}{% endfor %}</div>{% endif %}
+    </div>
+{% endif %}

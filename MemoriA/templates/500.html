@@ -1,0 +1,29 @@
+{% load static %}<!DOCTYPE html>
+{% comment %}Page autonome : en cas d'erreur serveur, on évite tout ce qui pourrait échouer à nouveau.{% endcomment %}
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Erreur du serveur · MémoriA</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/memoria.css' %}">
+</head>
+<body>
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+    <header class="app-header navbar px-3">
+        <a class="navbar-brand mb-0" href="/">Mémori<span class="brand-a">A</span></a>
+    </header>
+    <main id="contenu" class="app-main">
+        <div class="card auth-card p-4 text-center">
+            <p class="error-code mb-0" aria-hidden="true">500</p>
+            <h1>Une erreur est survenue</h1>
+            <p>Le serveur a rencontré un problème. Vos données sont en sécurité : réessayez dans un instant.</p>
+            <a href="/" class="btn btn-primary">Retour au tableau de bord</a>
+        </div>
+    </main>
+    <footer class="app-footer text-center">
+        <p class="mb-0">MémoriA · Votre journal personnel · Projet 5TWIN</p>
+    </footer>
+</body>
+</html>

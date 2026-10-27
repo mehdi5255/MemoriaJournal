@@ -1,0 +1,56 @@
+# Lance toute l'application : docker compose up --build
+# Puis ouvrir http://localhost:8000
+
+x-app: &app
+  build: .
+  image: memoria:latest
+  env_file: .env
+  environment:
+    REDIS_URL: redis://redis:6379/0
+    SQLITE_PATH: /data/db.sqlite3
+    # Pas de HTTPS en local : on désactive la redirection forcée
+    SECURE_SSL_REDIRECT: "False"
+  volumes:
+    - db_data:/data
+    - media_data:/app/MemoriA/media
+  depends_on:
+    redis:
+      condition: service_healthy
+  restart: unless-stopped
+
+services:
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+  web:
+    <<: *app
+    ports:
+      - "8000:8000"
+
+  worker:
+    <<: *app
+    command: celery -A MemoriA worker -l info --concurrency 2
+    depends_on:
+      redis:
+        condition: service_healthy
+      web:
+        condition: service_started
+
+  beat:
+    <<: *app
+    command: celery -A MemoriA beat -l info --schedule /data/celerybeat-schedule
+    depends_on:
+      redis:
+        condition: service_healthy
+      web:
+        condition: service_started
+
+volumes:
+  db_data:
+  media_data:

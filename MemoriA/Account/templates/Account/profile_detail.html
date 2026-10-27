@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Mon profil{% endblock %}
+{% block breadcrumb %}<li class="breadcrumb-item active" aria-current="page">Mon profil</li>{% endblock %}
+{% block page_title %}Mon profil{% endblock %}
+
+{% block content %}
+<div class="card p-4" style="max-width: 720px;">
+    <div class="d-flex align-items-center gap-3 mb-4">
+        {% if profile.avatar %}
+            <img src="{{ profile.avatar.url }}" alt="Photo de profil de {{ user.username }}" class="avatar">
+        {% else %}
+            <span class="avatar-placeholder" aria-hidden="true">{{ user.username|first|upper }}</span>
+        {% endif %}
+        <div>
+            <h2 class="mb-0">{{ user.get_full_name|default:user.username }}</h2>
+            <p class="text-muted mb-0">{{ user.email|default:"Aucune adresse e-mail" }}</p>
+        </div>
+    </div>
+
+    <dl class="row mb-4">
+        <dt class="col-sm-4">Nom d'utilisateur</dt>
+        <dd class="col-sm-8">{{ user.username }}</dd>
+        <dt class="col-sm-4">Date de naissance</dt>
+        <dd class="col-sm-8">{{ profile.birth_date|date:"j F Y"|default:"Non renseignée" }}</dd>
+        <dt class="col-sm-4">Langue</dt>
+        <dd class="col-sm-8">{{ profile.get_language_display }}</dd>
+        <dt class="col-sm-4">Rôle</dt>
+        <dd class="col-sm-8">{% for group in user.groups.all %}{{ group.name }}{% if not forloop.last %}, {% endif %}{% empty %}—{% endfor %}</dd>
+        <dt class="col-sm-4">Présentation</dt>
+        <dd class="col-sm-8">{{ profile.bio|linebreaksbr|default:"—" }}</dd>
+        <dt class="col-sm-4">Membre depuis</dt>
+        <dd class="col-sm-8">{{ user.date_joined|date:"j F Y" }}</dd>
+    </dl>
+
+    <div class="d-flex flex-wrap gap-2">
+        <a href="{% url 'account:profile_update' %}" class="btn btn-primary">Modifier mon profil</a>
+        <a href="{% url 'account:password_change' %}" class="btn btn-outline-secondary">Changer de mot de passe</a>
+    </div>
+</div>
+{% endblock %}

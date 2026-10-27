@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Statistiques{% endblock %}
+{% block breadcrumb %}<li class="breadcrumb-item active" aria-current="page">Statistiques</li>{% endblock %}
+{% block page_title %}Statistiques{% endblock %}
+
+{% block content %}
+<section aria-labelledby="titre-chiffres" class="mb-4">
+    <h2 id="titre-chiffres" class="visually-hidden">Chiffres clés</h2>
+    <div class="row g-3">
+        <div class="col-6 col-lg-3"><div class="stat-card stat-yellow"><p class="mb-0">Utilisateurs</p><p class="stat-value mb-0">{{ user_count }}</p></div></div>
+        <div class="col-6 col-lg-3"><div class="stat-card stat-blue"><p class="mb-0">Entrées</p><p class="stat-value mb-0">{{ entry_count }}</p></div></div>
+        <div class="col-6 col-lg-3"><div class="stat-card stat-green"><p class="mb-0">Appels IA</p><p class="stat-value mb-0">{{ total_calls }}</p></div></div>
+        <div class="col-6 col-lg-3"><div class="stat-card stat-pink"><p class="mb-0">Taux d'échec</p><p class="stat-value mb-0">{{ failure_rate }} %</p></div></div>
+    </div>
+</section>
+
+<section class="card p-3 p-md-4" aria-labelledby="titre-services">
+    <h2 id="titre-services" class="mb-3">Temps de réponse par service IA</h2>
+    {% if services %}
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <caption class="visually-hidden">Nombre d'appels, échecs, temps moyen et maximum par service IA</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Service</th>
+                        <th scope="col" class="text-end">Appels</th>
+                        <th scope="col" class="text-end">Échecs</th>
+                        <th scope="col" class="text-end">Temps moyen (ms)</th>
+                        <th scope="col" class="text-end">Temps maximum (ms)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for service in services %}
+                        <tr>
+                            <th scope="row">{{ service.ai_service }}</th>
+                            <td class="text-end">{{ service.calls }}</td>
+                            <td class="text-end">{{ service.failures }}</td>
+                            <td class="text-end">{{ service.avg_ms|floatformat:0 }}</td>
+                            <td class="text-end">{{ service.max_ms }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state"><p class="mb-0">Aucun appel IA enregistré pour l'instant.</p></div>
+    {% endif %}
+</section>
+{% endblock %}

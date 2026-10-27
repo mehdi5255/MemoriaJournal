@@ -1,0 +1,12 @@
+{% comment %}Lien du menu latéral. Si le module n'existe pas encore, le lien est affiché désactivé.{% endcomment %}
+<li class="nav-item">
+    {% if url %}
+        <a class="nav-link" href="{{ url }}" {% if request.resolver_match.app_name == app %}aria-current="page"{% endif %}>
+            <span aria-hidden="true">{{ icon }}</span> {{ label }}
+        </a>
+    {% else %}
+        <span class="nav-link disabled" aria-disabled="true">
+            <span aria-hidden="true">{{ icon }}</span> {{ label }} <small>(bientôt)</small>
+        </span>
+    {% endif %}
+</li>

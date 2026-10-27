@@ -1,0 +1,12 @@
+[run]
+source = .
+omit =
+    */migrations/*
+    */tests/*
+    manage.py
+    MemoriA/asgi.py
+    MemoriA/wsgi.py
+
+[report]
+show_missing = True
+skip_empty = True
