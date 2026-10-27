@@ -323,3 +323,28 @@ h3 { font-size: 1.1rem; }
 
 /* Pages d'erreur */
 .error-code { font-family: var(--m-font-title); font-size: 4rem; font-weight: 700; color: var(--m-primary-deco); }
+
+/* ---------- Module Face : cadres des visages sur une photo ---------- */
+.photo-frame { position: relative; display: inline-block; max-width: 100%; }
+.photo-frame img { display: block; max-width: 100%; height: auto; }
+.face-box {
+    position: absolute;
+    border: 3px solid var(--m-ai);
+    border-radius: 6px;
+    box-shadow: 0 0 0 2px #fff;
+}
+.face-box .face-label {
+    position: absolute;
+    left: -3px;
+    top: 100%;
+    margin-top: 4px;
+    background: var(--m-ai);
+    color: #fff;
+    font-size: .85rem;
+    font-weight: 700;
+    padding: .05rem .4rem;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+.face-box.is-unknown { border-style: dashed; }
+.person-card .avatar, .person-card .avatar-placeholder { width: 88px; height: 88px; }

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Visage {{ face.pk }} : {{ face.person.name|default:"inconnu" }}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'face:person_list' %}">Mes proches</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'face:photo_detail' face.photo_id %}">{{ face.photo.entry.title }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Visage</li>
+{% endblock %}
+{% block page_title %}{% if face.person %}Visage de {{ face.person.name }}{% else %}Visage inconnu{% endif %}{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="photo-frame polaroid" style="transform:none;">
+            <img src="{{ face.photo.image.url }}" alt="{{ face.photo.alt_text }}">
+            {% if box_style %}<span class="face-box{% if not face.person %} is-unknown{% endif %}" style="{{ box_style }}" aria-hidden="true"></span>{% endif %}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card p-4">
+            <dl class="row mb-4">
+                <dt class="col-sm-5">Personne</dt>
+                <dd class="col-sm-7">{% if face.person %}<a href="{% url 'face:person_detail' face.person.pk %}">{{ face.person.name }}</a>{% else %}Inconnue{% endif %}</dd>
+                <dt class="col-sm-5">Confirmé</dt>
+                <dd class="col-sm-7">{% if face.is_confirmed %}Oui{% else %}Non{% endif %}</dd>
+                <dt class="col-sm-5">Confiance</dt>
+                <dd class="col-sm-7">{{ face.confidence|floatformat:2 }}</dd>
+                <dt class="col-sm-5">Cadre</dt>
+                <dd class="col-sm-7">x {{ face.x }}, y {{ face.y }}, {{ face.width }} x {{ face.height }} pixels</dd>
+            </dl>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="{% url 'face:face_update' face.pk %}" class="btn btn-primary">Identifier ou corriger</a>
+                <a href="{% url 'face:face_delete' face.pk %}" class="btn btn-outline-secondary">Supprimer</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

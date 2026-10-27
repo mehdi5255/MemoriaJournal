@@ -79,3 +79,21 @@ class FaceTagModelTest(FaceModelsTestBase):
         self.make_tag().save()
         self.photo.delete()
         self.assertEqual(FaceTag.objects.count(), 0)
+
+
+class FaceBusinessMethodsTest(FaceModelsTestBase):
+
+    def test_alt_text_legende(self):
+        self.photo.caption = 'Deux amis sur la plage'
+        self.assertEqual(self.photo.alt_text(), 'Deux amis sur la plage')
+
+    def test_alt_text_sans_legende(self):
+        self.assertEqual(self.photo.alt_text(),
+                         f"Photo de l'entrée « Anniversaire » du {self.entry.entry_date:%d/%m/%Y}")
+
+    def test_box_style_en_pourcentages(self):
+        tag = FaceTag(photo=self.photo, x=50, y=25, width=100, height=50)
+        self.assertEqual(tag.box_style(200, 100), 'left:25.00%;top:25.00%;width:50.00%;height:50.00%')
+
+    def test_box_style_sans_dimensions(self):
+        self.assertEqual(FaceTag(photo=self.photo, x=1, y=1, width=1, height=1).box_style(0, 0), '')

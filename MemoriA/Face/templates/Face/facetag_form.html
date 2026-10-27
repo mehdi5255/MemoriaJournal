@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}{% if face %}Identifier le visage {{ face.pk }}{% else %}Ajouter un visage : photo {{ photo.pk }}{% endif %}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'face:person_list' %}">Mes proches</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'face:photo_detail' photo.pk %}">{{ photo.entry.title }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% if face %}Identifier{% else %}Nouveau visage{% endif %}</li>
+{% endblock %}
+{% block page_title %}{% if face %}Identifier le visage{% else %}Ajouter un visage{% endif %}{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-md-6">
+        <figure class="polaroid w-100 mb-0" style="transform:none;">
+            <img src="{{ photo.image.url }}" alt="{{ photo.alt_text }}">
+            <figcaption>{{ photo.image.width }} x {{ photo.image.height }} pixels</figcaption>
+        </figure>
+    </div>
+    <div class="col-md-6">
+        <div class="card p-4">
+            <p class="text-muted">La position du cadre se compte en pixels depuis le coin en haut à gauche de la photo.
+                Les champs marqués d'une * sont obligatoires.</p>
+            <form method="post">
+                {% csrf_token %}
+                {% include "includes/form.html" %}
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    <a href="{% url 'face:photo_detail' photo.pk %}" class="btn btn-outline-secondary">Annuler</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

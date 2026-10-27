@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Album de {{ person.name }}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'face:person_list' %}">Mes proches</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ person.name }}</li>
+{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+        <div class="d-flex align-items-center gap-3">
+            {% if person.cover_photo %}
+                <img src="{{ person.cover_photo.url }}" alt="" class="avatar">
+            {% else %}
+                <span class="avatar-placeholder" aria-hidden="true">{{ person.name|first|upper }}</span>
+            {% endif %}
+            <div>
+                <h1 class="mb-1">Album de {{ person.name }}</h1>
+                <p class="text-muted mb-0">{{ person.get_relation_display }}{% if person.birth_date %} · né(e) le {{ person.birth_date|date:"j F Y" }}{% endif %} · {{ photos|length }} photo{{ photos|length|pluralize }}</p>
+            </div>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'face:person_update' person.pk %}" class="btn btn-outline-primary">Modifier</a>
+            <a href="{% url 'face:person_delete' person.pk %}" class="btn btn-outline-secondary">Supprimer</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+{% if person.notes %}
+    <section class="card p-3 mb-4" aria-labelledby="titre-notes">
+        <h2 id="titre-notes" class="h5">Notes</h2>
+        <p class="mb-0">{{ person.notes|linebreaksbr }}</p>
+    </section>
+{% endif %}
+
+<section aria-labelledby="titre-album">
+    <h2 id="titre-album" class="h4 mb-3">Photos où {{ person.name }} apparaît</h2>
+    {% if photos %}
+        <ul class="list-unstyled gallery">
+            {% for photo in photos %}
+                <li>
+                    <figure class="polaroid mb-2">
+                        <a href="{% url 'face:photo_detail' photo.pk %}">
+                            <img src="{{ photo.image.url }}" alt="{{ photo.alt_text }}" class="cover" loading="lazy">
+                        </a>
+                        <figcaption>{{ photo.taken_date|default:photo.entry.entry_date|date:"j F Y" }}</figcaption>
+                    </figure>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="empty-state">
+            <p class="mb-3">Aucune photo pour l'instant. Identifiez {{ person.name }} sur vos photos pour remplir cet album.</p>
+            <a href="{% url 'face:photo_list' %}" class="btn btn-primary">Voir mes photos</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Photo : {{ photo.alt_text|truncatechars:60 }}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'face:person_list' %}">Mes proches</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'face:photo_list' %}">Photos</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ photo.entry.title }}</li>
+{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+        <div>
+            <h1 class="mb-1">Photo de « {{ photo.entry.title }} »</h1>
+            <p class="text-muted mb-0">{{ photo.taken_date|default:photo.entry.entry_date|date:"l j F Y" }}{% if photo.location %} · {{ photo.location }}{% endif %}</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'face:photo_update' photo.pk %}" class="btn btn-outline-primary">Modifier</a>
+            <a href="{% url 'face:photo_delete' photo.pk %}" class="btn btn-outline-secondary">Supprimer</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-lg-7">
+        <figure class="polaroid w-100 mb-0" style="transform:none;">
+            {% if image_missing %}
+                <div class="image-placeholder" role="img" aria-label="Image introuvable">?</div>
+            {% else %}
+                <div class="photo-frame">
+                    <img src="{{ photo.image.url }}" alt="{{ photo.alt_text }}">
+                    {% for item in faces %}
+                        <span class="face-box{% if not item.tag.person %} is-unknown{% endif %}" style="{{ item.style }}" aria-hidden="true">
+                            <span class="face-label">{{ item.tag.person.name|default:"?" }}</span>
+                        </span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <figcaption>{{ photo.caption|default:"Sans légende" }}</figcaption>
+        </figure>
+    </div>
+
+    <div class="col-lg-5">
+        <section class="card p-4 mb-4" aria-labelledby="titre-visages">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 id="titre-visages" class="mb-0">Visages ({{ faces|length }})</h2>
+                <a href="{% url 'face:face_create' photo.pk %}" class="btn btn-primary btn-sm"><span aria-hidden="true">+</span> Ajouter</a>
+            </div>
+            {% if faces %}
+                <ul class="list-unstyled mb-0">
+                    {% for item in faces %}
+                        <li class="border-bottom py-2 d-flex justify-content-between align-items-center gap-2">
+                            <span>
+                                <a href="{% url 'face:face_detail' item.tag.pk %}">{{ item.tag.person.name|default:"Personne inconnue" }}</a>
+                                {% if item.tag.person and not item.tag.is_confirmed %}<span class="badge text-bg-light border">à confirmer</span>{% endif %}
+                                <span class="d-block small text-muted">Confiance {{ item.tag.confidence|floatformat:2 }}</span>
+                            </span>
+                            <a href="{% url 'face:face_update' item.tag.pk %}" class="btn btn-outline-secondary btn-sm">Identifier<span class="visually-hidden"> le visage {{ forloop.counter }}</span></a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted mb-0">Aucun visage sur cette photo pour l'instant.</p>
+            {% endif %}
+        </section>
+
+        <section class="card p-4" aria-labelledby="titre-infos">
+            <h2 id="titre-infos" class="mb-3">Informations</h2>
+            <dl class="row mb-0">
+                <dt class="col-sm-5">Entrée</dt>
+                <dd class="col-sm-7">{{ photo.entry.title }}</dd>
+                <dt class="col-sm-5">Légende</dt>
+                <dd class="col-sm-7">{{ photo.caption|default:"—" }}</dd>
+                <dt class="col-sm-5">Objets détectés</dt>
+                <dd class="col-sm-7">{{ photo.detected_objects|join:", "|default:"—" }}</dd>
+                <dt class="col-sm-5">Ajoutée le</dt>
+                <dd class="col-sm-7">{{ photo.creation_date|date:"j F Y" }}</dd>
+            </dl>
+        </section>
+    </div>
+</div>
+{% endblock %}
