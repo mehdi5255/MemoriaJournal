@@ -107,22 +107,26 @@ def call_local_ner(text):
         raise AIServiceError("Le modèle de reconnaissance des noms local n'a pas pu analyser le texte.") from error
 
 
-def clean_entities(results):
+def clean_entities(results, threshold=ENTITY_THRESHOLD):
     """Entités sûres, sans doublons, dans l'ordre d'apparition : [{'type': 'PER', 'text': 'Sarah'}, ...]."""
     seen, entities = set(), []
     for r in results:
         text = r['text'].strip(" .,;:!?'\"«»")
         key = (r['type'], text.lower())
-        if r['score'] >= ENTITY_THRESHOLD and len(text) >= 2 and r['type'] in ENTITY_LABELS and key not in seen:
+        if r['score'] >= threshold and len(text) >= 2 and r['type'] in ENTITY_LABELS and key not in seen:
             seen.add(key)
             entities.append({'type': r['type'], 'text': text})
     return entities
 
 
+def raw_entities(text, user):
+    """Toutes les entités trouvées par le modèle, avec leur score (avant le seuil)."""
+    return run_with_fallback(settings.REMINDER_BACKEND, user, 'Entités nommées', ('CamemBERT NER', call_hf_ner),
+                             ('CamemBERT NER (local)', call_local_ner), text)
+
+
 def extract_entities(text, user):
-    results = run_with_fallback(settings.REMINDER_BACKEND, user, 'Entités nommées', ('CamemBERT NER', call_hf_ner),
-                                ('CamemBERT NER (local)', call_local_ner), text)
-    return clean_entities(results)
+    return clean_entities(raw_entities(text, user))
 
 
 # ---------- Question personnalisée ----------
