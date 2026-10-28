@@ -355,3 +355,27 @@ h3 { font-size: 1.1rem; }
     box-shadow: var(--m-shadow);
     background-repeat: no-repeat;
 }
+
+/* Étiquettes du journal : pastille de couleur + texte foncé (contraste toujours suffisant) */
+.tag-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .15rem .65rem;
+    border: 2px solid var(--tag-color, var(--m-ai));
+    border-radius: 999px;
+    background: #FFFFFF;
+    color: var(--m-text);
+    font-size: .9rem;
+    text-decoration: none;
+}
+.tag-badge::before {
+    content: "";
+    width: .65rem;
+    height: .65rem;
+    border-radius: 50%;
+    background: var(--tag-color, var(--m-ai));
+}
+a.tag-badge:hover { background: var(--m-blue); color: var(--m-text); }
+.entry-content { white-space: normal; overflow-wrap: anywhere; }
+.checkbox-list .form-check-input.ai-suggested + .form-check-label { font-weight: 700; color: var(--m-ai); }
