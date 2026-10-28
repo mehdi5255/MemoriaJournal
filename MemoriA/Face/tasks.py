@@ -14,7 +14,7 @@ from .models import Person, Photo
 @worker_ready.connect
 def preload_face_models(**kwargs):
     """Charge YuNet et SFace (légers) au démarrage du worker, et BLIP, DETR et la traduction en mode local."""
-    if getattr(settings, 'TESTING', False):
+    if getattr(settings, 'TESTING', False) or not settings.PRELOAD_AI_MODELS:
         return
     loaders = [services.get_face_detector, services.get_face_recognizer]
     if settings.FACE_BACKEND == 'local':

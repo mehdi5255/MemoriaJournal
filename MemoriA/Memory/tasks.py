@@ -18,7 +18,7 @@ from .models import GeneratedImage, Retrospective, Story
 def preload_models(**kwargs):
     """Charge les modèles locaux au démarrage du worker : la première tâche ne paie pas le chargement
     (~25 s pour KeyBERT, ~90 s pour SD-Turbo)."""
-    if getattr(settings, 'TESTING', False):
+    if getattr(settings, 'TESTING', False) or not settings.PRELOAD_AI_MODELS:
         return
     loaders = [services.get_keybert_model]
     if settings.IMAGE_BACKEND in ('local', 'auto'):

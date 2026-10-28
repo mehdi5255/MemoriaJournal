@@ -16,7 +16,7 @@ from .models import MoodRecord, VoiceNote
 @worker_ready.connect
 def preload_voice_models(**kwargs):
     """En mode local, charge Whisper et le modèle d'émotion au démarrage du worker."""
-    if getattr(settings, 'TESTING', False) or settings.VOICE_BACKEND != 'local':
+    if getattr(settings, 'TESTING', False) or not settings.PRELOAD_AI_MODELS or settings.VOICE_BACKEND != 'local':
         return
     for load in (services.get_local_whisper, services.get_local_emotion):
         try:

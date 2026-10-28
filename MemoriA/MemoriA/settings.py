@@ -31,6 +31,17 @@ ALLOWED_HOSTS = [h.strip() for h in os.getenv('ALLOWED_HOSTS', 'localhost,127.0.
 # Nécessaire en production derrière HTTPS (ex. https://memoria.onrender.com)
 CSRF_TRUSTED_ORIGINS = [o.strip() for o in os.getenv('CSRF_TRUSTED_ORIGINS', '').split(',') if o.strip()]
 
+# Render donne l'adresse publique du site dans RENDER_EXTERNAL_HOSTNAME (voir docs/DEPLOIEMENT.md)
+RENDER_EXTERNAL_HOSTNAME = os.getenv('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+    CSRF_TRUSTED_ORIGINS.append(f'https://{RENDER_EXTERNAL_HOSTNAME}')
+
+# Hébergement gratuit (peu de mémoire) : ne pas charger les modèles IA locaux au démarrage du worker
+PRELOAD_AI_MODELS = os.getenv('PRELOAD_AI_MODELS', 'True').lower() in ('true', '1', 'yes')
+# Sans serveur de fichiers séparé (Render gratuit), Django sert lui-même les fichiers de media/
+SERVE_MEDIA = os.getenv('SERVE_MEDIA', 'False').lower() in ('true', '1', 'yes')
+
 # Clés des services IA
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '')
 HF_TOKEN = os.getenv('HF_TOKEN', '')

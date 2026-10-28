@@ -12,7 +12,7 @@ from .models import JournalEntry
 @worker_ready.connect
 def preload_journal_models(**kwargs):
     """Charge le modèle d'embeddings (toujours local) au démarrage du worker."""
-    if getattr(settings, 'TESTING', False):
+    if getattr(settings, 'TESTING', False) or not settings.PRELOAD_AI_MODELS:
         return
     loaders = [services.get_embedder]
     if settings.JOURNAL_BACKEND == 'local':
