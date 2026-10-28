@@ -286,7 +286,10 @@ class FaceTagCreateView(LoginRequiredMixin, UserFormKwargsMixin, SuccessMessageM
     def form_valid(self, form):
         form.instance.photo = self.photo
         form.instance.confidence = 1.0      # cadre tracé par l'utilisateur : confiance totale
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        new_person_message(self.request, form)
+        refresh_encodings(self.request, {self.object.person})
+        return response
 
     def get_success_url(self):
         return reverse('face:photo_detail', args=[self.photo.pk])
@@ -305,11 +308,19 @@ class FaceTagUpdateView(FaceTagOwnerMixin, UserFormKwargsMixin, SuccessMessageMi
     def form_valid(self, form):
         previous = FaceTag.objects.get(pk=self.object.pk).person
         response = super().form_valid(form)
+        new_person_message(self.request, form)
         refresh_encodings(self.request, {previous, self.object.person})
         return response
 
     def get_success_url(self):
         return reverse('face:photo_detail', args=[self.object.photo_id])
+
+
+def new_person_message(request, form):
+    """Confirme la création du proche faite depuis le formulaire du visage."""
+    person = getattr(form, 'created_person', None)
+    if person:
+        messages.success(request, f"« {person.name} » a été ajouté à vos proches, avec ce visage comme photo de profil.")
 
 
 def refresh_encodings(request, persons):

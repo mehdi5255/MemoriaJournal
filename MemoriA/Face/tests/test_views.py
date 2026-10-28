@@ -333,3 +333,69 @@ class FaceAccessibilityTest(FaceViewsTestBase):
             html = self.client.get(url).content.decode()
             for img in re.findall(r'<img[^>]*>', html):
                 self.assertIn('alt=', img, url)
+
+
+@patch('Face.views.refresh_encodings')
+class NewPersonFromFaceTest(FaceViewsTestBase):
+    """Créer un proche directement depuis le formulaire « Identifier le visage »."""
+
+    def data(self, **values):
+        data = {'person': '', 'x': 20, 'y': 10, 'width': 40, 'height': 30}
+        data.update(values)
+        return data
+
+    def test_formulaire_propose_une_nouvelle_personne(self, mock_refresh):
+        response = self.client.get(reverse('face:face_update', args=[self.tag.pk]))
+        self.assertContains(response, 'Ou ajouter une nouvelle personne')
+        self.assertContains(response, 'name="new_person_name"')
+        self.assertContains(response, '<h1', count=1)
+
+    def test_identifier_avec_une_nouvelle_personne(self, mock_refresh):
+        response = self.client.post(reverse('face:face_update', args=[self.tag.pk]),
+                                    self.data(new_person_name='  Karim  ', new_person_relation='Collegue'), follow=True)
+        karim = Person.objects.get(user=self.user, name='Karim')
+        self.assertEqual(karim.relation, 'Collegue')
+        self.tag.refresh_from_db()
+        self.assertEqual(self.tag.person, karim)
+        self.assertTrue(self.tag.is_confirmed)
+        # Le visage découpé (40 x 30 pixels) devient la photo de profil
+        with karim.cover_photo.open('rb') as file:
+            self.assertEqual(Image.open(file).size, (40, 30))
+        self.assertContains(response, 'a été ajouté à vos proches')
+        self.assertIn(karim, mock_refresh.call_args.args[1])        # empreinte du visage recalculée
+
+    def test_ajout_d_un_visage_avec_une_nouvelle_personne(self, mock_refresh):
+        self.client.post(reverse('face:face_create', args=[self.photo.pk]), self.data(new_person_name='Leïla'))
+        tag = FaceTag.objects.latest('id')
+        self.assertEqual(tag.person.name, 'Leïla')
+        self.assertEqual(tag.person.user, self.user)
+
+    def test_nom_deja_utilise(self, mock_refresh):
+        response = self.client.post(reverse('face:face_update', args=[self.tag.pk]), self.data(new_person_name='sarah'))
+        self.assertContains(response, 'Ce proche existe déjà')
+        self.assertEqual(Person.objects.filter(user=self.user).count(), 1)
+
+    def test_meme_nom_qu_un_proche_d_un_autre_utilisateur(self, mock_refresh):
+        self.client.post(reverse('face:face_update', args=[self.tag.pk]),
+                         self.data(new_person_name='Personne secrète'))
+        self.assertTrue(Person.objects.filter(user=self.user, name='Personne secrète').exists())
+
+    def test_proche_choisi_et_nouveau_nom_refuse(self, mock_refresh):
+        response = self.client.post(reverse('face:face_update', args=[self.tag.pk]),
+                                    self.data(person=self.sarah.pk, new_person_name='Karim'))
+        self.assertContains(response, 'pas les deux')
+        self.assertFalse(Person.objects.filter(name='Karim').exists())
+
+    def test_nom_trop_court(self, mock_refresh):
+        response = self.client.post(reverse('face:face_update', args=[self.tag.pk]), self.data(new_person_name='K'))
+        self.assertContains(response, 'au moins 2 caractères')
+
+    def test_sans_nouveau_nom_rien_n_est_cree(self, mock_refresh):
+        self.client.post(reverse('face:face_update', args=[self.tag.pk]), self.data())
+        self.assertEqual(Person.objects.filter(user=self.user).count(), 1)
+        self.tag.refresh_from_db()
+        self.assertIsNone(self.tag.person)
+
+    def test_cadre_invalide_aucun_proche_cree(self, mock_refresh):
+        self.client.post(reverse('face:face_update', args=[self.tag.pk]), self.data(x=190, new_person_name='Karim'))
+        self.assertFalse(Person.objects.filter(name='Karim').exists())

@@ -104,17 +104,25 @@ class PersonForm(forms.ModelForm):
 
 
 class FaceTagForm(forms.ModelForm):
+    # Créer un nouveau proche sans quitter le formulaire (le visage devient sa photo de profil)
+    new_person_name = forms.CharField(label='Nom de la nouvelle personne', required=False, max_length=100,
+                                      widget=forms.TextInput(attrs={'maxlength': 100, 'placeholder': 'Ex. Sarah'}))
+    new_person_relation = forms.ChoiceField(label='Relation', choices=Person.RELATION_CHOICES, initial='Ami',
+                                            required=False)
 
     class Meta:
         model = FaceTag
         fields = ['person', 'x', 'y', 'width', 'height', 'is_confirmed']
         labels = {'person': 'Personne', 'x': 'Position horizontale (pixels)', 'y': 'Position verticale (pixels)',
                   'width': 'Largeur (pixels)', 'height': 'Hauteur (pixels)', 'is_confirmed': 'Identification confirmée'}
-        help_texts = {'person': 'Laissez vide si vous ne savez pas encore qui c\'est.'}
+        help_texts = {'person': 'Choisissez un proche, ou ajoutez une nouvelle personne juste en dessous. '
+                                'Laissez « Inconnue » si vous ne savez pas encore qui c\'est.'}
 
     def __init__(self, *args, user=None, photo=None, **kwargs):
         super().__init__(*args, **kwargs)
+        self.user = user
         self.photo = photo or self.instance.photo
+        self.order_fields(['person', 'new_person_name', 'new_person_relation'])
         self.fields['person'].queryset = Person.objects.filter(user=user).order_by('name')
         self.fields['person'].empty_label = 'Inconnue'
         self.image_width, self.image_height = self.photo.image.width, self.photo.image.height
@@ -135,3 +143,42 @@ class FaceTagForm(forms.ModelForm):
         if x + width > self.image_width or y + height > self.image_height:
             raise forms.ValidationError(f"Le cadre dépasse de la photo ({self.image_width} x {self.image_height} pixels).")
         return cleaned
+
+    def clean_new_person_name(self):
+        name = ' '.join(self.cleaned_data.get('new_person_name', '').split())
+        if not name:
+            return ''
+        if self.data.get(self.add_prefix('person')):
+            raise forms.ValidationError("Choisissez un proche existant OU écrivez un nouveau nom, pas les deux.")
+        if len(name) < 2:
+            raise forms.ValidationError("Le nom doit contenir au moins 2 caractères.")
+        # unique_together (user, name) : message clair au lieu d'une erreur de la base
+        if Person.objects.filter(user=self.user, name__iexact=name).exists():
+            raise forms.ValidationError("Ce proche existe déjà : choisissez-le dans la liste « Personne ».")
+        return name
+
+    def save(self, commit=True):
+        name = self.cleaned_data.get('new_person_name')
+        if name and commit:
+            person = Person.objects.create(user=self.user, name=name,
+                                           relation=self.cleaned_data.get('new_person_relation') or 'Ami')
+            self.save_face_as_cover(person)
+            self.instance.person = person
+            self.instance.is_confirmed = True        # l'utilisateur vient de dire qui c'est
+            self.created_person = person
+        return super().save(commit=commit)
+
+    def save_face_as_cover(self, person):
+        """Le visage découpé dans la photo devient la photo de profil du nouveau proche."""
+        import io
+
+        from django.core.files.base import ContentFile
+        d = self.cleaned_data
+        try:
+            with self.photo.image.open('rb') as file:
+                face = Image.open(file).convert('RGB').crop((d['x'], d['y'], d['x'] + d['width'], d['y'] + d['height']))
+            buffer = io.BytesIO()
+            face.save(buffer, format='JPEG', quality=90)
+            person.cover_photo.save(f'visage_{person.pk}.jpg', ContentFile(buffer.getvalue()), save=True)
+        except (OSError, KeyError):
+            pass                                     # la photo de profil est un bonus : le proche est créé quand même
