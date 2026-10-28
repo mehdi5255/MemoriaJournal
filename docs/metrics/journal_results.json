@@ -1,0 +1,2112 @@
+{
+  "recherche": {
+    "n": 20,
+    "reussis": 20,
+    "entrees": 30,
+    "lignes": [
+      {
+        "id": 1,
+        "requete": "une journée à la plage",
+        "pertinentes": [
+          1,
+          2
+        ],
+        "top3": [
+          1,
+          15,
+          2
+        ],
+        "scores_top3": [
+          0.679,
+          0.594,
+          0.577
+        ],
+        "p3": 0.667,
+        "p3_max": 0.667,
+        "rr": 1.0,
+        "hit3": 1,
+        "mots_top3": [
+          1,
+          21,
+          27
+        ],
+        "mots_p3": 0.333,
+        "mots_rr": 1.0
+      },
+      {
+        "id": 2,
+        "requete": "j'avais un examen à l'université",
+        "pertinentes": [
+          3,
+          30
+        ],
+        "top3": [
+          23,
+          30,
+          3
+        ],
+        "scores_top3": [
+          0.456,
+          0.386,
+          0.361
+        ],
+        "p3": 0.667,
+        "p3_max": 0.667,
+        "rr": 0.5,
+        "hit3": 1,
+        "mots_top3": [
+          3
+        ],
+        "mots_p3": 0.333,
+        "mots_rr": 1.0
+      },
+      {
+        "id": 3,
+        "requete": "réunion de famille",
+        "pertinentes": [
+          5,
+          6,
+          25
+        ],
+        "top3": [
+          5,
+          6,
+          25
+        ],
+        "scores_top3": [
+          0.582,
+          0.538,
+          0.365
+        ],
+        "p3": 1.0,
+        "p3_max": 1.0,
+        "rr": 1.0,
+        "hit3": 1,
+        "mots_top3": [
+          5,
+          10
+        ],
+        "mots_p3": 0.333,
+        "mots_rr": 1.0
+      },
+      {
+        "id": 4,
+        "requete": "faire du sport",
+        "pertinentes": [
+          7,
+          8,
+          26
+        ],
+        "top3": [
+          26,
+          7
+        ],
+        "scores_top3": [
+          0.431,
+          0.403
+        ],
+        "p3": 0.667,
+        "p3_max": 1.0,
+        "rr": 1.0,
+        "hit3": 1,
+        "mots_top3": [
+          26
+        ],
+        "mots_p3": 0.333,
+        "mots_rr": 1.0
+      },
+      {
+        "id": 5,
+        "requete": "mon travail en entreprise",
+        "pertinentes": [
+          9,
+          10,
+          24
+        ],
+        "top3": [
+          9,
+          24
+        ],
+        "scores_top3": [
+          0.424,
+          0.375
+        ],
+        "p3": 0.667,
+        "p3_max": 1.0,
+        "rr": 1.0,
+        "hit3": 1,
+        "mots_top3": [],
+        "mots_p3": 0.0,
+        "mots_rr": 0
+      },
+      {
+        "id": 6,
+        "requete": "j'étais malade",
+        "pertinentes": [
+          11
+        ],
+        "top3": [
+          11,
+          29,
+          12
+        ],
+        "scores_top3": [
+          0.533,
+          0.475,
+          0.449
+        ],
+        "p3": 0.333,
+        "p3_max": 0.333,
+        "rr": 1.0,
+        "hit3": 1,
+        "mots_top3": [
+          17
+        ],
+        "mots_p3": 0.0,
+        "mots_rr": 0
+      },
+      {
+        "id": 7,
+        "requete": "je n'arrivais pas à trouver le sommeil",
+        "pertinentes": [
+          12
+        ],
+        "top3": [
+          12,
+          3,
+          27
+        ],
+        "scores_top3": [
+          0.714,
+          0.388,
+          0.354
+        ],
+        "p3": 0.333,
+        "p3_max": 0.333,
+        "rr": 1.0,
+        "hit3": 1,
+        "mots_top3": [],
+        "mots_p3": 0.0,
+        "mots_rr": 0
+      },
+      {
+        "id": 8,
+        "requete": "sortie culturelle et spectacle",
+        "pertinentes": [
+          13,
+          14,
+          28
+        ],
+        "top3": [
+          25,
+          14,
+          13
+        ],
+        "scores_top3": [
+          0.472,
+          0.378,
+          0.368
+        ],
+        "p3": 0.667,
+        "p3_max": 1.0,
+        "rr": 0.5,
+        "hit3": 1,
+        "mots_top3": [],
+        "mots_p3": 0.0,
+        "mots_rr": 0
+      },
+      {
+        "id": 9,
+        "requete": "partir en vacances loin de chez moi",
+        "pertinentes": [
+          15,
+          16
+        ],
+        "top3": [
+          8,
+          15,
+          16
+        ],
+        "scores_top3": [
+          0.482,
+          0.478,
+          0.385
+        ],
+        "p3": 0.667,
+        "p3_max": 0.667,
+        "rr": 0.5,
+        "hit3": 1,
+        "mots_top3": [],
+        "mots_p3": 0.0,
+        "mots_rr": 0
+      },
+      {
+        "id": 10,
+        "requete": "un conflit avec un ami",
+        "pertinentes": [
+          17
+        ],
+        "top3": [
+          17
+        ],
+        "scores_top3": [
+          0.381
+        ],
+        "p3": 0.333,
+        "p3_max": 0.333,
+        "rr": 1.0,
+        "hit3": 1,
+        "mots_top3": [],
+        "mots_p3": 0.0,
+        "mots_rr": 0
+      },
+      {
+        "id": 11,
+        "requete": "rire avec mes copains",
+        "pertinentes": [
+          18
+        ],
+        "top3": [
+          18,
+          5,
+          6
+        ],
+        "scores_top3": [
+          0.549,
+          0.394,
+          0.302
+        ],
+        "p3": 0.333,
+        "p3_max": 0.333,
+        "rr": 1.0,
+        "hit3": 1,
+        "mots_top3": [],
+        "mots_p3": 0.0,
+        "mots_rr": 0
+      },
+      {
+        "id": 12,
+        "requete": "préparer à manger",
+        "pertinentes": [
+          19
+        ],
+        "top3": [
+          19,
+          1
+        ],
+        "scores_top3": [
+          0.548,
+          0.379
+        ],
+        "p3": 0.333,
+        "p3_max": 0.333,
+        "rr": 1.0,
+        "hit3": 1,
+        "mots_top3": [
+          1,
+          4
+        ],
+        "mots_p3": 0.0,
+        "mots_rr": 0
+      },
+      {
+        "id": 13,
+        "requete": "un animal de compagnie",
+        "pertinentes": [
+          21
+        ],
+        "top3": [],
+        "scores_top3": [],
+        "p3": 0.0,
+        "p3_max": 0.333,
+        "rr": 0,
+        "hit3": 0,
+        "mots_top3": [],
+        "mots_p3": 0.0,
+        "mots_rr": 0
+      },
+      {
+        "id": 14,
+        "requete": "j'ai réussi mes études",
+        "pertinentes": [
+          23
+        ],
+        "top3": [
+          23,
+          9,
+          30
+        ],
+        "scores_top3": [
+          0.564,
+          0.38,
+          0.356
+        ],
+        "p3": 0.333,
+        "p3_max": 0.333,
+        "rr": 1.0,
+        "hit3": 1,
+        "mots_top3": [
+          3
+        ],
+        "mots_p3": 0.0,
+        "mots_rr": 0
+      },
+      {
+        "id": 15,
+        "requete": "chercher un emploi",
+        "pertinentes": [
+          24
+        ],
+        "top3": [
+          24,
+          9
+        ],
+        "scores_top3": [
+          0.547,
+          0.324
+        ],
+        "p3": 0.333,
+        "p3_max": 0.333,
+        "rr": 1.0,
+        "hit3": 1,
+        "mots_top3": [],
+        "mots_p3": 0.0,
+        "mots_rr": 0
+      },
+      {
+        "id": 16,
+        "requete": "une fête de mariage",
+        "pertinentes": [
+          25
+        ],
+        "top3": [
+          25,
+          5
+        ],
+        "scores_top3": [
+          0.651,
+          0.392
+        ],
+        "p3": 0.333,
+        "p3_max": 0.333,
+        "rr": 1.0,
+        "hit3": 1,
+        "mots_top3": [
+          25
+        ],
+        "mots_p3": 0.333,
+        "mots_rr": 1.0
+      },
+      {
+        "id": 17,
+        "requete": "le mauvais temps m'a gardé à l'intérieur",
+        "pertinentes": [
+          27
+        ],
+        "top3": [
+          27,
+          29,
+          12
+        ],
+        "scores_top3": [
+          0.588,
+          0.535,
+          0.445
+        ],
+        "p3": 0.333,
+        "p3_max": 0.333,
+        "rr": 1.0,
+        "hit3": 1,
+        "mots_top3": [
+          8
+        ],
+        "mots_p3": 0.0,
+        "mots_rr": 0
+      },
+      {
+        "id": 18,
+        "requete": "changer de logement",
+        "pertinentes": [
+          29
+        ],
+        "top3": [
+          29
+        ],
+        "scores_top3": [
+          0.376
+        ],
+        "p3": 0.333,
+        "p3_max": 0.333,
+        "rr": 1.0,
+        "hit3": 1,
+        "mots_top3": [],
+        "mots_p3": 0.0,
+        "mots_rr": 0
+      },
+      {
+        "id": 19,
+        "requete": "j'étais angoissé",
+        "pertinentes": [
+          12,
+          30
+        ],
+        "top3": [
+          12,
+          30,
+          14
+        ],
+        "scores_top3": [
+          0.534,
+          0.496,
+          0.438
+        ],
+        "p3": 0.667,
+        "p3_max": 0.667,
+        "rr": 1.0,
+        "hit3": 1,
+        "mots_top3": [
+          17
+        ],
+        "mots_p3": 0.0,
+        "mots_rr": 0
+      },
+      {
+        "id": 20,
+        "requete": "s'occuper des plantes",
+        "pertinentes": [
+          22
+        ],
+        "top3": [
+          22
+        ],
+        "scores_top3": [
+          0.606
+        ],
+        "p3": 0.333,
+        "p3_max": 0.333,
+        "rr": 1.0,
+        "hit3": 1,
+        "mots_top3": [],
+        "mots_p3": 0.0,
+        "mots_rr": 0
+      }
+    ],
+    "precision_at_3": 0.467,
+    "precision_at_3_max": 0.533,
+    "precision_at_3_relative": 0.876,
+    "mrr": 0.875,
+    "hit_at_3": 0.95,
+    "mots_precision_at_3": 0.083,
+    "mots_mrr": 0.25,
+    "moteurs": [
+      "MiniLM (local)"
+    ],
+    "embeddings_ms": 10860,
+    "temps": {
+      "moyenne_ms": 27,
+      "max_ms": 36,
+      "n": 20
+    }
+  },
+  "date": "2026-10-28",
+  "etiquettes": {
+    "n": 40,
+    "reussis": 40,
+    "erreurs": [],
+    "lignes": [
+      {
+        "id": 1,
+        "texte": "Nous avons pris le train de nuit pour Tozeur et dormi dans un hôtel au milieu des palmiers.",
+        "principale": "Voyage",
+        "attendues": [
+          "Voyage"
+        ],
+        "scores": {
+          "Voyage": 0.398,
+          "Loisirs": 0.331,
+          "Sport": 0.267,
+          "Famille": 0.001,
+          "Travail": 0.001,
+          "Amis": 0.0,
+          "Études": 0.0,
+          "Santé": 0.0
+        },
+        "scores_autre_mode": {
+          "Voyage": 1.0,
+          "Loisirs": 1.0,
+          "Sport": 1.0,
+          "Famille": 0.036,
+          "Travail": 0.009,
+          "Amis": 0.001,
+          "Études": 0.001,
+          "Santé": 0.001
+        },
+        "predites": [
+          "Loisirs",
+          "Voyage"
+        ],
+        "top1": "Voyage"
+      },
+      {
+        "id": 2,
+        "texte": "Premier vol pour Istanbul, j'ai visité la mosquée bleue et le grand bazar.",
+        "principale": "Voyage",
+        "attendues": [
+          "Voyage"
+        ],
+        "scores": {
+          "Voyage": 0.919,
+          "Loisirs": 0.076,
+          "Amis": 0.002,
+          "Famille": 0.001,
+          "Travail": 0.001,
+          "Études": 0.001,
+          "Sport": 0.0,
+          "Santé": 0.0
+        },
+        "scores_autre_mode": {
+          "Voyage": 1.0,
+          "Loisirs": 0.969,
+          "Amis": 0.038,
+          "Famille": 0.006,
+          "Travail": 0.002,
+          "Études": 0.001,
+          "Sport": 0.0,
+          "Santé": 0.0
+        },
+        "predites": [
+          "Voyage"
+        ],
+        "top1": "Voyage"
+      },
+      {
+        "id": 3,
+        "texte": "Week-end à Djerba avec mes parents, on a loué une maison près de la mer.",
+        "principale": "Voyage",
+        "attendues": [
+          "Famille",
+          "Voyage"
+        ],
+        "scores": {
+          "Voyage": 0.368,
+          "Loisirs": 0.354,
+          "Famille": 0.276,
+          "Amis": 0.001,
+          "Études": 0.0,
+          "Travail": 0.0,
+          "Sport": 0.0,
+          "Santé": 0.0
+        },
+        "scores_autre_mode": {
+          "Loisirs": 1.0,
+          "Voyage": 1.0,
+          "Famille": 1.0,
+          "Amis": 0.026,
+          "Sport": 0.004,
+          "Études": 0.001,
+          "Santé": 0.001,
+          "Travail": 0.0
+        },
+        "predites": [
+          "Loisirs",
+          "Voyage"
+        ],
+        "top1": "Voyage"
+      },
+      {
+        "id": 4,
+        "texte": "Valise prête, demain départ pour Paris pour deux semaines de découverte.",
+        "principale": "Voyage",
+        "attendues": [
+          "Voyage"
+        ],
+        "scores": {
+          "Voyage": 0.791,
+          "Loisirs": 0.205,
+          "Amis": 0.002,
+          "Travail": 0.001,
+          "Famille": 0.001,
+          "Sport": 0.001,
+          "Santé": 0.0,
+          "Études": 0.0
+        },
+        "scores_autre_mode": {
+          "Voyage": 1.0,
+          "Loisirs": 0.999,
+          "Amis": 0.271,
+          "Famille": 0.038,
+          "Sport": 0.018,
+          "Travail": 0.004,
+          "Santé": 0.004,
+          "Études": 0.001
+        },
+        "predites": [
+          "Voyage"
+        ],
+        "top1": "Voyage"
+      },
+      {
+        "id": 5,
+        "texte": "Road trip jusqu'à Tabarka avec la bande, musique à fond dans la voiture.",
+        "principale": "Voyage",
+        "attendues": [
+          "Amis",
+          "Voyage"
+        ],
+        "scores": {
+          "Voyage": 0.607,
+          "Loisirs": 0.383,
+          "Sport": 0.008,
+          "Famille": 0.001,
+          "Travail": 0.001,
+          "Amis": 0.0,
+          "Études": 0.0,
+          "Santé": 0.0
+        },
+        "scores_autre_mode": {
+          "Voyage": 1.0,
+          "Loisirs": 1.0,
+          "Sport": 0.647,
+          "Famille": 0.112,
+          "Travail": 0.008,
+          "Amis": 0.006,
+          "Études": 0.001,
+          "Santé": 0.0
+        },
+        "predites": [
+          "Loisirs",
+          "Voyage"
+        ],
+        "top1": "Voyage"
+      },
+      {
+        "id": 6,
+        "texte": "Ma mère et ma sœur ont préparé le repas de l'Aïd, toute la famille était réunie.",
+        "principale": "Famille",
+        "attendues": [
+          "Famille"
+        ],
+        "scores": {
+          "Famille": 0.734,
+          "Voyage": 0.264,
+          "Études": 0.001,
+          "Amis": 0.0,
+          "Travail": 0.0,
+          "Loisirs": 0.0,
+          "Santé": 0.0,
+          "Sport": 0.0
+        },
+        "scores_autre_mode": {
+          "Famille": 1.0,
+          "Voyage": 0.999,
+          "Études": 0.002,
+          "Amis": 0.001,
+          "Santé": 0.001,
+          "Travail": 0.001,
+          "Loisirs": 0.0,
+          "Sport": 0.0
+        },
+        "predites": [
+          "Famille"
+        ],
+        "top1": "Famille"
+      },
+      {
+        "id": 7,
+        "texte": "Mon petit frère a fait ses premiers pas aujourd'hui, papa a tout filmé.",
+        "principale": "Famille",
+        "attendues": [
+          "Famille"
+        ],
+        "scores": {
+          "Famille": 0.811,
+          "Voyage": 0.126,
+          "Loisirs": 0.034,
+          "Travail": 0.011,
+          "Amis": 0.006,
+          "Sport": 0.005,
+          "Études": 0.005,
+          "Santé": 0.004
+        },
+        "scores_autre_mode": {
+          "Famille": 1.0,
+          "Voyage": 0.997,
+          "Loisirs": 0.994,
+          "Sport": 0.941,
+          "Santé": 0.895,
+          "Travail": 0.712,
+          "Études": 0.577,
+          "Amis": 0.053
+        },
+        "predites": [
+          "Famille"
+        ],
+        "top1": "Famille"
+      },
+      {
+        "id": 8,
+        "texte": "Visite à ma grand-mère à l'hôpital, elle va mieux et nous a raconté des histoires.",
+        "principale": "Famille",
+        "attendues": [
+          "Famille",
+          "Santé"
+        ],
+        "scores": {
+          "Famille": 0.372,
+          "Santé": 0.348,
+          "Voyage": 0.28,
+          "Études": 0.0,
+          "Loisirs": 0.0,
+          "Travail": 0.0,
+          "Amis": 0.0,
+          "Sport": 0.0
+        },
+        "scores_autre_mode": {
+          "Famille": 1.0,
+          "Santé": 1.0,
+          "Voyage": 1.0,
+          "Études": 0.001,
+          "Travail": 0.0,
+          "Loisirs": 0.0,
+          "Amis": 0.0,
+          "Sport": 0.0
+        },
+        "predites": [
+          "Famille",
+          "Santé"
+        ],
+        "top1": "Famille"
+      },
+      {
+        "id": 9,
+        "texte": "Dispute avec mes parents au sujet de mes sorties le soir.",
+        "principale": "Famille",
+        "attendues": [
+          "Famille"
+        ],
+        "scores": {
+          "Famille": 0.412,
+          "Loisirs": 0.317,
+          "Voyage": 0.262,
+          "Sport": 0.008,
+          "Amis": 0.001,
+          "Études": 0.0,
+          "Santé": 0.0,
+          "Travail": 0.0
+        },
+        "scores_autre_mode": {
+          "Famille": 1.0,
+          "Loisirs": 1.0,
+          "Voyage": 1.0,
+          "Sport": 0.638,
+          "Amis": 0.004,
+          "Études": 0.003,
+          "Santé": 0.002,
+          "Travail": 0.001
+        },
+        "predites": [
+          "Famille",
+          "Loisirs"
+        ],
+        "top1": "Famille"
+      },
+      {
+        "id": 10,
+        "texte": "Mon oncle est rentré du Canada, on a fêté son retour chez mes cousins.",
+        "principale": "Famille",
+        "attendues": [
+          "Famille"
+        ],
+        "scores": {
+          "Voyage": 0.549,
+          "Famille": 0.443,
+          "Études": 0.002,
+          "Amis": 0.002,
+          "Travail": 0.002,
+          "Loisirs": 0.001,
+          "Santé": 0.0,
+          "Sport": 0.0
+        },
+        "scores_autre_mode": {
+          "Famille": 1.0,
+          "Voyage": 1.0,
+          "Travail": 0.75,
+          "Études": 0.654,
+          "Loisirs": 0.394,
+          "Santé": 0.09,
+          "Amis": 0.022,
+          "Sport": 0.019
+        },
+        "predites": [
+          "Famille",
+          "Voyage"
+        ],
+        "top1": "Voyage"
+      },
+      {
+        "id": 11,
+        "texte": "Examen de mathématiques ce matin, j'ai bien révisé les intégrales.",
+        "principale": "Études",
+        "attendues": [
+          "Études"
+        ],
+        "scores": {
+          "Études": 0.771,
+          "Travail": 0.227,
+          "Amis": 0.0,
+          "Voyage": 0.0,
+          "Loisirs": 0.0,
+          "Famille": 0.0,
+          "Santé": 0.0,
+          "Sport": 0.0
+        },
+        "scores_autre_mode": {
+          "Études": 0.999,
+          "Travail": 0.991,
+          "Amis": 0.0,
+          "Voyage": 0.0,
+          "Famille": 0.0,
+          "Loisirs": 0.0,
+          "Santé": 0.0,
+          "Sport": 0.0
+        },
+        "predites": [
+          "Études"
+        ],
+        "top1": "Études"
+      },
+      {
+        "id": 12,
+        "texte": "Exposé en classe sur l'intelligence artificielle, le professeur m'a félicité.",
+        "principale": "Études",
+        "attendues": [
+          "Études"
+        ],
+        "scores": {
+          "Études": 0.681,
+          "Travail": 0.116,
+          "Voyage": 0.045,
+          "Amis": 0.038,
+          "Loisirs": 0.036,
+          "Sport": 0.031,
+          "Famille": 0.026,
+          "Santé": 0.025
+        },
+        "scores_autre_mode": {
+          "Études": 0.029,
+          "Travail": 0.001,
+          "Voyage": 0.0,
+          "Amis": 0.0,
+          "Loisirs": 0.0,
+          "Sport": 0.0,
+          "Famille": 0.0,
+          "Santé": 0.0
+        },
+        "predites": [
+          "Études"
+        ],
+        "top1": "Études"
+      },
+      {
+        "id": 13,
+        "texte": "Toute la soirée à la bibliothèque pour finir mon mémoire de fin d'année.",
+        "principale": "Études",
+        "attendues": [
+          "Études"
+        ],
+        "scores": {
+          "Travail": 0.624,
+          "Études": 0.374,
+          "Loisirs": 0.001,
+          "Famille": 0.0,
+          "Voyage": 0.0,
+          "Amis": 0.0,
+          "Santé": 0.0,
+          "Sport": 0.0
+        },
+        "scores_autre_mode": {
+          "Travail": 0.999,
+          "Études": 0.999,
+          "Famille": 0.146,
+          "Voyage": 0.015,
+          "Loisirs": 0.005,
+          "Santé": 0.004,
+          "Amis": 0.004,
+          "Sport": 0.0
+        },
+        "predites": [
+          "Travail",
+          "Études"
+        ],
+        "top1": "Travail"
+      },
+      {
+        "id": 14,
+        "texte": "Les résultats du semestre sont tombés, j'ai validé toutes mes matières.",
+        "principale": "Études",
+        "attendues": [
+          "Études"
+        ],
+        "scores": {
+          "Travail": 0.515,
+          "Études": 0.484,
+          "Santé": 0.0,
+          "Sport": 0.0,
+          "Famille": 0.0,
+          "Voyage": 0.0,
+          "Amis": 0.0,
+          "Loisirs": 0.0
+        },
+        "scores_autre_mode": {
+          "Travail": 1.0,
+          "Études": 1.0,
+          "Santé": 0.577,
+          "Sport": 0.359,
+          "Famille": 0.318,
+          "Loisirs": 0.001,
+          "Amis": 0.0,
+          "Voyage": 0.0
+        },
+        "predites": [
+          "Travail",
+          "Études"
+        ],
+        "top1": "Travail"
+      },
+      {
+        "id": 15,
+        "texte": "Projet Django en équipe à l'université, on a enfin terminé les tests.",
+        "principale": "Études",
+        "attendues": [
+          "Études"
+        ],
+        "scores": {
+          "Travail": 0.609,
+          "Études": 0.389,
+          "Sport": 0.0,
+          "Voyage": 0.0,
+          "Amis": 0.0,
+          "Loisirs": 0.0,
+          "Santé": 0.0,
+          "Famille": 0.0
+        },
+        "scores_autre_mode": {
+          "Travail": 1.0,
+          "Études": 0.999,
+          "Sport": 0.001,
+          "Voyage": 0.001,
+          "Santé": 0.001,
+          "Amis": 0.001,
+          "Loisirs": 0.0,
+          "Famille": 0.0
+        },
+        "predites": [
+          "Travail",
+          "Études"
+        ],
+        "top1": "Travail"
+      },
+      {
+        "id": 16,
+        "texte": "Réunion avec le client au bureau, il veut la nouvelle version avant vendredi.",
+        "principale": "Travail",
+        "attendues": [
+          "Travail"
+        ],
+        "scores": {
+          "Travail": 0.991,
+          "Études": 0.006,
+          "Amis": 0.001,
+          "Voyage": 0.001,
+          "Santé": 0.001,
+          "Famille": 0.0,
+          "Loisirs": 0.0,
+          "Sport": 0.0
+        },
+        "scores_autre_mode": {
+          "Travail": 1.0,
+          "Santé": 0.578,
+          "Famille": 0.145,
+          "Études": 0.126,
+          "Amis": 0.002,
+          "Voyage": 0.001,
+          "Sport": 0.001,
+          "Loisirs": 0.0
+        },
+        "predites": [
+          "Travail"
+        ],
+        "top1": "Travail"
+      },
+      {
+        "id": 17,
+        "texte": "Premier jour dans ma nouvelle entreprise, mon manager m'a présenté l'équipe.",
+        "principale": "Travail",
+        "attendues": [
+          "Travail"
+        ],
+        "scores": {
+          "Travail": 0.997,
+          "Voyage": 0.002,
+          "Études": 0.0,
+          "Loisirs": 0.0,
+          "Amis": 0.0,
+          "Famille": 0.0,
+          "Sport": 0.0,
+          "Santé": 0.0
+        },
+        "scores_autre_mode": {
+          "Travail": 1.0,
+          "Voyage": 0.011,
+          "Études": 0.001,
+          "Santé": 0.001,
+          "Sport": 0.0,
+          "Loisirs": 0.0,
+          "Amis": 0.0,
+          "Famille": 0.0
+        },
+        "predites": [
+          "Travail"
+        ],
+        "top1": "Travail"
+      },
+      {
+        "id": 18,
+        "texte": "Entretien d'embauche pour un poste de développeur, je croise les doigts.",
+        "principale": "Travail",
+        "attendues": [
+          "Travail"
+        ],
+        "scores": {
+          "Travail": 0.997,
+          "Voyage": 0.001,
+          "Études": 0.001,
+          "Loisirs": 0.0,
+          "Amis": 0.0,
+          "Famille": 0.0,
+          "Sport": 0.0,
+          "Santé": 0.0
+        },
+        "scores_autre_mode": {
+          "Travail": 1.0,
+          "Voyage": 0.002,
+          "Études": 0.002,
+          "Amis": 0.001,
+          "Loisirs": 0.001,
+          "Famille": 0.0,
+          "Sport": 0.0,
+          "Santé": 0.0
+        },
+        "predites": [
+          "Travail"
+        ],
+        "top1": "Travail"
+      },
+      {
+        "id": 19,
+        "texte": "Heures supplémentaires ce soir pour livrer le rapport à mon chef.",
+        "principale": "Travail",
+        "attendues": [
+          "Travail"
+        ],
+        "scores": {
+          "Travail": 0.907,
+          "Études": 0.092,
+          "Voyage": 0.0,
+          "Santé": 0.0,
+          "Loisirs": 0.0,
+          "Amis": 0.0,
+          "Famille": 0.0,
+          "Sport": 0.0
+        },
+        "scores_autre_mode": {
+          "Travail": 1.0,
+          "Études": 0.999,
+          "Santé": 0.62,
+          "Voyage": 0.403,
+          "Famille": 0.113,
+          "Sport": 0.029,
+          "Loisirs": 0.0,
+          "Amis": 0.0
+        },
+        "predites": [
+          "Travail"
+        ],
+        "top1": "Travail"
+      },
+      {
+        "id": 20,
+        "texte": "J'ai reçu mon premier salaire, je vais pouvoir aider mes parents.",
+        "principale": "Travail",
+        "attendues": [
+          "Famille",
+          "Travail"
+        ],
+        "scores": {
+          "Travail": 0.628,
+          "Famille": 0.368,
+          "Études": 0.001,
+          "Voyage": 0.001,
+          "Santé": 0.001,
+          "Loisirs": 0.001,
+          "Amis": 0.0,
+          "Sport": 0.0
+        },
+        "scores_autre_mode": {
+          "Famille": 1.0,
+          "Travail": 1.0,
+          "Voyage": 0.651,
+          "Santé": 0.612,
+          "Études": 0.537,
+          "Sport": 0.007,
+          "Loisirs": 0.006,
+          "Amis": 0.001
+        },
+        "predites": [
+          "Famille",
+          "Travail"
+        ],
+        "top1": "Travail"
+      },
+      {
+        "id": 21,
+        "texte": "Dix kilomètres de course à pied autour du lac, nouveau record personnel.",
+        "principale": "Sport",
+        "attendues": [
+          "Sport"
+        ],
+        "scores": {
+          "Sport": 0.349,
+          "Voyage": 0.332,
+          "Loisirs": 0.318,
+          "Études": 0.0,
+          "Santé": 0.0,
+          "Travail": 0.0,
+          "Famille": 0.0,
+          "Amis": 0.0
+        },
+        "scores_autre_mode": {
+          "Sport": 1.0,
+          "Loisirs": 1.0,
+          "Voyage": 1.0,
+          "Santé": 0.677,
+          "Famille": 0.005,
+          "Études": 0.002,
+          "Amis": 0.002,
+          "Travail": 0.001
+        },
+        "predites": [
+          "Loisirs",
+          "Sport",
+          "Voyage"
+        ],
+        "top1": "Sport"
+      },
+      {
+        "id": 22,
+        "texte": "Séance de musculation à la salle, mes jambes ne me portent plus.",
+        "principale": "Sport",
+        "attendues": [
+          "Sport"
+        ],
+        "scores": {
+          "Sport": 0.554,
+          "Santé": 0.268,
+          "Loisirs": 0.174,
+          "Études": 0.001,
+          "Travail": 0.001,
+          "Amis": 0.001,
+          "Famille": 0.0,
+          "Voyage": 0.0
+        },
+        "scores_autre_mode": {
+          "Sport": 1.0,
+          "Santé": 1.0,
+          "Loisirs": 0.997,
+          "Études": 0.01,
+          "Travail": 0.006,
+          "Amis": 0.006,
+          "Famille": 0.002,
+          "Voyage": 0.001
+        },
+        "predites": [
+          "Sport"
+        ],
+        "top1": "Sport"
+      },
+      {
+        "id": 23,
+        "texte": "Match de football avec les voisins, nous avons gagné trois à un.",
+        "principale": "Sport",
+        "attendues": [
+          "Amis",
+          "Sport"
+        ],
+        "scores": {
+          "Sport": 0.861,
+          "Famille": 0.129,
+          "Amis": 0.004,
+          "Voyage": 0.003,
+          "Loisirs": 0.001,
+          "Études": 0.001,
+          "Travail": 0.001,
+          "Santé": 0.0
+        },
+        "scores_autre_mode": {
+          "Sport": 1.0,
+          "Famille": 0.992,
+          "Amis": 0.041,
+          "Voyage": 0.021,
+          "Loisirs": 0.006,
+          "Études": 0.003,
+          "Travail": 0.002,
+          "Santé": 0.0
+        },
+        "predites": [
+          "Sport"
+        ],
+        "top1": "Sport"
+      },
+      {
+        "id": 24,
+        "texte": "Cours de natation à la piscine municipale, j'arrive enfin à faire le crawl.",
+        "principale": "Sport",
+        "attendues": [
+          "Sport"
+        ],
+        "scores": {
+          "Loisirs": 0.475,
+          "Sport": 0.468,
+          "Études": 0.042,
+          "Santé": 0.011,
+          "Voyage": 0.003,
+          "Famille": 0.001,
+          "Travail": 0.001,
+          "Amis": 0.0
+        },
+        "scores_autre_mode": {
+          "Sport": 1.0,
+          "Loisirs": 1.0,
+          "Santé": 0.995,
+          "Études": 0.958,
+          "Voyage": 0.084,
+          "Famille": 0.015,
+          "Amis": 0.005,
+          "Travail": 0.004
+        },
+        "predites": [
+          "Loisirs",
+          "Sport"
+        ],
+        "top1": "Loisirs"
+      },
+      {
+        "id": 25,
+        "texte": "Randonnée de six heures dans les montagnes de Zaghouan.",
+        "principale": "Sport",
+        "attendues": [
+          "Loisirs",
+          "Sport"
+        ],
+        "scores": {
+          "Voyage": 0.385,
+          "Loisirs": 0.327,
+          "Sport": 0.287,
+          "Famille": 0.0,
+          "Amis": 0.0,
+          "Santé": 0.0,
+          "Études": 0.0,
+          "Travail": 0.0
+        },
+        "scores_autre_mode": {
+          "Loisirs": 1.0,
+          "Sport": 1.0,
+          "Voyage": 1.0,
+          "Santé": 0.292,
+          "Famille": 0.015,
+          "Amis": 0.005,
+          "Études": 0.001,
+          "Travail": 0.001
+        },
+        "predites": [
+          "Loisirs",
+          "Voyage"
+        ],
+        "top1": "Voyage"
+      },
+      {
+        "id": 26,
+        "texte": "Soirée pizza chez Nadia avec tous mes copains de lycée.",
+        "principale": "Amis",
+        "attendues": [
+          "Amis"
+        ],
+        "scores": {
+          "Amis": 0.58,
+          "Loisirs": 0.416,
+          "Études": 0.001,
+          "Voyage": 0.001,
+          "Famille": 0.001,
+          "Travail": 0.0,
+          "Santé": 0.0,
+          "Sport": 0.0
+        },
+        "scores_autre_mode": {
+          "Amis": 1.0,
+          "Loisirs": 0.999,
+          "Études": 0.002,
+          "Voyage": 0.002,
+          "Famille": 0.001,
+          "Santé": 0.0,
+          "Travail": 0.0,
+          "Sport": 0.0
+        },
+        "predites": [
+          "Amis",
+          "Loisirs"
+        ],
+        "top1": "Amis"
+      },
+      {
+        "id": 27,
+        "texte": "Karim m'a appelé pour me remonter le moral, c'est un vrai ami.",
+        "principale": "Amis",
+        "attendues": [
+          "Amis"
+        ],
+        "scores": {
+          "Amis": 0.535,
+          "Santé": 0.427,
+          "Loisirs": 0.036,
+          "Sport": 0.001,
+          "Travail": 0.001,
+          "Voyage": 0.0,
+          "Études": 0.0,
+          "Famille": 0.0
+        },
+        "scores_autre_mode": {
+          "Amis": 1.0,
+          "Santé": 1.0,
+          "Loisirs": 0.998,
+          "Sport": 0.911,
+          "Travail": 0.754,
+          "Voyage": 0.64,
+          "Études": 0.139,
+          "Famille": 0.02
+        },
+        "predites": [
+          "Amis",
+          "Santé"
+        ],
+        "top1": "Amis"
+      },
+      {
+        "id": 28,
+        "texte": "Anniversaire surprise pour Sami, toute la bande était là.",
+        "principale": "Amis",
+        "attendues": [
+          "Amis"
+        ],
+        "scores": {
+          "Amis": 0.679,
+          "Famille": 0.273,
+          "Loisirs": 0.023,
+          "Voyage": 0.013,
+          "Travail": 0.008,
+          "Études": 0.002,
+          "Sport": 0.001,
+          "Santé": 0.001
+        },
+        "scores_autre_mode": {
+          "Amis": 0.999,
+          "Famille": 0.995,
+          "Loisirs": 0.432,
+          "Voyage": 0.184,
+          "Travail": 0.041,
+          "Études": 0.006,
+          "Sport": 0.002,
+          "Santé": 0.0
+        },
+        "predites": [
+          "Amis"
+        ],
+        "top1": "Amis"
+      },
+      {
+        "id": 29,
+        "texte": "Café en terrasse avec Leïla, on a parlé pendant des heures.",
+        "principale": "Amis",
+        "attendues": [
+          "Amis"
+        ],
+        "scores": {
+          "Amis": 0.372,
+          "Loisirs": 0.27,
+          "Famille": 0.095,
+          "Travail": 0.082,
+          "Voyage": 0.076,
+          "Santé": 0.056,
+          "Études": 0.032,
+          "Sport": 0.017
+        },
+        "scores_autre_mode": {
+          "Amis": 0.826,
+          "Famille": 0.507,
+          "Santé": 0.281,
+          "Loisirs": 0.162,
+          "Voyage": 0.005,
+          "Travail": 0.002,
+          "Études": 0.0,
+          "Sport": 0.0
+        },
+        "predites": [
+          "Amis"
+        ],
+        "top1": "Amis"
+      },
+      {
+        "id": 30,
+        "texte": "Je me suis réconcilié avec Walid après notre dispute de la semaine dernière.",
+        "principale": "Amis",
+        "attendues": [
+          "Amis"
+        ],
+        "scores": {
+          "Voyage": 0.52,
+          "Amis": 0.412,
+          "Sport": 0.039,
+          "Famille": 0.014,
+          "Travail": 0.008,
+          "Études": 0.003,
+          "Loisirs": 0.002,
+          "Santé": 0.001
+        },
+        "scores_autre_mode": {
+          "Amis": 0.997,
+          "Voyage": 0.991,
+          "Sport": 0.678,
+          "Famille": 0.585,
+          "Travail": 0.077,
+          "Études": 0.005,
+          "Santé": 0.005,
+          "Loisirs": 0.001
+        },
+        "predites": [
+          "Amis",
+          "Voyage"
+        ],
+        "top1": "Voyage"
+      },
+      {
+        "id": 31,
+        "texte": "J'ai de la fièvre et mal à la gorge, rendez-vous chez le médecin demain.",
+        "principale": "Santé",
+        "attendues": [
+          "Santé"
+        ],
+        "scores": {
+          "Santé": 0.978,
+          "Famille": 0.007,
+          "Travail": 0.007,
+          "Voyage": 0.005,
+          "Études": 0.002,
+          "Loisirs": 0.0,
+          "Sport": 0.0,
+          "Amis": 0.0
+        },
+        "scores_autre_mode": {
+          "Santé": 1.0,
+          "Famille": 0.954,
+          "Travail": 0.923,
+          "Études": 0.637,
+          "Voyage": 0.57,
+          "Amis": 0.001,
+          "Loisirs": 0.001,
+          "Sport": 0.001
+        },
+        "predites": [
+          "Santé"
+        ],
+        "top1": "Santé"
+      },
+      {
+        "id": 32,
+        "texte": "Prise de sang ce matin à jeun, les résultats sont normaux.",
+        "principale": "Santé",
+        "attendues": [
+          "Santé"
+        ],
+        "scores": {
+          "Études": 0.67,
+          "Santé": 0.305,
+          "Sport": 0.015,
+          "Travail": 0.004,
+          "Famille": 0.004,
+          "Loisirs": 0.001,
+          "Voyage": 0.001,
+          "Amis": 0.001
+        },
+        "scores_autre_mode": {
+          "Études": 1.0,
+          "Santé": 1.0,
+          "Sport": 0.922,
+          "Famille": 0.866,
+          "Travail": 0.155,
+          "Voyage": 0.005,
+          "Amis": 0.002,
+          "Loisirs": 0.002
+        },
+        "predites": [
+          "Santé",
+          "Études"
+        ],
+        "top1": "Études"
+      },
+      {
+        "id": 33,
+        "texte": "Je n'arrive plus à dormir, la fatigue s'accumule depuis une semaine.",
+        "principale": "Santé",
+        "attendues": [
+          "Santé"
+        ],
+        "scores": {
+          "Santé": 0.909,
+          "Sport": 0.071,
+          "Travail": 0.011,
+          "Études": 0.003,
+          "Famille": 0.002,
+          "Voyage": 0.002,
+          "Loisirs": 0.001,
+          "Amis": 0.0
+        },
+        "scores_autre_mode": {
+          "Santé": 1.0,
+          "Sport": 0.993,
+          "Travail": 0.972,
+          "Études": 0.565,
+          "Famille": 0.306,
+          "Voyage": 0.218,
+          "Amis": 0.002,
+          "Loisirs": 0.001
+        },
+        "predites": [
+          "Santé"
+        ],
+        "top1": "Santé"
+      },
+      {
+        "id": 34,
+        "texte": "Rendez-vous chez le dentiste pour soigner une carie, j'avais très peur.",
+        "principale": "Santé",
+        "attendues": [
+          "Santé"
+        ],
+        "scores": {
+          "Santé": 0.983,
+          "Études": 0.008,
+          "Voyage": 0.003,
+          "Travail": 0.003,
+          "Famille": 0.002,
+          "Amis": 0.001,
+          "Loisirs": 0.0,
+          "Sport": 0.0
+        },
+        "scores_autre_mode": {
+          "Santé": 1.0,
+          "Études": 0.245,
+          "Voyage": 0.03,
+          "Travail": 0.017,
+          "Famille": 0.009,
+          "Amis": 0.001,
+          "Loisirs": 0.0,
+          "Sport": 0.0
+        },
+        "predites": [
+          "Santé"
+        ],
+        "top1": "Santé"
+      },
+      {
+        "id": 35,
+        "texte": "J'ai commencé un régime plus équilibré avec plus de légumes et moins de sucre.",
+        "principale": "Santé",
+        "attendues": [
+          "Santé"
+        ],
+        "scores": {
+          "Santé": 0.631,
+          "Travail": 0.301,
+          "Famille": 0.039,
+          "Sport": 0.009,
+          "Études": 0.008,
+          "Amis": 0.007,
+          "Voyage": 0.002,
+          "Loisirs": 0.002
+        },
+        "scores_autre_mode": {
+          "Santé": 1.0,
+          "Travail": 0.971,
+          "Famille": 0.891,
+          "Études": 0.167,
+          "Amis": 0.133,
+          "Voyage": 0.014,
+          "Sport": 0.01,
+          "Loisirs": 0.0
+        },
+        "predites": [
+          "Santé",
+          "Travail"
+        ],
+        "top1": "Santé"
+      },
+      {
+        "id": 36,
+        "texte": "J'ai regardé trois épisodes de ma série préférée sous la couverture.",
+        "principale": "Loisirs",
+        "attendues": [
+          "Loisirs"
+        ],
+        "scores": {
+          "Loisirs": 0.239,
+          "Famille": 0.218,
+          "Voyage": 0.116,
+          "Amis": 0.111,
+          "Santé": 0.106,
+          "Sport": 0.096,
+          "Travail": 0.066,
+          "Études": 0.047
+        },
+        "scores_autre_mode": {
+          "Famille": 0.245,
+          "Loisirs": 0.126,
+          "Voyage": 0.048,
+          "Santé": 0.041,
+          "Amis": 0.037,
+          "Sport": 0.033,
+          "Travail": 0.001,
+          "Études": 0.001
+        },
+        "predites": [],
+        "top1": "Loisirs"
+      },
+      {
+        "id": 37,
+        "texte": "Après-midi peinture à l'aquarelle sur le balcon, j'ai dessiné le coucher de soleil.",
+        "principale": "Loisirs",
+        "attendues": [
+          "Loisirs"
+        ],
+        "scores": {
+          "Travail": 0.972,
+          "Loisirs": 0.026,
+          "Études": 0.001,
+          "Famille": 0.0,
+          "Voyage": 0.0,
+          "Sport": 0.0,
+          "Amis": 0.0,
+          "Santé": 0.0
+        },
+        "scores_autre_mode": {
+          "Travail": 1.0,
+          "Loisirs": 0.939,
+          "Famille": 0.228,
+          "Amis": 0.009,
+          "Santé": 0.001,
+          "Études": 0.0,
+          "Voyage": 0.0,
+          "Sport": 0.0
+        },
+        "predites": [
+          "Travail"
+        ],
+        "top1": "Travail"
+      },
+      {
+        "id": 38,
+        "texte": "Concert de jazz au théâtre municipal, superbe ambiance.",
+        "principale": "Loisirs",
+        "attendues": [
+          "Loisirs"
+        ],
+        "scores": {
+          "Loisirs": 0.979,
+          "Travail": 0.009,
+          "Voyage": 0.004,
+          "Études": 0.003,
+          "Famille": 0.002,
+          "Amis": 0.001,
+          "Sport": 0.001,
+          "Santé": 0.001
+        },
+        "scores_autre_mode": {
+          "Loisirs": 0.999,
+          "Voyage": 0.251,
+          "Famille": 0.142,
+          "Amis": 0.062,
+          "Travail": 0.054,
+          "Études": 0.003,
+          "Santé": 0.0,
+          "Sport": 0.0
+        },
+        "predites": [
+          "Loisirs"
+        ],
+        "top1": "Loisirs"
+      },
+      {
+        "id": 39,
+        "texte": "J'ai fini un roman policier passionnant en une seule nuit.",
+        "principale": "Loisirs",
+        "attendues": [
+          "Loisirs"
+        ],
+        "scores": {
+          "Travail": 0.325,
+          "Loisirs": 0.165,
+          "Voyage": 0.135,
+          "Études": 0.113,
+          "Famille": 0.093,
+          "Sport": 0.08,
+          "Amis": 0.046,
+          "Santé": 0.043
+        },
+        "scores_autre_mode": {
+          "Travail": 0.002,
+          "Voyage": 0.001,
+          "Loisirs": 0.001,
+          "Études": 0.0,
+          "Famille": 0.0,
+          "Amis": 0.0,
+          "Sport": 0.0,
+          "Santé": 0.0
+        },
+        "predites": [
+          "Travail"
+        ],
+        "top1": "Travail"
+      },
+      {
+        "id": 40,
+        "texte": "Partie de jeux vidéo en ligne jusqu'à deux heures du matin.",
+        "principale": "Loisirs",
+        "attendues": [
+          "Loisirs"
+        ],
+        "scores": {
+          "Loisirs": 0.998,
+          "Famille": 0.0,
+          "Amis": 0.0,
+          "Travail": 0.0,
+          "Sport": 0.0,
+          "Études": 0.0,
+          "Santé": 0.0,
+          "Voyage": 0.0
+        },
+        "scores_autre_mode": {
+          "Loisirs": 1.0,
+          "Amis": 0.002,
+          "Famille": 0.001,
+          "Travail": 0.0,
+          "Voyage": 0.0,
+          "Santé": 0.0,
+          "Sport": 0.0,
+          "Études": 0.0
+        },
+        "predites": [
+          "Loisirs"
+        ],
+        "top1": "Loisirs"
+      }
+    ],
+    "etiquettes": [
+      "Voyage",
+      "Famille",
+      "Études",
+      "Travail",
+      "Sport",
+      "Amis",
+      "Santé",
+      "Loisirs"
+    ],
+    "seuil_utilise": 0.3,
+    "seuil_optimal": 0.3,
+    "multi_label": false,
+    "autre_mode": {
+      "multi_label": true,
+      "seuil_optimal": 0.95,
+      "a_0_5": [
+        0.383,
+        0.891,
+        0.536
+      ],
+      "au_meilleur_seuil": [
+        0.506,
+        0.848,
+        0.634
+      ]
+    },
+    "par_seuil": [
+      {
+        "seuil": 0.1,
+        "precision": 0.531,
+        "recall": 0.935,
+        "f1": 0.677
+      },
+      {
+        "seuil": 0.15,
+        "precision": 0.589,
+        "recall": 0.935,
+        "f1": 0.723
+      },
+      {
+        "seuil": 0.2,
+        "precision": 0.592,
+        "recall": 0.913,
+        "f1": 0.718
+      },
+      {
+        "seuil": 0.25,
+        "precision": 0.612,
+        "recall": 0.891,
+        "f1": 0.726
+      },
+      {
+        "seuil": 0.3,
+        "precision": 0.672,
+        "recall": 0.848,
+        "f1": 0.75
+      },
+      {
+        "seuil": 0.35,
+        "precision": 0.729,
+        "recall": 0.761,
+        "f1": 0.745
+      },
+      {
+        "seuil": 0.4,
+        "precision": 0.737,
+        "recall": 0.609,
+        "f1": 0.667
+      },
+      {
+        "seuil": 0.45,
+        "precision": 0.758,
+        "recall": 0.543,
+        "f1": 0.633
+      },
+      {
+        "seuil": 0.5,
+        "precision": 0.767,
+        "recall": 0.5,
+        "f1": 0.605
+      },
+      {
+        "seuil": 0.55,
+        "precision": 0.846,
+        "recall": 0.478,
+        "f1": 0.611
+      },
+      {
+        "seuil": 0.6,
+        "precision": 0.833,
+        "recall": 0.435,
+        "f1": 0.571
+      },
+      {
+        "seuil": 0.65,
+        "precision": 0.895,
+        "recall": 0.37,
+        "f1": 0.523
+      },
+      {
+        "seuil": 0.7,
+        "precision": 0.938,
+        "recall": 0.326,
+        "f1": 0.484
+      },
+      {
+        "seuil": 0.75,
+        "precision": 0.933,
+        "recall": 0.304,
+        "f1": 0.459
+      },
+      {
+        "seuil": 0.8,
+        "precision": 0.923,
+        "recall": 0.261,
+        "f1": 0.407
+      },
+      {
+        "seuil": 0.85,
+        "precision": 0.917,
+        "recall": 0.239,
+        "f1": 0.379
+      },
+      {
+        "seuil": 0.9,
+        "precision": 0.909,
+        "recall": 0.217,
+        "f1": 0.351
+      },
+      {
+        "seuil": 0.95,
+        "precision": 0.875,
+        "recall": 0.152,
+        "f1": 0.259
+      }
+    ],
+    "par_etiquette": {
+      "Voyage": {
+        "precision": 0.56,
+        "recall": 1.0,
+        "f1-score": 0.71,
+        "support": 5.0
+      },
+      "Famille": {
+        "precision": 1.0,
+        "recall": 0.86,
+        "f1-score": 0.92,
+        "support": 7.0
+      },
+      "Études": {
+        "precision": 0.83,
+        "recall": 1.0,
+        "f1-score": 0.91,
+        "support": 5.0
+      },
+      "Travail": {
+        "precision": 0.45,
+        "recall": 1.0,
+        "f1-score": 0.62,
+        "support": 5.0
+      },
+      "Sport": {
+        "precision": 1.0,
+        "recall": 0.8,
+        "f1-score": 0.89,
+        "support": 5.0
+      },
+      "Amis": {
+        "precision": 1.0,
+        "recall": 0.71,
+        "f1-score": 0.83,
+        "support": 7.0
+      },
+      "Santé": {
+        "precision": 0.86,
+        "recall": 1.0,
+        "f1-score": 0.92,
+        "support": 6.0
+      },
+      "Loisirs": {
+        "precision": 0.3,
+        "recall": 0.5,
+        "f1-score": 0.38,
+        "support": 6.0
+      }
+    },
+    "micro": {
+      "precision": 0.672,
+      "recall": 0.848,
+      "f1-score": 0.75
+    },
+    "macro": {
+      "precision": 0.75,
+      "recall": 0.859,
+      "f1-score": 0.774
+    },
+    "exactes": 20,
+    "top1_juste": 30,
+    "matrice": [
+      [
+        5,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        4,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        2,
+        3,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        5,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        4,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        4,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        3
+      ]
+    ],
+    "moteurs": [
+      "mDeBERTa zero-shot (local)"
+    ],
+    "temps": {
+      "moyenne_ms": 4371,
+      "max_ms": 4866,
+      "n": 39
+    },
+    "premier_appel_ms": 13701
+  }
+}
