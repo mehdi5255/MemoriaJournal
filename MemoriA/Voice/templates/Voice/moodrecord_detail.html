@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Humeur du {{ mood.record_date|date:"j F Y" }} : {{ mood.get_emotion_display }}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'voice:mood_list' %}">Voix et humeur</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Humeur du {{ mood.record_date|date:"j F" }}</li>
+{% endblock %}
+{% block page_title %}{{ mood.get_emotion_display }} le {{ mood.record_date|date:"j F Y" }}{% endblock %}
+
+{% block content %}
+<div class="card p-4" style="max-width: 640px;">
+    <div class="d-flex align-items-center gap-3 mb-3">
+        <span class="mood-dot mood-{{ mood.emotion|lower }}" aria-hidden="true"></span>
+        <p class="fs-5 mb-0">{{ mood.get_emotion_display }} · intensité {{ mood.score|floatformat:2 }}</p>
+    </div>
+    <dl class="row mb-4">
+        <dt class="col-sm-4">Source</dt>
+        <dd class="col-sm-8">{{ mood.get_source_display }}{% if mood.source != 'Manuel' %} (détectée par l'IA){% endif %}</dd>
+        <dt class="col-sm-4">Entrée liée</dt>
+        <dd class="col-sm-8">{{ mood.entry.title|default:"Aucune" }}</dd>
+        {% if mood.voice_note %}
+            <dt class="col-sm-4">Note vocale</dt>
+            <dd class="col-sm-8"><a href="{% url 'voice:note_detail' mood.voice_note.pk %}">{{ mood.voice_note.title }}</a></dd>
+        {% endif %}
+        <dt class="col-sm-4">Note</dt>
+        <dd class="col-sm-8">{{ mood.note|linebreaksbr|default:"—" }}</dd>
+    </dl>
+    <div class="d-flex flex-wrap gap-2">
+        <a href="{% url 'voice:mood_update' mood.pk %}" class="btn btn-outline-primary">Modifier</a>
+        <a href="{% url 'voice:mood_delete' mood.pk %}" class="btn btn-outline-secondary">Supprimer</a>
+        <a href="{% url 'voice:mood_list' %}?mois={{ mood.record_date|date:'Y-m' }}" class="btn btn-link">Retour au mois</a>
+    </div>
+</div>
+{% endblock %}

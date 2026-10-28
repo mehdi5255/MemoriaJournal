@@ -1,0 +1,38 @@
+{% comment %}Dictée : la voix est transcrite (Whisper) et ajoutée au champ « Ma journée ». Script : dictation.js{% endcomment %}
+<section class="ai-block mb-3" aria-labelledby="titre-dictee" id="dictee"
+         data-url="{% url 'voice:dictation' %}" data-target="#{{ form.content.auto_id }}"
+         data-tokens="#{{ form.dictations.auto_id }}" data-max-seconds="600">
+    <h2 id="titre-dictee" class="h6 ai-label">IA · Dicter ma journée (Whisper)</h2>
+    <p class="small mb-2">Racontez votre journée à voix haute : le texte est ajouté ci-dessus et l'enregistrement
+        est gardé comme note vocale de l'entrée (10 minutes maximum).</p>
+    <div class="d-flex flex-wrap align-items-center gap-2">
+        <button type="button" class="btn btn-ai btn-sm" data-action="start">
+            <span aria-hidden="true">🎙️</span> Commencer la dictée</button>
+        <button type="button" class="btn btn-outline-secondary btn-sm" data-action="stop" disabled>
+            <span aria-hidden="true">⏹</span> Arrêter</button>
+        <span class="dictation-timer small text-muted" aria-hidden="true"></span>
+    </div>
+    <p class="dictation-status small mt-2 mb-0" role="status" aria-live="polite"></p>
+    <div class="mt-2">
+        <label for="dictee-fichier" class="form-label small mb-1">Ou importez un fichier audio (WebM, OGG, MP3, WAV, M4A)</label>
+        <input type="file" id="dictee-fichier" class="form-control form-control-sm"
+               accept="audio/webm,audio/ogg,audio/mpeg,audio/wav,audio/x-wav,audio/mp4,audio/x-m4a,.webm,.ogg,.mp3,.wav,.m4a">
+    </div>
+    <div class="dictation-zone mt-2"></div>
+    <ul class="dictation-list list-unstyled small mb-0 mt-2"></ul>
+
+    {# Zone de suivi copiée par dictation.js pour chaque enregistrement #}
+    <template class="dictation-modele">
+        <div class="ai-status my-2" role="status" aria-live="polite" aria-busy="true">
+            <p class="ai-loading mb-0 d-flex align-items-center gap-2">
+                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                <span>Transcription de votre voix…</span>
+            </p>
+            <p class="ai-success mb-0 text-success fw-bold" hidden>Texte ajouté.</p>
+            <div class="ai-error" hidden>
+                <p class="mb-2 fw-bold">La transcription a échoué.</p>
+                <button type="button" class="btn btn-ai btn-sm js-retry">Réessayer</button>
+            </div>
+        </div>
+    </template>
+</section>

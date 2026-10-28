@@ -41,3 +41,28 @@ class DailyPromptModelTest(ReminderModelsTestBase):
         DailyPrompt.objects.create(user=self.user, reminder=self.reminder, question='Première')
         with self.assertRaises(IntegrityError):
             DailyPrompt.objects.create(user=self.user, reminder=self.reminder, question='Seconde')
+
+
+class ReminderDaysTest(ReminderModelsTestBase):
+
+    def test_day_numbers(self):
+        self.reminder.days = '4,0, 2,9,x,0'
+        self.assertEqual(self.reminder.day_numbers(), [0, 2, 4])        # valeurs invalides ignorées
+
+    def test_days_label(self):
+        self.assertEqual(self.reminder.days_label(), 'tous les jours')
+        self.reminder.days = '0,1,2,3,4'
+        self.assertEqual(self.reminder.days_label(), 'en semaine')
+        self.reminder.days = '5,6'
+        self.assertEqual(self.reminder.days_label(), 'samedi, dimanche')
+        self.reminder.days = ''
+        self.assertEqual(self.reminder.days_label(), 'aucun jour')
+
+    def test_is_due_on(self):
+        from datetime import date
+        monday, sunday = date(2026, 10, 26), date(2026, 11, 1)
+        self.reminder.days = '0'
+        self.assertTrue(self.reminder.is_due_on(monday))
+        self.assertFalse(self.reminder.is_due_on(sunday))
+        self.reminder.is_active = False
+        self.assertFalse(self.reminder.is_due_on(monday))

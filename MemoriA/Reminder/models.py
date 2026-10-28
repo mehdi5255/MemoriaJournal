@@ -19,6 +19,24 @@ class Reminder(models.Model):
     last_sent = models.DateTimeField(null=True, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
 
+    DAY_NAMES = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche']
+
+    def day_numbers(self):
+        """« 0,2,4 » -> [0, 2, 4] (0 = lundi), en ignorant les valeurs invalides."""
+        return sorted({int(d) for d in self.days.split(',') if d.strip().isdigit() and 0 <= int(d) <= 6})
+
+    def days_label(self):
+        numbers = self.day_numbers()
+        if numbers == list(range(7)):
+            return 'tous les jours'
+        if numbers == list(range(5)):
+            return 'en semaine'
+        return ', '.join(self.DAY_NAMES[d] for d in numbers) or 'aucun jour'
+
+    def is_due_on(self, day):
+        """Vrai si le rappel est actif et prévu ce jour-là (day : une date)."""
+        return self.is_active and day.weekday() in self.day_numbers()
+
     def __str__(self):
         return f"{self.user.username} - {self.reminder_time}"
 

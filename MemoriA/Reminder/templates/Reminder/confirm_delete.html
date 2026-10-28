@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Supprimer : {{ object }}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'reminder:reminder_list' %}">Rappels</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Suppression</li>
+{% endblock %}
+{% block page_title %}Confirmer la suppression{% endblock %}
+
+{% block content %}
+<div class="card p-4" style="max-width: 620px;">
+    <p class="fs-5">Voulez-vous vraiment supprimer <strong>« {% if reminder %}le rappel de {{ reminder.reminder_time|time:"H:i" }}{% else %}{{ object }}{% endif %} »</strong> ?</p>
+    {% if reminder %}<p>Toutes les questions de ce rappel seront aussi supprimées. Les entrées écrites en réponse sont conservées.</p>{% endif %}
+    {% if prompt %}<p>L'entrée écrite en réponse est conservée dans votre journal.</p>{% endif %}
+    <p class="mb-4">Cette action est définitive.</p>
+    <form method="post" class="d-flex flex-wrap gap-2">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Oui, supprimer</button>
+        <a href="{% if reminder %}{% url 'reminder:reminder_detail' reminder.pk %}{% elif prompt %}{% url 'reminder:prompt_detail' prompt.pk %}{% else %}{% url 'reminder:reminder_list' %}{% endif %}" class="btn btn-outline-secondary">Non, annuler</a>
+    </form>
+</div>
+{% endblock %}

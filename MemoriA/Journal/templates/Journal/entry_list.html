@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Mes entrées{% endblock %}
+{% block breadcrumb %}<li class="breadcrumb-item active" aria-current="page">Entrées</li>{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <h1 class="mb-1">Mes entrées</h1>
+            <p class="note-manuscrite mb-0" aria-hidden="true">Toutes mes journées, page après page</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'journal:entry_create' %}" class="btn btn-primary"><span aria-hidden="true">+</span> Nouvelle entrée</a>
+            <a href="{% url 'journal:tag_list' %}" class="btn btn-outline-primary">Mes étiquettes</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+<section class="card p-3 p-md-4 mb-4" aria-labelledby="titre-filtres">
+    <h2 id="titre-filtres" class="h5 mb-3">Rechercher et filtrer</h2>
+    <form method="get" class="row g-3 align-items-end">
+        <div class="col-md-4">
+            <label for="filtre-texte" class="form-label">Mot ou expression</label>
+            <input type="search" id="filtre-texte" name="q" value="{{ current.q }}" maxlength="200" class="form-control" placeholder="Ex. plage">
+        </div>
+        <div class="col-6 col-md-2">
+            <label for="filtre-debut" class="form-label">Du</label>
+            <input type="date" id="filtre-debut" name="debut" value="{{ current.debut }}" class="form-control">
+        </div>
+        <div class="col-6 col-md-2">
+            <label for="filtre-fin" class="form-label">Au</label>
+            <input type="date" id="filtre-fin" name="fin" value="{{ current.fin }}" class="form-control">
+        </div>
+        <div class="col-md-2">
+            <label for="filtre-etiquette" class="form-label">Étiquette</label>
+            <select id="filtre-etiquette" name="etiquette" class="form-select">
+                <option value="">Toutes</option>
+                {% for tag in tags %}
+                    <option value="{{ tag.pk }}" {% if current.etiquette == tag.pk|stringformat:"s" %}selected{% endif %}>{{ tag.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-2">
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="filtre-favori" name="favori" value="1" {% if current.favori == '1' %}checked{% endif %}>
+                <label class="form-check-label" for="filtre-favori">Favoris seulement</label>
+            </div>
+        </div>
+        <fieldset class="col-12">
+            <legend class="form-label fs-6 mb-1">Type de recherche</legend>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="mode" id="mode-mots" value="" {% if current.mode != 'sens' %}checked{% endif %}>
+                <label class="form-check-label" for="mode-mots">Mots exacts (avec les filtres)</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="mode" id="mode-sens" value="sens" aria-describedby="aide-sens" {% if current.mode == 'sens' %}checked{% endif %}>
+                <label class="form-check-label" for="mode-sens">Par le sens (IA)</label>
+            </div>
+            <div id="aide-sens" class="form-text">Par le sens : « au bord de la mer » retrouve aussi une journée « à la plage ».</div>
+        </fieldset>
+        <div class="col-12 d-flex flex-wrap gap-2">
+            <button type="submit" class="btn btn-outline-secondary">Rechercher</button>
+            {% if has_filters %}<a href="{% url 'journal:entry_list' %}" class="btn btn-link">Effacer les filtres</a>{% endif %}
+        </div>
+    </form>
+</section>
+
+{% if semantic %}
+<section class="ai-block" aria-labelledby="titre-sens">
+    <h2 id="titre-sens" class="h5 ai-label mb-3">IA · Entrées proches de « {{ current.q }} »</h2>
+    {% if task_id %}
+        {% url 'journal:semantic_search' as search_url %}
+        {% include "includes/ai_status.html" with task_id=task_id label="Recherche des entrées par le sens…" success_message="Recherche terminée." error_message="La recherche par le sens a échoué." retry_url=search_url retry_data=retry_data result_target="#resultats-sens" %}
+    {% else %}
+        <form method="post" action="{% url 'journal:semantic_search' %}" class="m-0">
+            {% csrf_token %}
+            <input type="hidden" name="q" value="{{ current.q }}">
+            <button type="submit" class="btn btn-ai btn-sm">Réessayer</button>
+        </form>
+    {% endif %}
+    <div id="resultats-sens"></div>
+</section>
+{% else %}
+<section aria-labelledby="titre-resultats">
+    <h2 id="titre-resultats" class="h5 mb-3">
+        {% if has_filters %}{{ paginator.count|default:0 }} entrée{{ paginator.count|pluralize }} trouvée{{ paginator.count|pluralize }}{% else %}{{ total }} entrée{{ total|pluralize }}{% endif %}
+    </h2>
+    {% if entries %}
+        <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3">
+            {% for entry in entries %}
+                <li class="col">
+                    {% include "Journal/includes/entry_card.html" %}
+                </li>
+            {% endfor %}
+        </ul>
+        {% if is_paginated %}
+            <nav aria-label="Pagination" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}<li class="page-item"><a class="page-link" href="?{% if filters %}{{ filters }}&amp;{% endif %}page={{ page_obj.previous_page_number }}">Précédent</a></li>{% endif %}
+                    <li class="page-item active" aria-current="page"><span class="page-link">Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}</span></li>
+                    {% if page_obj.has_next %}<li class="page-item"><a class="page-link" href="?{% if filters %}{{ filters }}&amp;{% endif %}page={{ page_obj.next_page_number }}">Suivant</a></li>{% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+    {% elif has_filters %}
+        <div class="empty-state">
+            <p class="mb-3">Aucune entrée ne correspond à ces filtres.</p>
+            <a href="{% url 'journal:entry_list' %}" class="btn btn-outline-primary">Voir toutes les entrées</a>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p class="mb-3">Aucune entrée pour l'instant. Racontez votre première journée !</p>
+            <a href="{% url 'journal:entry_create' %}" class="btn btn-primary">Écrire ma première entrée</a>
+        </div>
+    {% endif %}
+</section>
+{% endif %}
+{% endblock %}

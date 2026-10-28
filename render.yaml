@@ -1,0 +1,52 @@
+# Blueprint Render : crée le site (offre gratuite) et son Redis gratuit en une seule fois.
+# Render > New > Blueprint > choisir ce dépôt. Procédure complète : docs/DEPLOIEMENT.md
+services:
+  - type: web
+    name: memoria
+    runtime: docker
+    plan: free
+    dockerCommand: sh /app/render-start.sh
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true            # clé longue et aléatoire créée par Render
+      - key: DEBUG
+        value: "False"
+      - key: REDIS_URL
+        fromService:
+          type: keyvalue
+          name: memoria-redis
+          property: connectionString
+      - key: SQLITE_PATH
+        value: /data/db.sqlite3
+      - key: SERVE_MEDIA
+        value: "True"
+      # 512 Mo de mémoire : aucun modèle IA local, uniquement les API (Hugging Face, Gemini)
+      - key: PRELOAD_AI_MODELS
+        value: "False"
+      - key: IMAGE_BACKEND
+        value: huggingface
+      - key: VOICE_BACKEND
+        value: huggingface
+      - key: FACE_BACKEND
+        value: huggingface
+      - key: REMINDER_BACKEND
+        value: huggingface
+      - key: JOURNAL_BACKEND
+        value: huggingface
+      # Secrets demandés à la création (jamais écrits dans le dépôt)
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: HF_TOKEN
+        sync: false
+      - key: DJANGO_SUPERUSER_USERNAME
+        sync: false
+      - key: DJANGO_SUPERUSER_EMAIL
+        sync: false
+      - key: DJANGO_SUPERUSER_PASSWORD
+        sync: false
+
+  - type: keyvalue
+    name: memoria-redis
+    plan: free
+    maxmemoryPolicy: noeviction        # Celery : ne jamais effacer une tâche en attente
+    ipAllowList: []                    # accessible seulement depuis les services Render

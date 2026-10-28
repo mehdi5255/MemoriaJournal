@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{% if note %}Modifier la note vocale : {{ note.title }}{% else %}Nouvelle note vocale{% endif %}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'voice:mood_list' %}">Voix et humeur</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'voice:note_list' %}">Notes vocales</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% if note %}Modifier{% else %}Nouvelle{% endif %}</li>
+{% endblock %}
+{% block page_title %}{% if note %}Modifier la note vocale{% else %}Nouvelle note vocale{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card p-4" style="max-width: 760px;">
+    {% if not note and not form.fields.entry.queryset.exists %}
+        <div class="empty-state">
+            <p class="mb-0">Une note vocale est rattachée à une entrée du journal : écrivez d'abord une entrée.</p>
+        </div>
+    {% else %}
+        {% if not note %}
+            <section class="recorder ai-block mb-4" data-recorder data-input="#id_audio" data-duration="#id_client_duration"
+                     data-max-seconds="600" aria-labelledby="titre-enregistrer">
+                <h2 id="titre-enregistrer" class="h5">Enregistrer ma voix</h2>
+                <p class="mb-2">Cliquez sur « Commencer », parlez, puis « Arrêter ». 10 minutes maximum.</p>
+                <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                    <button type="button" class="btn btn-primary" data-action="start">Commencer l'enregistrement</button>
+                    <button type="button" class="btn btn-outline-primary" data-action="stop" disabled>Arrêter</button>
+                    <span class="recorder-timer fw-bold" aria-hidden="true">00:00 / 10:00</span>
+                </div>
+                <p class="recorder-status mb-2" role="status" aria-live="polite"></p>
+                <audio controls hidden class="w-100"></audio>
+            </section>
+            <h2 class="h5">Ou importer un fichier</h2>
+        {% endif %}
+
+        <p class="text-muted">Les champs marqués d'une * sont obligatoires.</p>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% include "includes/form.html" %}
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                <a href="{% if note %}{% url 'voice:note_detail' note.pk %}{% else %}{% url 'voice:note_list' %}{% endif %}" class="btn btn-outline-secondary">Annuler</a>
+            </div>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}{% if not note %}<script src="{% static 'js/recorder.js' %}"></script>{% endif %}{% endblock %}

@@ -1,0 +1,16 @@
+{% comment %}Carte d'un récit avec son image principale (style polaroid).{% endcomment %}
+{% with image=story.main_image %}
+<article class="card h-100 p-3">
+    <figure class="polaroid mb-3">
+        {% if image %}
+            <img src="{{ image.image.url }}" alt="{{ image.prompt|truncatechars:120 }}" class="cover" loading="lazy">
+        {% else %}
+            <div class="image-placeholder" aria-hidden="true">✨</div>
+        {% endif %}
+        <figcaption>{{ story.entry.entry_date|date:"j F Y" }}</figcaption>
+    </figure>
+    <h3 class="h5 mb-1"><a href="{% url 'memory:story_detail' story.pk %}">{{ story.entry.title }}</a></h3>
+    <p class="text-muted small mb-2">Style {{ story.get_style_display|lower }} · version {{ story.version }}</p>
+    <p class="mb-0">{{ story.text|truncatewords:25 }}</p>
+</article>
+{% endwith %}

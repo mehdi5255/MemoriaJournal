@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Mes récits{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'memory:souvenirs' %}">Souvenirs</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Récits</li>
+{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <h1 class="mb-0">Mes récits</h1>
+        <a href="{% url 'memory:story_create' %}" class="btn btn-primary"><span aria-hidden="true">+</span> Nouveau récit</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+<form method="get" class="d-flex flex-wrap align-items-end gap-2 mb-4" aria-label="Filtrer les récits">
+    <div>
+        <label for="filtre-style" class="form-label">Style</label>
+        <select id="filtre-style" name="style" class="form-select">
+            <option value="">Tous les styles</option>
+            {% for value, label in styles %}
+                <option value="{{ value }}" {% if value == current_style %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-outline-secondary">Filtrer</button>
+    {% if current_style %}<a href="{% url 'memory:story_list' %}" class="btn btn-link">Effacer le filtre</a>{% endif %}
+</form>
+
+{% if stories %}
+    <h2 class="visually-hidden">Liste des récits</h2>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-4">
+        {% for story in stories %}
+            <div class="col">{% include "Memory/includes/story_card.html" %}</div>
+        {% endfor %}
+    </div>
+    {% include "Memory/includes/pagination.html" %}
+{% else %}
+    <div class="empty-state">
+        {% if current_style %}
+            <p class="mb-0">Aucun récit dans ce style.</p>
+        {% else %}
+            <p class="mb-3">Aucun récit pour l'instant.</p>
+            <a href="{% url 'memory:story_create' %}" class="btn btn-primary">Créer mon premier récit</a>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

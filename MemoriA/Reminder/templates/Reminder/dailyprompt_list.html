@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Questions du jour{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'reminder:reminder_list' %}">Rappels</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Questions</li>
+{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <h1 class="mb-0">Questions du jour</h1>
+        <a href="{% url 'reminder:prompt_create' %}" class="btn btn-primary"><span aria-hidden="true">+</span> Nouvelle question</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+<form method="get" class="d-flex flex-wrap align-items-end gap-2 mb-4" aria-label="Filtrer les questions">
+    <div>
+        <label for="filtre-statut" class="form-label">Statut</label>
+        <select id="filtre-statut" name="statut" class="form-select">
+            <option value="">Tous</option>
+            {% for value, label in statuses %}
+                <option value="{{ value }}" {% if value == current_status %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-outline-secondary">Filtrer</button>
+    {% if current_status %}<a href="{% url 'reminder:prompt_list' %}" class="btn btn-link">Effacer le filtre</a>{% endif %}
+</form>
+
+{% if prompts %}
+    <div class="table-responsive card p-3">
+        <table class="table align-middle mb-0">
+            <caption class="visually-hidden">Questions du jour et leur statut</caption>
+            <thead><tr><th scope="col">Date</th><th scope="col">Question</th><th scope="col">Statut</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+            <tbody>
+                {% for prompt in prompts %}
+                    <tr>
+                        <td class="text-nowrap">{{ prompt.prompt_date|date:"j M Y" }}</td>
+                        <th scope="row" class="fw-normal"><a href="{% url 'reminder:prompt_detail' prompt.pk %}">{{ prompt.question|truncatechars:90 }}</a></th>
+                        <td>{{ prompt.get_status_display }}</td>
+                        <td class="text-end">{% if not prompt.answer_entry %}<a href="{% url 'reminder:prompt_answer' prompt.pk %}" class="btn btn-outline-primary btn-sm">Répondre<span class="visually-hidden"> à la question du {{ prompt.prompt_date|date:"j F" }}</span></a>{% endif %}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include "Memory/includes/pagination.html" %}
+{% else %}
+    <div class="empty-state">
+        {% if current_status %}
+            <p class="mb-0">Aucune question avec ce statut.</p>
+        {% else %}
+            <p class="mb-3">Aucune question pour l'instant.</p>
+            <a href="{% url 'reminder:reminder_create' %}" class="btn btn-primary">Créer un rappel</a>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

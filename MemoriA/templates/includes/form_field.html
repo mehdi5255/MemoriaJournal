@@ -2,6 +2,22 @@
 {% comment %}Champ de formulaire accessible : label lié, aide et erreurs reliées par aria-describedby.{% endcomment %}
 {% if field.is_hidden %}
     {{ field }}
+{% elif field.widget_type == 'checkboxselectmultiple' or field.widget_type == 'radioselect' %}
+    <fieldset class="mb-3" {% if field.help_text or field.errors %}aria-describedby="{% if field.help_text %}{{ field.auto_id }}_helptext{% endif %}{% if field.errors %} {{ field.auto_id }}_errors{% endif %}"{% endif %}>
+        <legend class="form-label fs-6">{{ field.label }}{% if field.field.required %} <span aria-hidden="true">*</span><span class="visually-hidden">(obligatoire)</span>{% endif %}</legend>
+        {% if field.help_text %}<div id="{{ field.auto_id }}_helptext" class="form-text mt-0 mb-2">{{ field.help_text|safe }}</div>{% endif %}
+        <div class="checkbox-list">
+            {% for choice in field %}
+                <div class="form-check">
+                    <input class="form-check-input" type="{{ choice.data.type }}" name="{{ choice.data.name }}" value="{{ choice.data.value }}" id="{{ choice.id_for_label }}"{% if choice.data.selected %} checked{% endif %}>
+                    <label class="form-check-label" for="{{ choice.id_for_label }}">{{ choice.choice_label }}</label>
+                </div>
+            {% empty %}
+                <p class="text-muted mb-0">Aucun choix disponible.</p>
+            {% endfor %}
+        </div>
+        {% if field.errors %}<div id="{{ field.auto_id }}_errors" class="invalid-feedback d-block">{% for error in field.errors %}{{ error }}{% if not forloop.last %}<br>{% endif %}{% endfor %}</div>{% endif %}
+    </fieldset>
 {% elif field.widget_type == 'checkbox' %}
     <div class="form-check mb-3">
         {% field_widget field %}

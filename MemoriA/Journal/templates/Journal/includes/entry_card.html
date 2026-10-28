@@ -1,0 +1,16 @@
+{% comment %}Carte d'une entrée (liste, étiquette, souvenirs similaires).{% endcomment %}
+<article class="card p-3 h-100">
+    <h3 class="h5 mb-1">
+        <a href="{% url 'journal:entry_detail' entry.pk %}">{{ entry.title }}</a>
+        {% if entry.is_favorite %}<span role="img" aria-label="Favori">⭐</span>{% endif %}
+    </h3>
+    <p class="text-muted small mb-2">{{ entry.entry_date|date:"l j F Y" }}{% if entry.location %} · {{ entry.location }}{% endif %}</p>
+    <p class="mb-2">{{ entry.content|truncatewords:25 }}</p>
+    {% if entry.tags.all %}
+        <ul class="list-inline mb-0" aria-label="Étiquettes">
+            {% for tag in entry.tags.all %}
+                <li class="list-inline-item"><span class="tag-badge" style="--tag-color: {{ tag.color }}">{{ tag.name }}</span></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</article>

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}{% if reminder %}Modifier le rappel de {{ reminder.reminder_time|time:"H:i" }}{% else %}Nouveau rappel{% endif %}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'reminder:reminder_list' %}">Rappels</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% if reminder %}Modifier{% else %}Nouveau rappel{% endif %}</li>
+{% endblock %}
+{% block page_title %}{% if reminder %}Modifier le rappel{% else %}Nouveau rappel{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card p-4" style="max-width: 640px;">
+    <p class="text-muted">Les champs marqués d'une * sont obligatoires.</p>
+    <form method="post">
+        {% csrf_token %}
+        {% include "includes/form.html" %}
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <a href="{% if reminder %}{% url 'reminder:reminder_detail' reminder.pk %}{% else %}{% url 'reminder:reminder_list' %}{% endif %}" class="btn btn-outline-secondary">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

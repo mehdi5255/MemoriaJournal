@@ -247,9 +247,19 @@ class TaskStatusViewTest(AccountViewsTestBase):
     @patch('Account.views.AsyncResult')
     def test_tache_echouee(self, mock_result):
         mock_result.return_value.state = 'FAILURE'
+        mock_result.return_value.result = ValueError('détail technique')
         self.login()
         response = self.client.get(reverse('account:task_status', args=['abc']))
-        self.assertEqual(response.json(), {'status': 'FAILURE'})
+        self.assertEqual(response.json(), {'status': 'FAILURE'})       # pas de détail technique
+
+    @patch('Account.views.AsyncResult')
+    def test_tache_echouee_message_clair_de_l_ia(self, mock_result):
+        from Account.services import AIServiceError
+        mock_result.return_value.state = 'FAILURE'
+        mock_result.return_value.result = AIServiceError("Le service ne répond pas.")
+        self.login()
+        response = self.client.get(reverse('account:task_status', args=['abc']))
+        self.assertEqual(response.json(), {'status': 'FAILURE', 'message': "Le service ne répond pas."})
 
 
 class ErrorPagesTest(AccountViewsTestBase):

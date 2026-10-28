@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Mes étiquettes{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'journal:entry_list' %}">Entrées</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Étiquettes</li>
+{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <h1 class="mb-0">Mes étiquettes</h1>
+        <a href="{% url 'journal:tag_create' %}" class="btn btn-primary"><span aria-hidden="true">+</span> Nouvelle étiquette</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+{% if tags %}
+    <div class="table-responsive card p-3">
+        <table class="table align-middle mb-0">
+            <caption class="visually-hidden">Mes étiquettes et le nombre d'entrées</caption>
+            <thead><tr><th scope="col">Étiquette</th><th scope="col">Entrées</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+            <tbody>
+                {% for tag in tags %}
+                    <tr>
+                        <th scope="row" class="fw-normal"><a href="{% url 'journal:tag_detail' tag.pk %}" class="tag-badge" style="--tag-color: {{ tag.color }}">{{ tag.name }}</a></th>
+                        <td>{{ tag.nb_entries }}</td>
+                        <td class="text-end text-nowrap">
+                            <a href="{% url 'journal:tag_update' tag.pk %}" class="btn btn-outline-primary btn-sm">Modifier<span class="visually-hidden"> {{ tag.name }}</span></a>
+                            <a href="{% url 'journal:tag_delete' tag.pk %}" class="btn btn-outline-secondary btn-sm">Supprimer<span class="visually-hidden"> {{ tag.name }}</span></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="empty-state">
+        <p class="mb-3">Aucune étiquette pour l'instant. Les étiquettes rangent vos entrées (Voyage, Famille, Études…) et l'IA peut les proposer automatiquement.</p>
+        <a href="{% url 'journal:tag_create' %}" class="btn btn-primary">Créer ma première étiquette</a>
+    </div>
+{% endif %}
+{% endblock %}

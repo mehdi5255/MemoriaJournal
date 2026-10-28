@@ -1,0 +1,430 @@
+{
+  "recits": {
+    "n": 15,
+    "reussis": 0,
+    "lignes": [
+      {
+        "id": 1,
+        "titre": "Journée à la plage",
+        "style": "Simple",
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
+      },
+      {
+        "id": 2,
+        "titre": "Premier jour de stage",
+        "style": "Simple",
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
+      },
+      {
+        "id": 3,
+        "titre": "Couscous chez grand-mère",
+        "style": "Poetique",
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
+      },
+      {
+        "id": 4,
+        "titre": "Panne de métro",
+        "style": "Humoristique",
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
+      },
+      {
+        "id": 5,
+        "titre": "Mariage de ma cousine",
+        "style": "Poetique",
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
+      },
+      {
+        "id": 6,
+        "titre": "Randonnée au Zaghouan",
+        "style": "Simple",
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
+      },
+      {
+        "id": 7,
+        "titre": "Rendez-vous chez le dentiste",
+        "style": "Humoristique",
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
+      },
+      {
+        "id": 8,
+        "titre": "Soirée match",
+        "style": "Humoristique",
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
+      },
+      {
+        "id": 9,
+        "titre": "Journée pluvieuse",
+        "style": "Poetique",
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
+      },
+      {
+        "id": 10,
+        "titre": "Adoption d'un chaton",
+        "style": "Simple",
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
+      },
+      {
+        "id": 11,
+        "titre": "Résultats du bac de mon frère",
+        "style": "Simple",
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
+      },
+      {
+        "id": 12,
+        "titre": "Déménagement",
+        "style": "Humoristique",
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
+      },
+      {
+        "id": 13,
+        "titre": "Visite de Carthage",
+        "style": "Poetique",
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
+      },
+      {
+        "id": 14,
+        "titre": "Journée difficile",
+        "style": "Simple",
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
+      },
+      {
+        "id": 15,
+        "titre": "Atelier de poterie",
+        "style": "Poetique",
+        "erreur": "Le quota gratuit de Gemini est atteint pour le moment. Réessayez plus tard (il se renouvelle chaque jour)."
+      }
+    ],
+    "fidelite": 0,
+    "longueur": 0,
+    "style": 0,
+    "note": 0,
+    "rappel_faits": 0,
+    "mots_moyen": 0,
+    "dans_la_fourchette": 0,
+    "inventions_total": 0,
+    "temps": {
+      "moyenne_ms": 0,
+      "max_ms": 0,
+      "n": 0
+    },
+    "humain": null
+  },
+  "date": "2026-10-27",
+  "images": {
+    "n": 10,
+    "reussis": 10,
+    "lignes": [
+      {
+        "id": 1,
+        "scene": "Two friends swimming in a calm turquoise sea under a striped beach umbrella",
+        "style": "Aquarelle",
+        "duree_ms": 31777,
+        "moteur": "SD-Turbo (local)",
+        "clip": 34.92,
+        "clip_mauvaise_description": 11.49
+      },
+      {
+        "id": 2,
+        "scene": "A young intern sitting at a desk with a laptop in a bright modern office",
+        "style": "Realiste",
+        "duree_ms": 11931,
+        "moteur": "SD-Turbo (local)",
+        "clip": 26.1,
+        "clip_mauvaise_description": 14.66
+      },
+      {
+        "id": 3,
+        "scene": "An old grandmother serving a large plate of fish couscous on a wooden table",
+        "style": "Dessin",
+        "duree_ms": 10665,
+        "moteur": "SD-Turbo (local)",
+        "clip": 35.16,
+        "clip_mauvaise_description": 16.2
+      },
+      {
+        "id": 4,
+        "scene": "A crowded metro carriage stopped in a dark tunnel",
+        "style": "Realiste",
+        "duree_ms": 11029,
+        "moteur": "SD-Turbo (local)",
+        "clip": 29.56,
+        "clip_mauvaise_description": 12.29
+      },
+      {
+        "id": 5,
+        "scene": "A wedding hall decorated with white jasmine flowers and people dancing",
+        "style": "Aquarelle",
+        "duree_ms": 11299,
+        "moteur": "SD-Turbo (local)",
+        "clip": 32.31,
+        "clip_mauvaise_description": 7.35
+      },
+      {
+        "id": 6,
+        "scene": "Hikers resting on a rocky mountain summit overlooking a wide green plain",
+        "style": "Realiste",
+        "duree_ms": 10996,
+        "moteur": "SD-Turbo (local)",
+        "clip": 32.81,
+        "clip_mauvaise_description": 8.61
+      },
+      {
+        "id": 7,
+        "scene": "A small ginger kitten climbing on long living room curtains",
+        "style": "Dessin",
+        "duree_ms": 11254,
+        "moteur": "SD-Turbo (local)",
+        "clip": 26.06,
+        "clip_mauvaise_description": 12.46
+      },
+      {
+        "id": 8,
+        "scene": "A family playing cards by candlelight on a rainy evening",
+        "style": "Aquarelle",
+        "duree_ms": 10985,
+        "moteur": "SD-Turbo (local)",
+        "clip": 31.44,
+        "clip_mauvaise_description": 11.4
+      },
+      {
+        "id": 9,
+        "scene": "Ancient Roman ruins with tall stone columns facing a blue sea",
+        "style": "Realiste",
+        "duree_ms": 10804,
+        "moteur": "SD-Turbo (local)",
+        "clip": 34.17,
+        "clip_mauvaise_description": 11.13
+      },
+      {
+        "id": 10,
+        "scene": "Hands shaping a clay bowl on a spinning pottery wheel",
+        "style": "Dessin",
+        "duree_ms": 11061,
+        "moteur": "SD-Turbo (local)",
+        "clip": 33.26,
+        "clip_mauvaise_description": 11.46
+      }
+    ],
+    "clip_moyen": 31.58,
+    "clip_hasard": 11.71,
+    "meilleur_que_hasard": 10,
+    "moteurs": [
+      "SD-Turbo (local)"
+    ],
+    "temps": {
+      "moyenne_ms": 13180,
+      "max_ms": 31777,
+      "n": 10
+    }
+  },
+  "retros": {
+    "n": 10,
+    "reussis": 10,
+    "lignes": [
+      {
+        "id": 1,
+        "titre": "Semaine de vacances à la mer",
+        "duree_ms": 13637,
+        "mots_cles": [
+          "soleil plage",
+          "vacances poisson",
+          "sœur dîner",
+          "hammamet baignade",
+          "dauphins large"
+        ],
+        "corrects": [
+          "vacances poisson",
+          "sœur dîner"
+        ],
+        "precision_5": 0.4,
+        "rappel_5": 0.6,
+        "precision_5_souple": 1.0
+      },
+      {
+        "id": 2,
+        "titre": "Semaine d'examens",
+        "duree_ms": 114,
+        "mots_cles": [
+          "mathématiques bibliothèque",
+          "fou examen",
+          "exercices problème",
+          "informatique soulagement",
+          "cafés"
+        ],
+        "corrects": [
+          "mathématiques bibliothèque",
+          "cafés"
+        ],
+        "precision_5": 0.4,
+        "rappel_5": 0.4,
+        "precision_5_souple": 0.8
+      },
+      {
+        "id": 3,
+        "titre": "Mois du mariage d'Amira",
+        "duree_ms": 99,
+        "mots_cles": [
+          "robe mariée",
+          "famille pleuré",
+          "photos fête",
+          "musique danse",
+          "tantes mains"
+        ],
+        "corrects": [
+          "robe mariée",
+          "musique danse"
+        ],
+        "precision_5": 0.4,
+        "rappel_5": 0.6,
+        "precision_5_souple": 1.0
+      },
+      {
+        "id": 4,
+        "titre": "Premier mois de stage",
+        "duree_ms": 107,
+        "mots_cles": [
+          "fonctionnalité django",
+          "stage startup",
+          "équipe codé",
+          "réunion client",
+          "projets personnels"
+        ],
+        "corrects": [
+          "fonctionnalité django",
+          "stage startup",
+          "équipe codé",
+          "réunion client"
+        ],
+        "precision_5": 0.8,
+        "rappel_5": 0.8,
+        "precision_5_souple": 0.8
+      },
+      {
+        "id": 5,
+        "titre": "Semaine sportive",
+        "duree_ms": 95,
+        "mots_cles": [
+          "basket amis",
+          "piscine municipale",
+          "feu randonnée",
+          "club marche",
+          "soleil match"
+        ],
+        "corrects": [
+          "basket amis",
+          "club marche"
+        ],
+        "precision_5": 0.4,
+        "rappel_5": 0.6,
+        "precision_5_souple": 1.0
+      },
+      {
+        "id": 6,
+        "titre": "Mois du déménagement",
+        "duree_ms": 85,
+        "mots_cles": [
+          "passé balcon",
+          "nouvel appartement",
+          "propriétaire déménagement",
+          "clés propriétaire",
+          "dîner"
+        ],
+        "corrects": [
+          "propriétaire déménagement",
+          "clés propriétaire",
+          "dîner"
+        ],
+        "precision_5": 0.6,
+        "rappel_5": 0.6,
+        "precision_5_souple": 1.0
+      },
+      {
+        "id": 7,
+        "titre": "Semaine avec le nouveau chaton",
+        "duree_ms": 111,
+        "mots_cles": [
+          "chaton déchiré",
+          "visite vétérinaire",
+          "couscous dort",
+          "vaccins couscous",
+          "adoption chaton"
+        ],
+        "corrects": [
+          "couscous dort",
+          "vaccins couscous"
+        ],
+        "precision_5": 0.4,
+        "rappel_5": 0.6,
+        "precision_5_souple": 1.0
+      },
+      {
+        "id": 8,
+        "titre": "Ramadan en famille",
+        "duree_ms": 123,
+        "mots_cles": [
+          "ramadan parents",
+          "ftour ramadan",
+          "visites oncles",
+          "dattes café",
+          "joué cartes"
+        ],
+        "corrects": [
+          "ramadan parents",
+          "ftour ramadan",
+          "dattes café"
+        ],
+        "precision_5": 0.6,
+        "rappel_5": 0.8,
+        "precision_5_souple": 1.0
+      },
+      {
+        "id": 9,
+        "titre": "Voyage à Tozeur",
+        "duree_ms": 115,
+        "mots_cles": [
+          "chaleur désert",
+          "sahara décors",
+          "4x4 dunes",
+          "tozeur train",
+          "fraîches excursion"
+        ],
+        "corrects": [
+          "4x4 dunes",
+          "tozeur train"
+        ],
+        "precision_5": 0.4,
+        "rappel_5": 0.6,
+        "precision_5_souple": 1.0
+      },
+      {
+        "id": 10,
+        "titre": "Semaine difficile",
+        "duree_ms": 110,
+        "mots_cles": [
+          "fièvre ordinateur",
+          "données retard",
+          "guéri tranquille",
+          "panne métro",
+          "jury compréhensif"
+        ],
+        "corrects": [
+          "fièvre ordinateur",
+          "données retard",
+          "panne métro"
+        ],
+        "precision_5": 0.6,
+        "rappel_5": 0.6,
+        "precision_5_souple": 1.0
+      }
+    ],
+    "precision_5": 0.5,
+    "rappel_5": 0.62,
+    "precision_5_souple": 0.96,
+    "temps": {
+      "moyenne_ms": 107,
+      "max_ms": 123,
+      "n": 9
+    },
+    "premier_appel_ms": 13637
+  }
+}

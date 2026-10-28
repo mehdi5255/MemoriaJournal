@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Rétrospective : {{ retrospective.title }}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'memory:souvenirs' %}">Souvenirs</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'memory:retrospective_list' %}">Rétrospectives</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ retrospective.title }}</li>
+{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+        <div>
+            <h1 class="mb-1">{{ retrospective.title }}</h1>
+            <p class="text-muted mb-0">{{ retrospective.get_period_type_display }} du {{ retrospective.start_date|date:"j F Y" }} au {{ retrospective.end_date|date:"j F Y" }}</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <form method="post" action="{% url 'memory:retrospective_analyze' retrospective.pk %}" class="m-0">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-ai">Analyser avec l'IA</button>
+            </form>
+            <a href="{% url 'memory:retrospective_update' retrospective.pk %}" class="btn btn-outline-primary">Modifier</a>
+            <a href="{% url 'memory:retrospective_delete' retrospective.pk %}" class="btn btn-outline-secondary">Supprimer</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+{% if task_id %}
+    {% url 'memory:retrospective_analyze' retrospective.pk as retry_url %}
+    {% include "includes/ai_status.html" with task_id=task_id label="Analyse des thèmes et des humeurs en cours…" success_message="Analyse terminée !" error_message="L'analyse des thèmes a échoué. Réessayez dans un instant." retry_url=retry_url result_target="#analyse" %}
+{% endif %}
+
+<div id="analyse">
+    {% include "Memory/includes/retrospective_analysis.html" %}
+</div>
+{% endblock %}

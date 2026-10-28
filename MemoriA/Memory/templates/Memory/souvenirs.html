@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Souvenirs{% endblock %}
+{% block breadcrumb %}<li class="breadcrumb-item active" aria-current="page">Souvenirs</li>{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <h1 class="mb-1">Mes souvenirs</h1>
+            <p class="note-manuscrite mb-0" aria-hidden="true">Vos journées racontées comme une histoire</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'memory:story_create' %}" class="btn btn-primary"><span aria-hidden="true">+</span> Nouveau récit</a>
+            <a href="{% url 'memory:retrospective_create' %}" class="btn btn-outline-primary"><span aria-hidden="true">+</span> Nouvelle rétrospective</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+<section aria-labelledby="titre-chiffres" class="mb-4">
+    <h2 id="titre-chiffres" class="visually-hidden">En chiffres</h2>
+    <div class="row g-3">
+        <div class="col-sm-4">
+            <a href="{% url 'memory:story_list' %}" class="text-decoration-none text-reset d-block stat-card stat-yellow">
+                <span class="d-block">Récits</span><span class="stat-value d-block">{{ story_count }}</span>
+            </a>
+        </div>
+        <div class="col-sm-4">
+            <a href="{% url 'memory:image_list' %}" class="text-decoration-none text-reset d-block stat-card stat-blue">
+                <span class="d-block">Illustrations</span><span class="stat-value d-block">{{ image_count }}</span>
+            </a>
+        </div>
+        <div class="col-sm-4">
+            <a href="{% url 'memory:retrospective_list' %}" class="text-decoration-none text-reset d-block stat-card stat-green">
+                <span class="d-block">Rétrospectives</span><span class="stat-value d-block">{{ retrospective_count }}</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="mb-5" aria-labelledby="titre-recits">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 id="titre-recits" class="mb-0">Derniers récits</h2>
+        {% if story_count %}<a href="{% url 'memory:story_list' %}">Voir tous les récits</a>{% endif %}
+    </div>
+    {% if latest_stories %}
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-4">
+            {% for story in latest_stories %}
+                <div class="col">{% include "Memory/includes/story_card.html" %}</div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p class="mb-3">Aucun récit pour l'instant. Transformez une entrée de votre journal en histoire.</p>
+            <a href="{% url 'memory:story_create' %}" class="btn btn-primary">Créer mon premier récit</a>
+        </div>
+    {% endif %}
+</section>
+
+<section aria-labelledby="titre-retros">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 id="titre-retros" class="mb-0">Mes rétrospectives</h2>
+        {% if retrospective_count %}<a href="{% url 'memory:retrospective_list' %}">Voir toutes les rétrospectives</a>{% endif %}
+    </div>
+    {% if retrospectives %}
+        <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3">
+            {% for retro in retrospectives %}
+                <li class="col">
+                    <div class="card p-3 h-100">
+                        <h3 class="h5 mb-1"><a href="{% url 'memory:retrospective_detail' retro.pk %}">{{ retro.title }}</a></h3>
+                        <p class="text-muted small mb-2">{{ retro.get_period_type_display }} du {{ retro.start_date|date:"j F" }} au {{ retro.end_date|date:"j F Y" }}</p>
+                        {% if retro.keywords %}<p class="mb-0">{% for word in retro.keywords|slice:":5" %}<span class="keyword">{{ word }}</span>{% endfor %}</p>{% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="empty-state">
+            <p class="mb-3">Aucune rétrospective pour l'instant. Faites le bilan de votre semaine ou de votre mois.</p>
+            <a href="{% url 'memory:retrospective_create' %}" class="btn btn-primary">Créer une rétrospective</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}{% if story %}Modifier le récit : {{ story.entry.title }}{% else %}Nouveau récit{% endif %}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'memory:souvenirs' %}">Souvenirs</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'memory:story_list' %}">Récits</a></li>
+    {% if story %}<li class="breadcrumb-item"><a href="{% url 'memory:story_detail' story.pk %}">{{ story.entry.title }}</a></li>{% endif %}
+    <li class="breadcrumb-item active" aria-current="page">{% if story %}Modifier{% else %}Nouveau{% endif %}</li>
+{% endblock %}
+{% block page_title %}{% if story %}Modifier le récit{% else %}Nouveau récit{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card p-4" style="max-width: 820px;">
+    {% if not story and not form.fields.entry.queryset.exists %}
+        <div class="empty-state">
+            <p class="mb-0">Toutes vos entrées ont déjà un récit, ou vous n'avez pas encore écrit d'entrée. Écrivez d'abord une entrée dans votre journal.</p>
+        </div>
+    {% else %}
+        {% if story %}<p class="mb-3">Entrée : <strong>{{ story.entry.title }}</strong> ({{ story.entry.entry_date|date:"j F Y" }})</p>{% endif %}
+
+        {% if generate_form %}
+            <section class="ai-block mb-4" aria-labelledby="titre-generer">
+                <h2 id="titre-generer" class="h5 ai-label">Faire écrire le récit par l'IA</h2>
+                <p>Gemini lit le texte, les notes vocales et les photos de l'entrée pour raconter votre journée.</p>
+                <form method="post" action="{% url 'memory:story_generate' %}">
+                    {% csrf_token %}
+                    {% for field in generate_form %}{% include "includes/form_field.html" with field=field %}{% endfor %}
+                    <button type="submit" class="btn btn-ai">Générer le récit</button>
+                </form>
+            </section>
+            <h2 class="h5">Ou écrire le récit vous-même</h2>
+        {% endif %}
+        <p class="text-muted">Les champs marqués d'une * sont obligatoires.</p>
+        <form method="post">
+            {% csrf_token %}
+            {% include "includes/form.html" %}
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                <a href="{% if story %}{% url 'memory:story_detail' story.pk %}{% else %}{% url 'memory:story_list' %}{% endif %}" class="btn btn-outline-secondary">Annuler</a>
+            </div>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

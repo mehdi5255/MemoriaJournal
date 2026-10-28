@@ -16,7 +16,12 @@ COPY MemoriA/ ./MemoriA/
 WORKDIR /app/MemoriA
 
 # Fichiers statiques collectés dans l'image (servis par whitenoise)
-RUN SECRET_KEY=build-only DEBUG=False python manage.py collectstatic --noinput
+# et modèles ONNX des visages (YuNet + SFace, ~39 Mo) téléchargés une fois
+RUN SECRET_KEY=build-only DEBUG=False python manage.py collectstatic --noinput \
+    && SECRET_KEY=build-only python manage.py download_face_models
+
+# Script de démarrage utilisé par Render (site + worker dans un seul conteneur)
+COPY render-start.sh /app/render-start.sh
 
 # Utilisateur sans droits d'administration (bonne pratique de sécurité)
 RUN useradd --create-home memoria && mkdir -p /data /app/MemoriA/media \

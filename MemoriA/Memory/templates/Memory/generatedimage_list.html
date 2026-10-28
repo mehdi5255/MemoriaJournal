@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Mes illustrations{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'memory:souvenirs' %}">Souvenirs</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Illustrations</li>
+{% endblock %}
+{% block page_title %}Mes illustrations{% endblock %}
+
+{% block content %}
+{% if images %}
+    <h2 class="visually-hidden">Galerie</h2>
+    <ul class="list-unstyled gallery">
+        {% for image in images %}
+            <li>
+                <figure class="polaroid mb-2">
+                    <a href="{% url 'memory:image_detail' image.pk %}">
+                        <img src="{{ image.image.url }}" alt="{{ image.prompt|truncatechars:120 }}" class="cover" loading="lazy">
+                    </a>
+                    <figcaption>{{ image.story.entry.title|truncatechars:24 }}</figcaption>
+                </figure>
+                <p class="small text-muted mb-0">{{ image.get_style_display }}{% if image.is_main %} · <span class="badge badge-main">Principale</span>{% endif %}</p>
+            </li>
+        {% endfor %}
+    </ul>
+    {% include "Memory/includes/pagination.html" %}
+{% else %}
+    <div class="empty-state">
+        <p class="mb-3">Aucune illustration pour l'instant. Ajoutez une image depuis la page d'un récit.</p>
+        <a href="{% url 'memory:story_list' %}" class="btn btn-primary">Voir mes récits</a>
+    </div>
+{% endif %}
+{% endblock %}

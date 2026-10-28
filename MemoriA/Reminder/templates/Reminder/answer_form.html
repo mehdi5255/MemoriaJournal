@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Répondre à la question du {{ prompt.prompt_date|date:"j F Y" }}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'reminder:reminder_list' %}">Rappels</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'reminder:prompt_detail' prompt.pk %}">Question du {{ prompt.prompt_date|date:"j F" }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Répondre</li>
+{% endblock %}
+{% block page_title %}Répondre à la question du jour{% endblock %}
+
+{% block content %}
+<div class="card p-4" style="max-width: 760px;">
+    <div class="ai-block mb-4">
+        <p class="ai-label mb-1">Question</p>
+        <p class="fs-5 mb-0">{{ prompt.question }}</p>
+    </div>
+    <p class="text-muted">Votre réponse devient une nouvelle entrée de votre journal. Les champs marqués d'une * sont obligatoires.</p>
+    <form method="post">
+        {% csrf_token %}
+        {% include "includes/form.html" %}
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Enregistrer ma réponse</button>
+            <a href="{% url 'reminder:prompt_detail' prompt.pk %}" class="btn btn-outline-secondary">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

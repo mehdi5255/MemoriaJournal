@@ -25,3 +25,7 @@ htmlcov/
 
 # Réglages locaux de l'éditeur
 .claude/
+
+# Modèles ONNX du module Face (python manage.py download_face_models)
+MemoriA/Face/ai_models/*
+!MemoriA/Face/ai_models/.gitkeep

@@ -1,0 +1,7 @@
+{% comment %}Heure conseillée par l'IA (aussi renvoyée par la tâche Celery, sans formulaire : pas de jeton CSRF).{% endcomment %}
+{% if reminder.suggested_time %}
+    <p class="fs-4 mb-1"><strong>{{ reminder.suggested_time|time:"H:i" }}</strong></p>
+    <p class="text-muted mb-0">L'heure à laquelle vous écrivez le plus souvent{% if share %} ({% widthratio share 1 100 %} % de vos dernières entrées){% endif %}.</p>
+{% else %}
+    <p class="text-muted mb-0">Pas encore calculée.</p>
+{% endif %}

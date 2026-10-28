@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{% if entry %}Modifier « {{ entry.title }} »{% else %}Nouvelle entrée{% endif %}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'journal:entry_list' %}">Entrées</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% if entry %}Modifier{% else %}Nouvelle entrée{% endif %}</li>
+{% endblock %}
+{% block page_title %}{% if entry %}Modifier l'entrée{% else %}Nouvelle entrée{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card p-4" style="max-width: 780px;">
+    <p class="text-muted">Les champs marqués d'une * sont obligatoires.</p>
+    <form method="post" id="entry-form">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                {% for error in form.non_field_errors %}<p class="mb-0">{{ error }}</p>{% endfor %}
+            </div>
+        {% elif form.errors %}
+            <div class="alert alert-danger" role="alert">
+                <p class="mb-0">Le formulaire contient des erreurs : corrigez les champs indiqués.</p>
+            </div>
+        {% endif %}
+        {% for field in form %}
+            {% include "includes/form_field.html" %}
+            {# La dictée se place juste sous le champ « Ma journée » #}
+            {% if field.name == 'content' %}{% include "Journal/includes/dictation.html" %}{% endif %}
+        {% endfor %}
+        {% if not form.tags.field.queryset %}
+            <p class="small text-muted">Vous n'avez pas encore d'étiquette. <a href="{% url 'journal:tag_create' %}">Créer une étiquette</a></p>
+        {% endif %}
+        {% if form.tags.field.queryset %}
+            <section class="ai-block mb-3" aria-labelledby="titre-suggestion">
+                <h2 id="titre-suggestion" class="h6 ai-label">IA · Suggestion d'étiquettes (zero-shot)</h2>
+                <p class="small mb-2">L'IA lit le titre et le texte, puis coche les étiquettes qui correspondent. Vous gardez le dernier mot.</p>
+                <button type="button" class="btn btn-ai btn-sm" id="suggest-tags"
+                        data-url="{% url 'journal:tag_suggest' %}">Suggérer des étiquettes</button>
+                <div id="suggestion-zone" class="mt-2"></div>
+                <div id="suggestion-resultat"></div>
+            </section>
+        {% endif %}
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <a href="{% if entry %}{% url 'journal:entry_detail' entry.pk %}{% else %}{% url 'journal:entry_list' %}{% endif %}" class="btn btn-outline-secondary">Annuler</a>
+        </div>
+    </form>
+</div>
+
+{# Modèle de la zone de suivi, copié par tag-suggest.js à chaque demande #}
+<template id="suggestion-modele">
+    <div class="ai-status my-2" role="status" aria-live="polite" aria-busy="true">
+        <p class="ai-loading mb-0 d-flex align-items-center gap-2">
+            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+            <span>L'IA lit votre texte…</span>
+        </p>
+        <p class="ai-success mb-0 text-success fw-bold" hidden>Suggestion prête.</p>
+        <div class="ai-error" hidden>
+            <p class="mb-2 fw-bold">La suggestion d'étiquettes a échoué.</p>
+            <button type="button" class="btn btn-ai btn-sm js-retry">Réessayer</button>
+        </div>
+    </div>
+</template>
+{% endblock %}
+
+{% block extra_js %}<script src="{% static 'js/tag-suggest.js' %}"></script>
+<script src="{% static 'js/dictation.js' %}"></script>{% endblock %}

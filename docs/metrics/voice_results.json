@@ -1,0 +1,778 @@
+{
+  "transcription": {
+    "n": 10,
+    "reussis": 10,
+    "lignes": [
+      {
+        "id": 1,
+        "fichier": "note_01.wav",
+        "langue": "fr",
+        "reference": "Aujourd'hui je suis allé à la plage avec mes amis. Il faisait très beau et nous avons beaucoup ri.",
+        "duree_ms": 44660,
+        "transcription": "Aujourd'hui je suis allé à la plage avec mes amis. Il faisait très beau et nous avons beaucoup ré.",
+        "langue_detectee": "fr",
+        "moteur": "Whisper (local)",
+        "wer": 0.05,
+        "substitutions": 1,
+        "suppressions": 0,
+        "insertions": 0,
+        "mots_reference": 20
+      },
+      {
+        "id": 2,
+        "fichier": "note_02.wav",
+        "langue": "fr",
+        "reference": "Ce matin j'ai raté le bus et je suis arrivé en retard au cours de mathématiques.",
+        "duree_ms": 7311,
+        "transcription": "Ce matin, j'ai raté le but et je suis arrivé en retard au cours de mathématiques.",
+        "langue_detectee": "fr",
+        "moteur": "Whisper (local)",
+        "wer": 0.059,
+        "substitutions": 1,
+        "suppressions": 0,
+        "insertions": 0,
+        "mots_reference": 17
+      },
+      {
+        "id": 3,
+        "fichier": "note_03.wav",
+        "langue": "fr",
+        "reference": "Ma grand-mère a préparé un couscous au poisson pour toute la famille. C'était délicieux.",
+        "duree_ms": 7964,
+        "transcription": "Ma grand-mère a préparé un couscous au poisson pour toute la famille. C'était délicieux.",
+        "langue_detectee": "fr",
+        "moteur": "Whisper (local)",
+        "wer": 0.0,
+        "substitutions": 0,
+        "suppressions": 0,
+        "insertions": 0,
+        "mots_reference": 16
+      },
+      {
+        "id": 4,
+        "fichier": "note_04.wav",
+        "langue": "fr",
+        "reference": "J'ai peur de la soutenance de demain. Je vais encore relire mes diapositives avant de dormir.",
+        "duree_ms": 7850,
+        "transcription": "J'ai peur de la soutenance de demain. Je vais encore relire médiapositive avant de dormir.",
+        "langue_detectee": "fr",
+        "moteur": "Whisper (local)",
+        "wer": 0.118,
+        "substitutions": 1,
+        "suppressions": 1,
+        "insertions": 0,
+        "mots_reference": 17
+      },
+      {
+        "id": 5,
+        "fichier": "note_05.wav",
+        "langue": "fr",
+        "reference": "Nous avons visité les ruines de Carthage puis nous avons bu un thé à Sidi Bou Saïd.",
+        "duree_ms": 7657,
+        "transcription": "Nous avons visité les ruines de cartage puis nous avons bu un thé à sidiboussaïde.",
+        "langue_detectee": "fr",
+        "moteur": "Whisper (local)",
+        "wer": 0.235,
+        "substitutions": 2,
+        "suppressions": 2,
+        "insertions": 0,
+        "mots_reference": 17
+      },
+      {
+        "id": 6,
+        "fichier": "note_06.wav",
+        "langue": "fr",
+        "reference": "Le médecin m'a conseillé de me reposer pendant trois jours et de boire beaucoup d'eau.",
+        "duree_ms": 7585,
+        "transcription": "Le médecin m'a conseillé de me reposer pendant trois jours et de boire beaucoup d'eau.",
+        "langue_detectee": "fr",
+        "moteur": "Whisper (local)",
+        "wer": 0.0,
+        "substitutions": 0,
+        "suppressions": 0,
+        "insertions": 0,
+        "mots_reference": 17
+      },
+      {
+        "id": 7,
+        "fichier": "note_07.wav",
+        "langue": "fr",
+        "reference": "Mon frère a eu son baccalauréat avec mention bien. Ma mère était tellement fière de lui.",
+        "duree_ms": 7055,
+        "transcription": "Mon frère a eu son bacaloria avec mention bien. Ma mère était tellement fier de lui.",
+        "langue_detectee": "fr",
+        "moteur": "Whisper (local)",
+        "wer": 0.125,
+        "substitutions": 2,
+        "suppressions": 0,
+        "insertions": 0,
+        "mots_reference": 16
+      },
+      {
+        "id": 8,
+        "fichier": "note_08.wav",
+        "langue": "en",
+        "reference": "Today I started my internship at a software company. My tutor showed me the whole team.",
+        "duree_ms": 6822,
+        "transcription": "Today I started my internship at a software company. My tutor showed me the whole team.",
+        "langue_detectee": "en",
+        "moteur": "Whisper (local)",
+        "wer": 0.0,
+        "substitutions": 0,
+        "suppressions": 0,
+        "insertions": 0,
+        "mots_reference": 16
+      },
+      {
+        "id": 9,
+        "fichier": "note_09.wav",
+        "langue": "en",
+        "reference": "It rained all afternoon so I stayed home and read a novel with a cup of coffee.",
+        "duree_ms": 6661,
+        "transcription": "It rained all afternoon so I stayed home and read a novel with a cup of coffee.",
+        "langue_detectee": "en",
+        "moteur": "Whisper (local)",
+        "wer": 0.0,
+        "substitutions": 0,
+        "suppressions": 0,
+        "insertions": 0,
+        "mots_reference": 17
+      },
+      {
+        "id": 10,
+        "fichier": "note_10.wav",
+        "langue": "en",
+        "reference": "We won the football match in the last minute and everybody was shouting with joy.",
+        "duree_ms": 6140,
+        "transcription": "We won the football match in the last minute and everybody was shouting with joy.",
+        "langue_detectee": "en",
+        "moteur": "Whisper (local)",
+        "wer": 0.0,
+        "substitutions": 0,
+        "suppressions": 0,
+        "insertions": 0,
+        "mots_reference": 15
+      }
+    ],
+    "wer_moyen": 0.059,
+    "wer_global": 0.06,
+    "wer_fr": 0.084,
+    "wer_en": 0.0,
+    "langue_correcte": 10,
+    "moteurs": [
+      "Whisper (local)"
+    ],
+    "temps": {
+      "moyenne_ms": 7227,
+      "max_ms": 7964,
+      "n": 9
+    },
+    "premier_appel_ms": 44660
+  },
+  "date": "2026-10-27",
+  "emotions": {
+    "n": 60,
+    "reussis": 60,
+    "erreurs": [],
+    "lignes": [
+      {
+        "id": 1,
+        "texte": "J'ai eu mon permis de conduire du premier coup, je n'arrête pas de sourire !",
+        "attendu": "Joie",
+        "predit": "Joie",
+        "confiance": 1.0
+      },
+      {
+        "id": 2,
+        "texte": "Soirée magnifique avec toute la famille, on a ri jusqu'à minuit.",
+        "attendu": "Joie",
+        "predit": "Joie",
+        "confiance": 1.0
+      },
+      {
+        "id": 3,
+        "texte": "Ma sœur a accouché ce matin, je suis tata d'une petite fille adorable.",
+        "attendu": "Joie",
+        "predit": "Joie",
+        "confiance": 1.0
+      },
+      {
+        "id": 4,
+        "texte": "Le projet a été validé par le jury avec les félicitations, quel bonheur.",
+        "attendu": "Joie",
+        "predit": "Joie",
+        "confiance": 1.0
+      },
+      {
+        "id": 5,
+        "texte": "Balade au coucher du soleil sur la corniche, je me sentais tellement bien.",
+        "attendu": "Joie",
+        "predit": "Joie",
+        "confiance": 0.99
+      },
+      {
+        "id": 6,
+        "texte": "Mes amis m'ont organisé une fête pour mon anniversaire, j'étais aux anges.",
+        "attendu": "Joie",
+        "predit": "Joie",
+        "confiance": 1.0
+      },
+      {
+        "id": 7,
+        "texte": "Enfin les vacances ! Je suis heureux de pouvoir me reposer à la plage.",
+        "attendu": "Joie",
+        "predit": "Joie",
+        "confiance": 1.0
+      },
+      {
+        "id": 8,
+        "texte": "J'ai reçu une lettre de ma grand-mère, ça m'a rempli le cœur de joie.",
+        "attendu": "Joie",
+        "predit": "Joie",
+        "confiance": 1.0
+      },
+      {
+        "id": 9,
+        "texte": "Notre équipe a gagné le tournoi de football du quartier, c'était génial.",
+        "attendu": "Joie",
+        "predit": "Joie",
+        "confiance": 1.0
+      },
+      {
+        "id": 10,
+        "texte": "Premier salaire reçu aujourd'hui, j'ai invité mes parents au restaurant avec fierté.",
+        "attendu": "Joie",
+        "predit": "Joie",
+        "confiance": 0.99
+      },
+      {
+        "id": 11,
+        "texte": "Mon chat est mort ce matin, la maison me paraît vide.",
+        "attendu": "Tristesse",
+        "predit": "Tristesse",
+        "confiance": 0.98
+      },
+      {
+        "id": 12,
+        "texte": "Ma meilleure amie part vivre au Canada, je ne la verrai plus avant longtemps.",
+        "attendu": "Tristesse",
+        "predit": "Tristesse",
+        "confiance": 0.91
+      },
+      {
+        "id": 13,
+        "texte": "J'ai raté mon examen malgré toutes mes révisions, je me sens découragé.",
+        "attendu": "Tristesse",
+        "predit": "Tristesse",
+        "confiance": 0.99
+      },
+      {
+        "id": 14,
+        "texte": "Personne ne m'a appelé pour mon anniversaire, je me sens seul.",
+        "attendu": "Tristesse",
+        "predit": "Tristesse",
+        "confiance": 0.99
+      },
+      {
+        "id": 15,
+        "texte": "Cela fait un an que mon grand-père nous a quittés, il me manque énormément.",
+        "attendu": "Tristesse",
+        "predit": "Tristesse",
+        "confiance": 0.99
+      },
+      {
+        "id": 16,
+        "texte": "Journée grise, j'ai pleuré sans vraiment savoir pourquoi.",
+        "attendu": "Tristesse",
+        "predit": "Tristesse",
+        "confiance": 0.98
+      },
+      {
+        "id": 17,
+        "texte": "Ma candidature a été refusée encore une fois, j'ai perdu espoir.",
+        "attendu": "Tristesse",
+        "predit": "Tristesse",
+        "confiance": 0.88
+      },
+      {
+        "id": 18,
+        "texte": "Nous nous sommes séparés ce soir, j'ai le cœur brisé.",
+        "attendu": "Tristesse",
+        "predit": "Tristesse",
+        "confiance": 0.99
+      },
+      {
+        "id": 19,
+        "texte": "Mon père est à l'hôpital et je ne peux rien faire pour l'aider.",
+        "attendu": "Tristesse",
+        "predit": "Tristesse",
+        "confiance": 0.98
+      },
+      {
+        "id": 20,
+        "texte": "Je regarde les vieilles photos de l'école et j'ai le cafard.",
+        "attendu": "Tristesse",
+        "predit": "Neutre",
+        "confiance": 0.47
+      },
+      {
+        "id": 21,
+        "texte": "Le chauffeur de taxi m'a insulté sans raison, j'étais hors de moi.",
+        "attendu": "Colere",
+        "predit": "Colere",
+        "confiance": 0.97
+      },
+      {
+        "id": 22,
+        "texte": "Mon colocataire a encore mangé ma part sans demander, ça m'énerve vraiment.",
+        "attendu": "Colere",
+        "predit": "Colere",
+        "confiance": 0.99
+      },
+      {
+        "id": 23,
+        "texte": "Trois heures d'attente à l'administration pour qu'on me dise de revenir demain, c'est révoltant.",
+        "attendu": "Colere",
+        "predit": "Tristesse",
+        "confiance": 0.67
+      },
+      {
+        "id": 24,
+        "texte": "Quelqu'un a rayé ma voiture sur le parking, je suis furieux.",
+        "attendu": "Colere",
+        "predit": "Colere",
+        "confiance": 0.99
+      },
+      {
+        "id": 25,
+        "texte": "Le professeur m'a accusé d'avoir triché alors que c'est faux, j'enrage.",
+        "attendu": "Colere",
+        "predit": "Colere",
+        "confiance": 0.99
+      },
+      {
+        "id": 26,
+        "texte": "Mon voisin fait du bruit toutes les nuits, je n'en peux plus de cette injustice.",
+        "attendu": "Colere",
+        "predit": "Colere",
+        "confiance": 0.6
+      },
+      {
+        "id": 27,
+        "texte": "Le magasin refuse de me rembourser un produit cassé, quelle honte !",
+        "attendu": "Colere",
+        "predit": "Tristesse",
+        "confiance": 0.91
+      },
+      {
+        "id": 28,
+        "texte": "Mon collègue a présenté mon travail comme le sien devant le chef, je suis en colère.",
+        "attendu": "Colere",
+        "predit": "Colere",
+        "confiance": 0.99
+      },
+      {
+        "id": 29,
+        "texte": "Encore une coupure d'internet en pleine réunion, j'ai envie de tout casser.",
+        "attendu": "Colere",
+        "predit": "Colere",
+        "confiance": 0.98
+      },
+      {
+        "id": 30,
+        "texte": "On m'a menti pendant des semaines, je ne supporte pas d'être pris pour un idiot.",
+        "attendu": "Colere",
+        "predit": "Colere",
+        "confiance": 0.99
+      },
+      {
+        "id": 31,
+        "texte": "J'ai peur de la soutenance de demain, je n'arrive pas à dormir.",
+        "attendu": "Peur",
+        "predit": "Peur",
+        "confiance": 1.0
+      },
+      {
+        "id": 32,
+        "texte": "En rentrant tard, un homme m'a suivi dans la rue, j'étais terrifié.",
+        "attendu": "Peur",
+        "predit": "Peur",
+        "confiance": 1.0
+      },
+      {
+        "id": 33,
+        "texte": "Le médecin veut refaire des analyses, je suis très inquiète pour les résultats.",
+        "attendu": "Peur",
+        "predit": "Peur",
+        "confiance": 0.99
+      },
+      {
+        "id": 34,
+        "texte": "L'avion a traversé une grosse zone de turbulences, j'ai cru qu'on allait tomber.",
+        "attendu": "Peur",
+        "predit": "Peur",
+        "confiance": 0.96
+      },
+      {
+        "id": 35,
+        "texte": "J'ai entendu du bruit dans la maison en pleine nuit, j'étais paralysé de peur.",
+        "attendu": "Peur",
+        "predit": "Peur",
+        "confiance": 1.0
+      },
+      {
+        "id": 36,
+        "texte": "Demain je commence un nouveau travail et l'angoisse me serre le ventre.",
+        "attendu": "Peur",
+        "predit": "Peur",
+        "confiance": 0.99
+      },
+      {
+        "id": 37,
+        "texte": "Mon petit frère s'est perdu au marché pendant une heure, j'étais paniqué.",
+        "attendu": "Peur",
+        "predit": "Peur",
+        "confiance": 0.99
+      },
+      {
+        "id": 38,
+        "texte": "L'orage était si violent que j'ai eu peur que le toit s'effondre.",
+        "attendu": "Peur",
+        "predit": "Peur",
+        "confiance": 1.0
+      },
+      {
+        "id": 39,
+        "texte": "J'appréhende les résultats du concours, j'ai peur d'avoir tout raté.",
+        "attendu": "Peur",
+        "predit": "Peur",
+        "confiance": 1.0
+      },
+      {
+        "id": 40,
+        "texte": "Le chien des voisins m'a couru après, j'ai encore les jambes qui tremblent.",
+        "attendu": "Peur",
+        "predit": "Peur",
+        "confiance": 0.72
+      },
+      {
+        "id": 41,
+        "texte": "Je ne m'attendais pas du tout à croiser mon ancien professeur à Paris !",
+        "attendu": "Surprise",
+        "predit": "Joie",
+        "confiance": 0.81
+      },
+      {
+        "id": 42,
+        "texte": "En ouvrant la porte, toute la classe était là pour me faire une surprise.",
+        "attendu": "Surprise",
+        "predit": "Joie",
+        "confiance": 0.98
+      },
+      {
+        "id": 43,
+        "texte": "Incroyable, il a neigé à Tunis ce matin, du jamais vu !",
+        "attendu": "Surprise",
+        "predit": "Peur",
+        "confiance": 0.65
+      },
+      {
+        "id": 44,
+        "texte": "Mon frère m'a annoncé qu'il se mariait le mois prochain, je suis resté bouche bée.",
+        "attendu": "Surprise",
+        "predit": "Tristesse",
+        "confiance": 0.73
+      },
+      {
+        "id": 45,
+        "texte": "J'ai trouvé un billet de cinquante dinars dans une vieille veste, quelle surprise.",
+        "attendu": "Surprise",
+        "predit": "Neutre",
+        "confiance": 0.52
+      },
+      {
+        "id": 46,
+        "texte": "Le prof a annulé l'examen à la dernière minute, personne n'y croyait.",
+        "attendu": "Surprise",
+        "predit": "Neutre",
+        "confiance": 0.55
+      },
+      {
+        "id": 47,
+        "texte": "Je découvre que ma voisine est une chanteuse connue, je n'en reviens pas.",
+        "attendu": "Surprise",
+        "predit": "Joie",
+        "confiance": 0.78
+      },
+      {
+        "id": 48,
+        "texte": "Contre toute attente, notre petit club a battu le champion en titre.",
+        "attendu": "Surprise",
+        "predit": "Joie",
+        "confiance": 0.98
+      },
+      {
+        "id": 49,
+        "texte": "Mon père, qui déteste la technologie, m'a envoyé son premier message vocal, étonnant !",
+        "attendu": "Surprise",
+        "predit": "Joie",
+        "confiance": 0.99
+      },
+      {
+        "id": 50,
+        "texte": "On m'a proposé un stage à l'étranger alors que je n'avais même pas postulé.",
+        "attendu": "Surprise",
+        "predit": "Neutre",
+        "confiance": 0.52
+      },
+      {
+        "id": 51,
+        "texte": "J'ai mangé des pâtes à midi puis je suis rentré à la maison.",
+        "attendu": "Neutre",
+        "predit": "Neutre",
+        "confiance": 0.49
+      },
+      {
+        "id": 52,
+        "texte": "Ce matin, j'ai pris le bus de huit heures pour aller à la faculté.",
+        "attendu": "Neutre",
+        "predit": "Neutre",
+        "confiance": 0.57
+      },
+      {
+        "id": 53,
+        "texte": "J'ai fait les courses : du pain, du lait et des tomates.",
+        "attendu": "Neutre",
+        "predit": "Joie",
+        "confiance": 0.99
+      },
+      {
+        "id": 54,
+        "texte": "Réunion d'équipe de dix heures à onze heures sur le planning du mois.",
+        "attendu": "Neutre",
+        "predit": "Joie",
+        "confiance": 0.95
+      },
+      {
+        "id": 55,
+        "texte": "J'ai rangé ma chambre et fait une lessive dans l'après-midi.",
+        "attendu": "Neutre",
+        "predit": "Neutre",
+        "confiance": 0.57
+      },
+      {
+        "id": 56,
+        "texte": "Le cours de statistiques portait sur la loi normale.",
+        "attendu": "Neutre",
+        "predit": "Neutre",
+        "confiance": 0.49
+      },
+      {
+        "id": 57,
+        "texte": "Il faisait vingt degrés aujourd'hui avec quelques nuages.",
+        "attendu": "Neutre",
+        "predit": "Joie",
+        "confiance": 0.86
+      },
+      {
+        "id": 58,
+        "texte": "J'ai mis à jour mon ordinateur et changé le mot de passe du wifi.",
+        "attendu": "Neutre",
+        "predit": "Colere",
+        "confiance": 0.72
+      },
+      {
+        "id": 59,
+        "texte": "Ma mère a préparé une soupe pour le dîner, ensuite j'ai lu un peu.",
+        "attendu": "Neutre",
+        "predit": "Joie",
+        "confiance": 0.93
+      },
+      {
+        "id": 60,
+        "texte": "J'ai rendu les livres à la bibliothèque avant la fermeture.",
+        "attendu": "Neutre",
+        "predit": "Neutre",
+        "confiance": 0.42
+      }
+    ],
+    "seuil_utilise": 0.6,
+    "seuil_optimal": 0.6,
+    "f1_par_seuil": [
+      {
+        "seuil": 0.3,
+        "f1_macro": 0.516,
+        "accuracy_4_emotions": 0.95
+      },
+      {
+        "seuil": 0.35,
+        "f1_macro": 0.516,
+        "accuracy_4_emotions": 0.95
+      },
+      {
+        "seuil": 0.4,
+        "f1_macro": 0.516,
+        "accuracy_4_emotions": 0.95
+      },
+      {
+        "seuil": 0.45,
+        "f1_macro": 0.551,
+        "accuracy_4_emotions": 0.95
+      },
+      {
+        "seuil": 0.5,
+        "f1_macro": 0.593,
+        "accuracy_4_emotions": 0.925
+      },
+      {
+        "seuil": 0.55,
+        "f1_macro": 0.595,
+        "accuracy_4_emotions": 0.925
+      },
+      {
+        "seuil": 0.6,
+        "f1_macro": 0.638,
+        "accuracy_4_emotions": 0.925
+      },
+      {
+        "seuil": 0.65,
+        "f1_macro": 0.627,
+        "accuracy_4_emotions": 0.9
+      },
+      {
+        "seuil": 0.7,
+        "f1_macro": 0.63,
+        "accuracy_4_emotions": 0.9
+      },
+      {
+        "seuil": 0.75,
+        "f1_macro": 0.64,
+        "accuracy_4_emotions": 0.875
+      },
+      {
+        "seuil": 0.8,
+        "f1_macro": 0.641,
+        "accuracy_4_emotions": 0.875
+      },
+      {
+        "seuil": 0.85,
+        "f1_macro": 0.643,
+        "accuracy_4_emotions": 0.875
+      },
+      {
+        "seuil": 0.9,
+        "f1_macro": 0.644,
+        "accuracy_4_emotions": 0.85
+      },
+      {
+        "seuil": 0.95,
+        "f1_macro": 0.662,
+        "accuracy_4_emotions": 0.825
+      }
+    ],
+    "accuracy": 0.7,
+    "accuracy_4_emotions": 0.925,
+    "par_classe": {
+      "Joie": {
+        "precision": 0.53,
+        "recall": 1.0,
+        "f1-score": 0.69,
+        "support": 10.0
+      },
+      "Tristesse": {
+        "precision": 0.75,
+        "recall": 0.9,
+        "f1-score": 0.82,
+        "support": 10.0
+      },
+      "Colere": {
+        "precision": 0.89,
+        "recall": 0.8,
+        "f1-score": 0.84,
+        "support": 10.0
+      },
+      "Peur": {
+        "precision": 0.91,
+        "recall": 1.0,
+        "f1-score": 0.95,
+        "support": 10.0
+      },
+      "Surprise": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 10.0
+      },
+      "Neutre": {
+        "precision": 0.56,
+        "recall": 0.5,
+        "f1-score": 0.53,
+        "support": 10.0
+      }
+    },
+    "macro": {
+      "precision": 0.605,
+      "recall": 0.7,
+      "f1-score": 0.638
+    },
+    "matrice": [
+      [
+        10,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        9,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        2,
+        8,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        10,
+        0,
+        0
+      ],
+      [
+        5,
+        1,
+        0,
+        1,
+        0,
+        3
+      ],
+      [
+        4,
+        0,
+        1,
+        0,
+        0,
+        5
+      ]
+    ],
+    "moteurs": [
+      "Émotions (local)"
+    ],
+    "temps": {
+      "moyenne_ms": 315,
+      "max_ms": 534,
+      "n": 59
+    },
+    "premier_appel_ms": 30957
+  }
+}

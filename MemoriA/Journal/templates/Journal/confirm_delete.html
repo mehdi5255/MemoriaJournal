@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Supprimer : {{ object }}{% endblock %}
+{% block breadcrumb %}
+    {% if tag %}
+        <li class="breadcrumb-item"><a href="{% url 'journal:tag_list' %}">Étiquettes</a></li>
+    {% else %}
+        <li class="breadcrumb-item"><a href="{% url 'journal:entry_list' %}">Entrées</a></li>
+    {% endif %}
+    <li class="breadcrumb-item active" aria-current="page">Suppression</li>
+{% endblock %}
+{% block page_title %}Confirmer la suppression{% endblock %}
+
+{% block content %}
+<div class="card p-4" style="max-width: 620px;">
+    <p class="fs-5">Voulez-vous vraiment supprimer <strong>« {{ object }} »</strong> ?</p>
+    {% if entry %}
+        <p>Les notes vocales, les photos et le récit de cette entrée seront aussi supprimés.</p>
+    {% else %}
+        <p>L'étiquette sera retirée de {{ object.entries.count }} entrée{{ object.entries.count|pluralize }} ; les entrées sont conservées.</p>
+    {% endif %}
+    <p class="mb-4">Cette action est définitive.</p>
+    <form method="post" class="d-flex flex-wrap gap-2">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Oui, supprimer</button>
+        <a href="{% if entry %}{% url 'journal:entry_detail' entry.pk %}{% else %}{% url 'journal:tag_list' %}{% endif %}" class="btn btn-outline-secondary">Non, annuler</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}{{ entry.title }} ({{ entry.entry_date|date:"j F Y" }}){% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'journal:entry_list' %}">Entrées</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ entry.title|truncatechars:40 }}</li>
+{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+        <div>
+            <h1 class="mb-1">{{ entry.title }}{% if entry.is_favorite %} <span role="img" aria-label="Favori">⭐</span>{% endif %}</h1>
+            <p class="text-muted mb-0">{{ entry.entry_date|date:"l j F Y" }}{% if entry.location %} · {{ entry.location }}{% endif %}</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'journal:entry_update' entry.pk %}" class="btn btn-outline-primary">Modifier</a>
+            <a href="{% url 'journal:entry_delete' entry.pk %}" class="btn btn-outline-secondary">Supprimer</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-lg-8">
+        <section class="card p-4 mb-4" aria-labelledby="titre-texte">
+            <h2 id="titre-texte" class="h5 mb-3">Ma journée</h2>
+            <div class="entry-content">{{ entry.content|linebreaks }}</div>
+            {% if entry.tags.all %}
+                <h3 class="h6 mt-3">Étiquettes</h3>
+                <ul class="list-inline mb-0">
+                    {% for tag in entry.tags.all %}
+                        <li class="list-inline-item"><a href="{% url 'journal:tag_detail' tag.pk %}" class="tag-badge" style="--tag-color: {{ tag.color }}">{{ tag.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </section>
+
+        <section class="card p-4 mb-4" aria-labelledby="titre-photos">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                <h2 id="titre-photos" class="h5 mb-0">Photos</h2>
+                <a href="{% url 'face:photo_create' %}?entry={{ entry.pk }}" class="btn btn-outline-primary btn-sm"><span aria-hidden="true">+</span> Ajouter une photo</a>
+            </div>
+            {% if photos %}
+                <ul class="gallery list-unstyled mb-0">
+                    {% for photo in photos %}
+                        <li>
+                            <figure class="polaroid mb-0">
+                                <a href="{% url 'face:photo_detail' photo.pk %}"><img src="{{ photo.image.url }}" alt="{{ photo.alt_text }}" class="cover" loading="lazy"></a>
+                                {% if photo.caption %}<figcaption>{{ photo.caption|truncatechars:30 }}</figcaption>{% endif %}
+                            </figure>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted mb-0">Aucune photo pour cette journée.</p>
+            {% endif %}
+        </section>
+
+        <section class="card p-4" aria-labelledby="titre-voix">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                <h2 id="titre-voix" class="h5 mb-0">Notes vocales</h2>
+                <a href="{% url 'voice:note_create' %}?entry={{ entry.pk }}" class="btn btn-outline-primary btn-sm"><span aria-hidden="true">+</span> Ajouter une note vocale</a>
+            </div>
+            {% if voice_notes %}
+                <ul class="list-unstyled mb-0">
+                    {% for note in voice_notes %}
+                        <li class="border-bottom py-2">
+                            <a href="{% url 'voice:note_detail' note.pk %}">{{ note.title }}</a>
+                            <span class="text-muted small">· {{ note.get_status_display }}</span>
+                            {% if note.transcription %}<p class="small mb-0 mt-1">{{ note.transcription|truncatewords:30 }}</p>{% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted mb-0">Aucune note vocale pour cette journée.</p>
+            {% endif %}
+        </section>
+    </div>
+
+    <div class="col-lg-4">
+        <section class="card p-4 mb-4" aria-labelledby="titre-humeur">
+            <h2 id="titre-humeur" class="h5 mb-3">Humeur</h2>
+            {% if moods %}
+                <ul class="list-unstyled mb-3">
+                    {% for mood in moods %}
+                        <li class="mb-1"><a href="{% url 'voice:mood_detail' mood.pk %}">{{ mood.get_emotion_display }}</a>
+                            <span class="text-muted small">· {{ mood.get_source_display }}</span></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted">Aucune humeur enregistrée.</p>
+            {% endif %}
+            <form method="post" action="{% url 'voice:mood_detect' %}" class="m-0">
+                {% csrf_token %}
+                <input type="hidden" name="entry" value="{{ entry.pk }}">
+                <button type="submit" class="btn btn-ai btn-sm">Détecter l'humeur avec l'IA</button>
+            </form>
+        </section>
+
+        <section class="card p-4 mb-4" aria-labelledby="titre-recit">
+            <h2 id="titre-recit" class="h5 mb-3">Récit de la journée</h2>
+            {% if story %}
+                <p class="mb-2">{{ story.text|truncatewords:40 }}</p>
+                <a href="{% url 'memory:story_detail' story.pk %}" class="btn btn-outline-primary btn-sm">Lire le récit</a>
+            {% else %}
+                <p class="text-muted">Pas encore de récit. L'IA peut l'écrire à partir du texte, des notes vocales et des photos.</p>
+                <a href="{% url 'memory:story_create' %}?entry={{ entry.pk }}" class="btn btn-ai btn-sm">Créer le récit</a>
+            {% endif %}
+        </section>
+
+        <section class="card p-4 ai-block" aria-labelledby="titre-similaires">
+            <h2 id="titre-similaires" class="h5 ai-label mb-3">IA · 3 souvenirs similaires</h2>
+            {% if task_id %}
+                {% url 'journal:entry_analyze' entry.pk as analyze_url %}
+                {% include "includes/ai_status.html" with task_id=task_id label="L'IA lit votre entrée…" success_message="Entrée analysée." error_message="L'analyse de l'entrée a échoué." retry_url=analyze_url result_target="#souvenirs-similaires" %}
+            {% endif %}
+            <div id="souvenirs-similaires">{% include "Journal/includes/similar.html" %}</div>
+            {% if not entry.embedding and not task_id %}
+                <form method="post" action="{% url 'journal:entry_analyze' entry.pk %}" class="mt-3">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-ai btn-sm">Chercher des souvenirs similaires</button>
+                </form>
+            {% endif %}
+        </section>
+    </div>
+</div>
+{% endblock %}

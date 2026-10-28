@@ -1,0 +1,1514 @@
+{
+  "heure": {
+    "n": 12,
+    "lignes": [
+      {
+        "id": 1,
+        "profil": "Étudiant du soir",
+        "habitude": "21:30",
+        "part_kmeans": 0.97,
+        "predictions": {
+          "kmeans": "21:30",
+          "moyenne_circulaire": "21:31",
+          "mediane": "21:26",
+          "moyenne": "21:00"
+        },
+        "erreurs": {
+          "kmeans": 0,
+          "moyenne_circulaire": 1,
+          "mediane": 4,
+          "moyenne": 30
+        }
+      },
+      {
+        "id": 2,
+        "profil": "Lève-tôt",
+        "habitude": "06:45",
+        "part_kmeans": 0.97,
+        "predictions": {
+          "kmeans": "06:45",
+          "moyenne_circulaire": "06:53",
+          "mediane": "06:48",
+          "moyenne": "06:53"
+        },
+        "erreurs": {
+          "kmeans": 0,
+          "moyenne_circulaire": 8,
+          "mediane": 3,
+          "moyenne": 8
+        }
+      },
+      {
+        "id": 3,
+        "profil": "Pause de midi",
+        "habitude": "12:40",
+        "part_kmeans": 0.9,
+        "predictions": {
+          "kmeans": "12:40",
+          "moyenne_circulaire": "12:34",
+          "mediane": "12:40",
+          "moyenne": "12:26"
+        },
+        "erreurs": {
+          "kmeans": 0,
+          "moyenne_circulaire": 6,
+          "mediane": 0,
+          "moyenne": 14
+        }
+      },
+      {
+        "id": 4,
+        "profil": "Couche-tard autour de minuit",
+        "habitude": "23:55",
+        "part_kmeans": 0.93,
+        "predictions": {
+          "kmeans": "23:50",
+          "moyenne_circulaire": "23:59",
+          "mediane": "23:18",
+          "moyenne": "14:48"
+        },
+        "erreurs": {
+          "kmeans": 5,
+          "moyenne_circulaire": 4,
+          "mediane": 37,
+          "moyenne": 547
+        }
+      },
+      {
+        "id": 5,
+        "profil": "Après minuit",
+        "habitude": "00:30",
+        "part_kmeans": 0.97,
+        "predictions": {
+          "kmeans": "00:30",
+          "moyenne_circulaire": "00:23",
+          "mediane": "00:40",
+          "moyenne": "03:32"
+        },
+        "erreurs": {
+          "kmeans": 0,
+          "moyenne_circulaire": 7,
+          "mediane": 10,
+          "moyenne": 182
+        }
+      },
+      {
+        "id": 6,
+        "profil": "Après le travail",
+        "habitude": "18:15",
+        "part_kmeans": 0.9,
+        "predictions": {
+          "kmeans": "18:10",
+          "moyenne_circulaire": "18:23",
+          "mediane": "18:03",
+          "moyenne": "16:39"
+        },
+        "erreurs": {
+          "kmeans": 5,
+          "moyenne_circulaire": 8,
+          "mediane": 12,
+          "moyenne": 96
+        }
+      },
+      {
+        "id": 7,
+        "profil": "Soirée régulière",
+        "habitude": "22:10",
+        "part_kmeans": 0.9,
+        "predictions": {
+          "kmeans": "22:10",
+          "moyenne_circulaire": "22:06",
+          "mediane": "22:08",
+          "moyenne": "20:59"
+        },
+        "erreurs": {
+          "kmeans": 0,
+          "moyenne_circulaire": 4,
+          "mediane": 2,
+          "moyenne": 71
+        }
+      },
+      {
+        "id": 8,
+        "profil": "Matin et soir (habitude principale le soir)",
+        "habitude": "21:00",
+        "part_kmeans": 0.67,
+        "predictions": {
+          "kmeans": "21:05",
+          "moyenne_circulaire": "22:25",
+          "mediane": "20:46",
+          "moyenne": "16:32"
+        },
+        "erreurs": {
+          "kmeans": 5,
+          "moyenne_circulaire": 85,
+          "mediane": 14,
+          "moyenne": 268
+        }
+      },
+      {
+        "id": 9,
+        "profil": "Irrégulier",
+        "habitude": "20:00",
+        "part_kmeans": 0.83,
+        "predictions": {
+          "kmeans": "20:00",
+          "moyenne_circulaire": "19:25",
+          "mediane": "19:44",
+          "moyenne": "18:36"
+        },
+        "erreurs": {
+          "kmeans": 0,
+          "moyenne_circulaire": 35,
+          "mediane": 16,
+          "moyenne": 84
+        }
+      },
+      {
+        "id": 10,
+        "profil": "Week-end matin",
+        "habitude": "10:30",
+        "part_kmeans": 0.93,
+        "predictions": {
+          "kmeans": "10:40",
+          "moyenne_circulaire": "10:47",
+          "mediane": "10:44",
+          "moyenne": "11:25"
+        },
+        "erreurs": {
+          "kmeans": 10,
+          "moyenne_circulaire": 17,
+          "mediane": 14,
+          "moyenne": 55
+        }
+      },
+      {
+        "id": 11,
+        "profil": "Dîner tardif",
+        "habitude": "23:20",
+        "part_kmeans": 0.97,
+        "predictions": {
+          "kmeans": "23:20",
+          "moyenne_circulaire": "23:19",
+          "mediane": "23:26",
+          "moyenne": "22:58"
+        },
+        "erreurs": {
+          "kmeans": 0,
+          "moyenne_circulaire": 1,
+          "mediane": 6,
+          "moyenne": 22
+        }
+      },
+      {
+        "id": 12,
+        "profil": "Avant le coucher",
+        "habitude": "22:45",
+        "part_kmeans": 0.83,
+        "predictions": {
+          "kmeans": "22:50",
+          "moyenne_circulaire": "22:37",
+          "mediane": "22:42",
+          "moyenne": "20:23"
+        },
+        "erreurs": {
+          "kmeans": 5,
+          "moyenne_circulaire": 8,
+          "mediane": 3,
+          "moyenne": 142
+        }
+      }
+    ],
+    "mae": {
+      "kmeans": 2.5,
+      "moyenne_circulaire": 15.3,
+      "mediane": 10.1,
+      "moyenne": 126.6
+    },
+    "max": {
+      "kmeans": 10,
+      "moyenne_circulaire": 85,
+      "mediane": 37,
+      "moyenne": 547
+    },
+    "moins_15_min": 12,
+    "temps": {
+      "moyenne_ms": 178,
+      "max_ms": 1415,
+      "n": 12
+    }
+  },
+  "date": "2026-10-28",
+  "entites": {
+    "n": 30,
+    "reussis": 30,
+    "erreurs": [],
+    "lignes": [
+      {
+        "id": 1,
+        "texte": "Ce matin, j'ai pris un café avec Sarah à Tunis.",
+        "attendues": [
+          [
+            "PER",
+            "Sarah"
+          ],
+          [
+            "LOC",
+            "Tunis"
+          ]
+        ],
+        "brutes": [
+          [
+            "MISC",
+            "Sarah",
+            0.606
+          ],
+          [
+            "LOC",
+            "Tunis",
+            0.998
+          ]
+        ],
+        "predites": [
+          [
+            "LOC",
+            "Tunis"
+          ]
+        ],
+        "correct": false
+      },
+      {
+        "id": 2,
+        "texte": "Karim et moi avons regardé le match de l'Espérance au stade de Radès.",
+        "attendues": [
+          [
+            "PER",
+            "Karim"
+          ],
+          [
+            "ORG",
+            "Espérance"
+          ],
+          [
+            "LOC",
+            "Radès"
+          ]
+        ],
+        "brutes": [
+          [
+            "PER",
+            "Karim",
+            0.454
+          ],
+          [
+            "ORG",
+            "Espérance",
+            0.949
+          ],
+          [
+            "LOC",
+            "Radès",
+            0.997
+          ]
+        ],
+        "predites": [
+          [
+            "ORG",
+            "Espérance"
+          ],
+          [
+            "LOC",
+            "Radès"
+          ]
+        ],
+        "correct": false
+      },
+      {
+        "id": 3,
+        "texte": "Ma cousine Amira se marie à Nabeul le mois prochain.",
+        "attendues": [
+          [
+            "PER",
+            "Amira"
+          ],
+          [
+            "LOC",
+            "Nabeul"
+          ]
+        ],
+        "brutes": [
+          [
+            "PER",
+            "Amira",
+            0.962
+          ],
+          [
+            "LOC",
+            "Nabeul",
+            0.999
+          ]
+        ],
+        "predites": [
+          [
+            "PER",
+            "Amira"
+          ],
+          [
+            "LOC",
+            "Nabeul"
+          ]
+        ],
+        "correct": true
+      },
+      {
+        "id": 4,
+        "texte": "Premier jour de stage chez Vermeg avec mon tuteur Youssef.",
+        "attendues": [
+          [
+            "ORG",
+            "Vermeg"
+          ],
+          [
+            "PER",
+            "Youssef"
+          ]
+        ],
+        "brutes": [
+          [
+            "ORG",
+            "Vermeg",
+            0.858
+          ],
+          [
+            "PER",
+            "Youssef",
+            0.993
+          ]
+        ],
+        "predites": [
+          [
+            "ORG",
+            "Vermeg"
+          ],
+          [
+            "PER",
+            "Youssef"
+          ]
+        ],
+        "correct": true
+      },
+      {
+        "id": 5,
+        "texte": "Nous avons visité les ruines de Carthage puis Sidi Bou Saïd.",
+        "attendues": [
+          [
+            "LOC",
+            "Carthage"
+          ],
+          [
+            "LOC",
+            "Sidi Bou Saïd"
+          ]
+        ],
+        "brutes": [
+          [
+            "LOC",
+            "Carthage",
+            0.994
+          ],
+          [
+            "LOC",
+            "Sidi Bou Saïd",
+            0.998
+          ]
+        ],
+        "predites": [
+          [
+            "LOC",
+            "Carthage"
+          ],
+          [
+            "LOC",
+            "Sidi Bou Saïd"
+          ]
+        ],
+        "correct": true
+      },
+      {
+        "id": 6,
+        "texte": "Réunion à l'ESPRIT avec le professeur Ben Salah pour le projet Django.",
+        "attendues": [
+          [
+            "ORG",
+            "ESPRIT"
+          ],
+          [
+            "PER",
+            "Ben Salah"
+          ],
+          [
+            "MISC",
+            "Django"
+          ]
+        ],
+        "brutes": [
+          [
+            "ORG",
+            "ESPRIT",
+            0.913
+          ],
+          [
+            "PER",
+            "Ben Salah",
+            0.999
+          ],
+          [
+            "PER",
+            "Dj",
+            0.549
+          ],
+          [
+            "MISC",
+            "ango",
+            0.517
+          ]
+        ],
+        "predites": [
+          [
+            "ORG",
+            "ESPRIT"
+          ],
+          [
+            "PER",
+            "Ben Salah"
+          ]
+        ],
+        "correct": false
+      },
+      {
+        "id": 7,
+        "texte": "Week-end à Djerba avec Leïla et Mehdi, il faisait très chaud.",
+        "attendues": [
+          [
+            "LOC",
+            "Djerba"
+          ],
+          [
+            "PER",
+            "Leïla"
+          ],
+          [
+            "PER",
+            "Mehdi"
+          ]
+        ],
+        "brutes": [
+          [
+            "LOC",
+            "Djerba",
+            0.993
+          ],
+          [
+            "PER",
+            "Leïla",
+            0.578
+          ],
+          [
+            "PER",
+            "Mehdi",
+            0.838
+          ]
+        ],
+        "predites": [
+          [
+            "LOC",
+            "Djerba"
+          ],
+          [
+            "PER",
+            "Mehdi"
+          ]
+        ],
+        "correct": false
+      },
+      {
+        "id": 8,
+        "texte": "J'ai lu un roman de Tahar Ben Jelloun pendant la pluie.",
+        "attendues": [
+          [
+            "PER",
+            "Tahar Ben Jelloun"
+          ]
+        ],
+        "brutes": [
+          [
+            "PER",
+            "Tahar Ben Jelloun",
+            0.999
+          ]
+        ],
+        "predites": [
+          [
+            "PER",
+            "Tahar Ben Jelloun"
+          ]
+        ],
+        "correct": true
+      },
+      {
+        "id": 9,
+        "texte": "Ma mère a appelé depuis Paris, elle rentre samedi.",
+        "attendues": [
+          [
+            "LOC",
+            "Paris"
+          ]
+        ],
+        "brutes": [
+          [
+            "LOC",
+            "Paris",
+            0.997
+          ]
+        ],
+        "predites": [
+          [
+            "LOC",
+            "Paris"
+          ]
+        ],
+        "correct": true
+      },
+      {
+        "id": 10,
+        "texte": "Grosse panne de la STEG dans tout le quartier ce soir.",
+        "attendues": [
+          [
+            "ORG",
+            "STEG"
+          ]
+        ],
+        "brutes": [
+          [
+            "MISC",
+            "STEG",
+            0.739
+          ]
+        ],
+        "predites": [],
+        "correct": false
+      },
+      {
+        "id": 11,
+        "texte": "Nadia m'a invitée à son anniversaire à La Marsa.",
+        "attendues": [
+          [
+            "PER",
+            "Nadia"
+          ],
+          [
+            "LOC",
+            "La Marsa"
+          ]
+        ],
+        "brutes": [
+          [
+            "PER",
+            "Nadia",
+            0.39
+          ],
+          [
+            "LOC",
+            "La Marsa",
+            0.999
+          ]
+        ],
+        "predites": [
+          [
+            "LOC",
+            "La Marsa"
+          ]
+        ],
+        "correct": false
+      },
+      {
+        "id": 12,
+        "texte": "Randonnée au djebel Zaghouan avec le club Tunisie Trekking.",
+        "attendues": [
+          [
+            "LOC",
+            "Zaghouan"
+          ],
+          [
+            "ORG",
+            "Tunisie Trekking"
+          ]
+        ],
+        "brutes": [
+          [
+            "LOC",
+            "djebel Zaghouan",
+            0.984
+          ],
+          [
+            "ORG",
+            "Tunisie Trekking",
+            0.888
+          ]
+        ],
+        "predites": [
+          [
+            "LOC",
+            "djebel Zaghouan"
+          ],
+          [
+            "ORG",
+            "Tunisie Trekking"
+          ]
+        ],
+        "correct": false
+      },
+      {
+        "id": 13,
+        "texte": "Le concert d'Emel Mathlouthi au festival de Carthage était magnifique.",
+        "attendues": [
+          [
+            "PER",
+            "Emel Mathlouthi"
+          ],
+          [
+            "MISC",
+            "festival de Carthage"
+          ]
+        ],
+        "brutes": [
+          [
+            "PER",
+            "Emel Mathlouthi",
+            0.999
+          ],
+          [
+            "ORG",
+            "festival de",
+            0.542
+          ],
+          [
+            "LOC",
+            "Carthage",
+            0.7
+          ]
+        ],
+        "predites": [
+          [
+            "PER",
+            "Emel Mathlouthi"
+          ]
+        ],
+        "correct": false
+      },
+      {
+        "id": 14,
+        "texte": "Mon frère Ahmed a eu son bac au lycée Bourguiba de Monastir.",
+        "attendues": [
+          [
+            "PER",
+            "Ahmed"
+          ],
+          [
+            "ORG",
+            "lycée Bourguiba"
+          ],
+          [
+            "LOC",
+            "Monastir"
+          ]
+        ],
+        "brutes": [
+          [
+            "PER",
+            "Ahmed",
+            0.932
+          ],
+          [
+            "LOC",
+            "lycée",
+            0.877
+          ],
+          [
+            "PER",
+            "Bourguiba",
+            0.596
+          ],
+          [
+            "LOC",
+            "Monastir",
+            0.999
+          ]
+        ],
+        "predites": [
+          [
+            "PER",
+            "Ahmed"
+          ],
+          [
+            "LOC",
+            "lycée"
+          ],
+          [
+            "LOC",
+            "Monastir"
+          ]
+        ],
+        "correct": false
+      },
+      {
+        "id": 15,
+        "texte": "Aujourd'hui je suis resté à la maison, rien de spécial.",
+        "attendues": [],
+        "brutes": [],
+        "predites": [],
+        "correct": true
+      },
+      {
+        "id": 16,
+        "texte": "Dîner chez Sami et Ines à Sousse pour fêter leur nouvel appartement.",
+        "attendues": [
+          [
+            "PER",
+            "Sami"
+          ],
+          [
+            "PER",
+            "Ines"
+          ],
+          [
+            "LOC",
+            "Sousse"
+          ]
+        ],
+        "brutes": [
+          [
+            "PER",
+            "Sami",
+            0.948
+          ],
+          [
+            "PER",
+            "Ines",
+            0.941
+          ],
+          [
+            "LOC",
+            "Sousse",
+            0.998
+          ]
+        ],
+        "predites": [
+          [
+            "PER",
+            "Sami"
+          ],
+          [
+            "PER",
+            "Ines"
+          ],
+          [
+            "LOC",
+            "Sousse"
+          ]
+        ],
+        "correct": true
+      },
+      {
+        "id": 17,
+        "texte": "J'ai commandé un livre sur Amazon pour le cours de statistiques.",
+        "attendues": [
+          [
+            "ORG",
+            "Amazon"
+          ]
+        ],
+        "brutes": [
+          [
+            "ORG",
+            "Amazon",
+            0.883
+          ]
+        ],
+        "predites": [
+          [
+            "ORG",
+            "Amazon"
+          ]
+        ],
+        "correct": true
+      },
+      {
+        "id": 18,
+        "texte": "Le vol Tunisair pour Rome a eu deux heures de retard.",
+        "attendues": [
+          [
+            "ORG",
+            "Tunisair"
+          ],
+          [
+            "LOC",
+            "Rome"
+          ]
+        ],
+        "brutes": [
+          [
+            "ORG",
+            "Tunisair",
+            0.993
+          ],
+          [
+            "LOC",
+            "Rome",
+            0.998
+          ]
+        ],
+        "predites": [
+          [
+            "ORG",
+            "Tunisair"
+          ],
+          [
+            "LOC",
+            "Rome"
+          ]
+        ],
+        "correct": true
+      },
+      {
+        "id": 19,
+        "texte": "Pendant le Ramadan, nous rompons le jeûne chez ma grand-mère à Sfax.",
+        "attendues": [
+          [
+            "MISC",
+            "Ramadan"
+          ],
+          [
+            "LOC",
+            "Sfax"
+          ]
+        ],
+        "brutes": [
+          [
+            "MISC",
+            "Ramadan",
+            0.99
+          ],
+          [
+            "LOC",
+            "Sfax",
+            0.999
+          ]
+        ],
+        "predites": [
+          [
+            "MISC",
+            "Ramadan"
+          ],
+          [
+            "LOC",
+            "Sfax"
+          ]
+        ],
+        "correct": true
+      },
+      {
+        "id": 20,
+        "texte": "Rania m'a parlé de son entretien chez Orange Tunisie.",
+        "attendues": [
+          [
+            "PER",
+            "Rania"
+          ],
+          [
+            "ORG",
+            "Orange Tunisie"
+          ]
+        ],
+        "brutes": [
+          [
+            "PER",
+            "Rania",
+            0.991
+          ],
+          [
+            "ORG",
+            "Orange Tunisie",
+            0.87
+          ]
+        ],
+        "predites": [
+          [
+            "PER",
+            "Rania"
+          ],
+          [
+            "ORG",
+            "Orange Tunisie"
+          ]
+        ],
+        "correct": true
+      },
+      {
+        "id": 21,
+        "texte": "Balade au bord du lac de Tunis avec mon chien Rex.",
+        "attendues": [
+          [
+            "LOC",
+            "lac de Tunis"
+          ],
+          [
+            "PER",
+            "Rex"
+          ]
+        ],
+        "brutes": [
+          [
+            "LOC",
+            "lac de Tunis",
+            0.885
+          ],
+          [
+            "MISC",
+            "Rex",
+            0.565
+          ]
+        ],
+        "predites": [
+          [
+            "LOC",
+            "lac de Tunis"
+          ]
+        ],
+        "correct": false
+      },
+      {
+        "id": 22,
+        "texte": "Nous préparons la Coupe du monde de football devant la télévision avec Walid.",
+        "attendues": [
+          [
+            "MISC",
+            "Coupe du monde"
+          ],
+          [
+            "PER",
+            "Walid"
+          ]
+        ],
+        "brutes": [
+          [
+            "MISC",
+            "la Coupe",
+            0.87
+          ],
+          [
+            "PER",
+            "Walid",
+            0.899
+          ]
+        ],
+        "predites": [
+          [
+            "MISC",
+            "la Coupe"
+          ],
+          [
+            "PER",
+            "Walid"
+          ]
+        ],
+        "correct": false
+      },
+      {
+        "id": 23,
+        "texte": "Visite du musée du Bardo avec la classe de Mme Trabelsi.",
+        "attendues": [
+          [
+            "LOC",
+            "musée du Bardo"
+          ],
+          [
+            "PER",
+            "Trabelsi"
+          ]
+        ],
+        "brutes": [
+          [
+            "LOC",
+            "musée du Bardo",
+            0.966
+          ],
+          [
+            "PER",
+            "Mme Trabelsi",
+            0.956
+          ]
+        ],
+        "predites": [
+          [
+            "LOC",
+            "musée du Bardo"
+          ],
+          [
+            "PER",
+            "Mme Trabelsi"
+          ]
+        ],
+        "correct": false
+      },
+      {
+        "id": 24,
+        "texte": "J'ai rencontré Claire, une amie française, à l'aéroport de Tunis-Carthage.",
+        "attendues": [
+          [
+            "PER",
+            "Claire"
+          ],
+          [
+            "LOC",
+            "Tunis-Carthage"
+          ]
+        ],
+        "brutes": [
+          [
+            "MISC",
+            "Claire",
+            0.627
+          ],
+          [
+            "LOC",
+            "de Tunis-Carthage",
+            0.933
+          ]
+        ],
+        "predites": [
+          [
+            "LOC",
+            "de Tunis-Carthage"
+          ]
+        ],
+        "correct": false
+      },
+      {
+        "id": 25,
+        "texte": "Session de révision à la bibliothèque nationale avec Hichem.",
+        "attendues": [
+          [
+            "LOC",
+            "bibliothèque nationale"
+          ],
+          [
+            "PER",
+            "Hichem"
+          ]
+        ],
+        "brutes": [
+          [
+            "PER",
+            "Hichem",
+            0.997
+          ]
+        ],
+        "predites": [
+          [
+            "PER",
+            "Hichem"
+          ]
+        ],
+        "correct": false
+      },
+      {
+        "id": 26,
+        "texte": "Le Club Africain a gagné le derby, tout Bab Jedid faisait la fête.",
+        "attendues": [
+          [
+            "ORG",
+            "Club Africain"
+          ],
+          [
+            "LOC",
+            "Bab Jedid"
+          ]
+        ],
+        "brutes": [
+          [
+            "ORG",
+            "Club Africain",
+            0.976
+          ],
+          [
+            "PER",
+            "Bab Jedid",
+            0.978
+          ]
+        ],
+        "predites": [
+          [
+            "ORG",
+            "Club Africain"
+          ],
+          [
+            "PER",
+            "Bab Jedid"
+          ]
+        ],
+        "correct": false
+      },
+      {
+        "id": 27,
+        "texte": "Ma sœur Salma part étudier à Montréal en septembre.",
+        "attendues": [
+          [
+            "PER",
+            "Salma"
+          ],
+          [
+            "LOC",
+            "Montréal"
+          ]
+        ],
+        "brutes": [
+          [
+            "PER",
+            "Salma",
+            0.9
+          ],
+          [
+            "LOC",
+            "Montréal",
+            0.996
+          ]
+        ],
+        "predites": [
+          [
+            "PER",
+            "Salma"
+          ],
+          [
+            "LOC",
+            "Montréal"
+          ]
+        ],
+        "correct": true
+      },
+      {
+        "id": 28,
+        "texte": "Journée calme, j'ai fait du sport puis j'ai cuisiné.",
+        "attendues": [],
+        "brutes": [],
+        "predites": [],
+        "correct": true
+      },
+      {
+        "id": 29,
+        "texte": "Atelier de poterie à Nabeul avec Hela et son mari Omar.",
+        "attendues": [
+          [
+            "LOC",
+            "Nabeul"
+          ],
+          [
+            "PER",
+            "Hela"
+          ],
+          [
+            "PER",
+            "Omar"
+          ]
+        ],
+        "brutes": [
+          [
+            "LOC",
+            "Nabeul",
+            0.999
+          ],
+          [
+            "PER",
+            "Hela",
+            0.984
+          ],
+          [
+            "PER",
+            "Omar",
+            0.981
+          ]
+        ],
+        "predites": [
+          [
+            "LOC",
+            "Nabeul"
+          ],
+          [
+            "PER",
+            "Hela"
+          ],
+          [
+            "PER",
+            "Omar"
+          ]
+        ],
+        "correct": true
+      },
+      {
+        "id": 30,
+        "texte": "J'ai regardé Star Wars avec Yassine au cinéma Pathé.",
+        "attendues": [
+          [
+            "MISC",
+            "Star Wars"
+          ],
+          [
+            "PER",
+            "Yassine"
+          ],
+          [
+            "ORG",
+            "Pathé"
+          ]
+        ],
+        "brutes": [
+          [
+            "MISC",
+            "Star Wars",
+            0.996
+          ],
+          [
+            "PER",
+            "Yassine",
+            0.989
+          ],
+          [
+            "ORG",
+            "Pathé",
+            0.946
+          ]
+        ],
+        "predites": [
+          [
+            "MISC",
+            "Star Wars"
+          ],
+          [
+            "PER",
+            "Yassine"
+          ],
+          [
+            "ORG",
+            "Pathé"
+          ]
+        ],
+        "correct": true
+      }
+    ],
+    "entites_attendues": 59,
+    "seuil": 0.8,
+    "par_seuil": [
+      {
+        "seuil": 0.3,
+        "precision": 0.754,
+        "recall": 0.78,
+        "f1": 0.767
+      },
+      {
+        "seuil": 0.4,
+        "precision": 0.75,
+        "recall": 0.763,
+        "f1": 0.756
+      },
+      {
+        "seuil": 0.5,
+        "precision": 0.746,
+        "recall": 0.746,
+        "f1": 0.746
+      },
+      {
+        "seuil": 0.6,
+        "precision": 0.811,
+        "recall": 0.729,
+        "f1": 0.768
+      },
+      {
+        "seuil": 0.7,
+        "precision": 0.843,
+        "recall": 0.729,
+        "f1": 0.782
+      },
+      {
+        "seuil": 0.8,
+        "precision": 0.878,
+        "recall": 0.729,
+        "f1": 0.796
+      },
+      {
+        "seuil": 0.9,
+        "precision": 0.9,
+        "recall": 0.61,
+        "f1": 0.727
+      }
+    ],
+    "strict": {
+      "par_type": {
+        "PER": {
+          "precision": 0.89,
+          "recall": 0.7,
+          "f1-score": 0.78,
+          "support": 23.0
+        },
+        "LOC": {
+          "precision": 0.84,
+          "recall": 0.8,
+          "f1-score": 0.82,
+          "support": 20.0
+        },
+        "ORG": {
+          "precision": 1.0,
+          "recall": 0.82,
+          "f1-score": 0.9,
+          "support": 11.0
+        },
+        "MISC": {
+          "precision": 0.67,
+          "recall": 0.4,
+          "f1-score": 0.5,
+          "support": 5.0
+        }
+      },
+      "micro": {
+        "precision": 0.878,
+        "recall": 0.729,
+        "f1-score": 0.796
+      },
+      "macro": {
+        "precision": 0.849,
+        "recall": 0.678,
+        "f1-score": 0.75
+      },
+      "matrice": [
+        [
+          16,
+          0,
+          0,
+          0,
+          7
+        ],
+        [
+          1,
+          16,
+          0,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          9,
+          0,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          3
+        ],
+        [
+          1,
+          3,
+          0,
+          1,
+          0
+        ]
+      ]
+    },
+    "partiel": {
+      "par_type": {
+        "PER": {
+          "precision": 0.94,
+          "recall": 0.74,
+          "f1-score": 0.83,
+          "support": 23.0
+        },
+        "LOC": {
+          "precision": 0.95,
+          "recall": 0.9,
+          "f1-score": 0.92,
+          "support": 20.0
+        },
+        "ORG": {
+          "precision": 1.0,
+          "recall": 0.82,
+          "f1-score": 0.9,
+          "support": 11.0
+        },
+        "MISC": {
+          "precision": 0.67,
+          "recall": 0.4,
+          "f1-score": 0.5,
+          "support": 5.0
+        }
+      },
+      "micro": {
+        "precision": 0.939,
+        "recall": 0.78,
+        "f1-score": 0.852
+      },
+      "macro": {
+        "precision": 0.89,
+        "recall": 0.714,
+        "f1-score": 0.788
+      },
+      "matrice": [
+        [
+          17,
+          0,
+          0,
+          0,
+          6
+        ],
+        [
+          1,
+          18,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          9,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      ]
+    },
+    "moteurs": [
+      "CamemBERT NER (local)"
+    ],
+    "temps": {
+      "moyenne_ms": 191,
+      "max_ms": 449,
+      "n": 29
+    },
+    "premier_appel_ms": 8156
+  }
+}

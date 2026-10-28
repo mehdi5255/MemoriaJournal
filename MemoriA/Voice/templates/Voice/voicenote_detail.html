@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Note vocale : {{ note.title }}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'voice:mood_list' %}">Voix et humeur</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'voice:note_list' %}">Notes vocales</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ note.title }}</li>
+{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+        <div>
+            <h1 class="mb-1">{{ note.title }}</h1>
+            <p class="text-muted mb-0">{{ note.entry.title }} · {{ note.entry.entry_date|date:"j F Y" }} · {{ note.duration }} secondes</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'voice:note_update' note.pk %}" class="btn btn-outline-primary">Modifier</a>
+            <a href="{% url 'voice:note_delete' note.pk %}" class="btn btn-outline-secondary">Supprimer</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <section class="col-lg-5" aria-labelledby="titre-ecoute">
+        <div class="card p-4 h-100">
+            <h2 id="titre-ecoute" class="mb-3">Écouter</h2>
+            <audio controls preload="metadata" class="w-100" src="{{ note.audio.url }}">
+                Votre navigateur ne peut pas lire ce fichier. <a href="{{ note.audio.url }}">Télécharger la note vocale</a>.
+            </audio>
+            <p class="text-muted small mt-2 mb-0">Durée : {{ note.duration }} s · ajoutée le {{ note.creation_date|date:"j F Y à H:i" }}</p>
+        </div>
+    </section>
+    <section class="col-lg-7" aria-labelledby="titre-transcription">
+        <div class="card p-4 h-100">
+            <h2 id="titre-transcription" class="mb-3">Transcription</h2>
+            {% url 'voice:note_transcribe' note.pk as transcribe_url %}
+            {% if task_id %}
+                {% include "includes/ai_status.html" with task_id=task_id label="Transcription en cours… (quelques secondes à une minute)" success_message="Transcription terminée !" error_message="Le service de transcription ne répond pas. Réessayez dans un instant." retry_url=transcribe_url result_target="#transcription" %}
+            {% endif %}
+            <div id="transcription">
+                {% include "Voice/includes/transcription.html" %}
+            </div>
+            <form method="post" action="{{ transcribe_url }}" class="mt-3">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-ai btn-sm">Transcrire à nouveau</button>
+            </form>
+        </div>
+    </section>
+</div>
+{% endblock %}

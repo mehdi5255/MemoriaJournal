@@ -19,9 +19,11 @@ from Journal.models import JournalEntry
 from MemoriA.celery import app as celery_app
 from Reminder.models import DailyPrompt
 from Voice.models import MoodRecord
+from Voice.services import mood_alert
 
 from .forms import ProfileForm, SignupForm
 from .models import ActivityLog, Profile
+from .services import AIServiceError
 
 # Couleur de la pastille d'humeur (pastels de la charte, toujours accompagnés du texte)
 MOOD_CLASSES = {'Joie': 'mood-joie', 'Tristesse': 'mood-tristesse', 'Colere': 'mood-colere',
@@ -60,6 +62,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
         context['week'] = week
         context['latest_entries'] = JournalEntry.objects.filter(user=user)[:5]
         context['daily_prompt'] = DailyPrompt.objects.filter(user=user, prompt_date=today).first()
+        context['alert'] = mood_alert(user)          # 3 jours négatifs de suite (module Voice)
         return context
 
 
@@ -145,6 +148,9 @@ class TaskStatusView(LoginRequiredMixin, View):
             data = {'status': 'SUCCESS', 'result': result.result if isinstance(result.result, dict) else {}}
         elif result.state in ('FAILURE', 'REVOKED'):
             data = {'status': 'FAILURE'}
+            # Message clair seulement pour les erreurs IA prévues (jamais les détails techniques)
+            if isinstance(result.result, AIServiceError):
+                data['message'] = str(result.result)
         else:
             # PENDING, STARTED, RETRY : la tâche n'est pas terminée
             data = {'status': 'PENDING'}

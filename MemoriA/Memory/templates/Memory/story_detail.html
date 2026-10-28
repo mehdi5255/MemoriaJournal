@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Récit : {{ story.entry.title }}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'memory:souvenirs' %}">Souvenirs</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'memory:story_list' %}">Récits</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ story.entry.title }}</li>
+{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+        <div>
+            <h1 class="mb-1">{{ story.entry.title }}</h1>
+            <p class="text-muted mb-0">{{ story.entry.entry_date|date:"l j F Y" }}{% if story.entry.location %} · {{ story.entry.location }}{% endif %}</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'memory:story_update' story.pk %}" class="btn btn-outline-primary">Modifier le texte</a>
+            <a href="{% url 'memory:story_delete' story.pk %}" class="btn btn-outline-secondary">Supprimer</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <section class="col-lg-7" aria-labelledby="titre-texte">
+        <div class="card p-4 h-100">
+            <h2 id="titre-texte" class="mb-3">Le récit</h2>
+            {% if task_id and task_type == 'story' %}
+                {% url 'memory:story_regenerate' story.pk as retry_url %}
+                {% include "includes/ai_status.html" with task_id=task_id label="Nouvelle version du récit en cours d'écriture…" success_message="Nouvelle version prête !" error_message="Le service de rédaction ne répond pas. Réessayez dans un instant." retry_url=retry_url retry_data=retry_data result_target="#recit-texte" %}
+            {% endif %}
+            <div id="recit-texte">
+                {% include "Memory/includes/story_text.html" %}
+            </div>
+
+            <form method="post" action="{% url 'memory:story_regenerate' story.pk %}" class="ai-block mt-4">
+                {% csrf_token %}
+                <p class="ai-label mb-2">IA · Gemini</p>
+                <div class="d-flex flex-wrap align-items-end gap-2">
+                    <div>
+                        <label for="regenerer-style" class="form-label">Style</label>
+                        <select id="regenerer-style" name="style" class="form-select">
+                            {% for value, label in regenerate_styles %}
+                                <option value="{{ value }}" {% if value == story.style %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-ai">Régénérer le récit</button>
+                </div>
+                <p class="form-text mb-0 mt-2">Le texte actuel sera remplacé (version {{ story.version|add:1 }}). Vous pourrez toujours le modifier ensuite.</p>
+            </form>
+        </div>
+    </section>
+
+    <section class="col-lg-5" aria-labelledby="titre-images">
+        <div class="card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 id="titre-images" class="mb-0">Illustrations</h2>
+                <a href="{% url 'memory:image_create' story.pk %}" class="btn btn-outline-primary btn-sm">Importer une image</a>
+            </div>
+
+            <form method="post" action="{% url 'memory:image_generate' story.pk %}" class="ai-block mb-3">
+                {% csrf_token %}
+                <p class="ai-label mb-2">IA · Stable Diffusion</p>
+                {% for field in image_form %}{% include "includes/form_field.html" %}{% endfor %}
+                <button type="submit" class="btn btn-ai">Créer une illustration</button>
+            </form>
+
+            {% if task_id and task_type == 'image' %}
+                {% url 'memory:image_generate' story.pk as retry_url %}
+                {% include "includes/ai_status.html" with task_id=task_id label="Création de l'illustration… (jusqu'à une minute)" success_message="Illustration prête !" error_message="Le service d'illustration ne répond pas. Réessayez dans un instant." retry_url=retry_url retry_data=retry_data result_target="#nouvelle-image" %}
+                <div id="nouvelle-image" class="mb-3"></div>
+            {% endif %}
+
+            {% with images=story.images.all %}
+            {% if images %}
+                <ul class="list-unstyled gallery mb-0">
+                    {% for image in images %}
+                        <li>
+                            <figure class="polaroid mb-2">
+                                <a href="{% url 'memory:image_detail' image.pk %}">
+                                    <img src="{{ image.image.url }}" alt="{{ image.prompt|truncatechars:120 }}" class="cover" loading="lazy">
+                                </a>
+                                <figcaption>{{ image.get_style_display }}</figcaption>
+                            </figure>
+                            {% if image.is_main %}
+                                <p class="mb-0"><span class="badge badge-main">Image principale</span></p>
+                            {% else %}
+                                <form method="post" action="{% url 'memory:image_set_main' image.pk %}" class="m-0">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-secondary btn-sm">Choisir comme principale<span class="visually-hidden"> : {{ image.prompt|truncatechars:40 }}</span></button>
+                                </form>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% elif not task_id %}
+                <div class="empty-state">
+                    <p class="mb-0">Aucune illustration pour ce récit. Créez-en une avec l'IA ou importez une image.</p>
+                </div>
+            {% endif %}
+            {% endwith %}
+        </div>
+    </section>
+</div>
+{% endblock %}

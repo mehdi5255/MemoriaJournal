@@ -1,0 +1,7 @@
+{% comment %}Question du jour générée par l'IA (affichée sans recharger la page).{% endcomment %}
+<p class="fs-5 mb-2">{{ prompt.question }}</p>
+{% if prompt.detected_entities %}
+    <p class="small text-muted mb-2">Inspirée par : {{ prompt.detected_entities|join:", " }}</p>
+{% endif %}
+{% if not created %}<p class="small text-muted mb-2">La question du jour existait déjà.</p>{% endif %}
+<a href="{% url 'reminder:prompt_answer' prompt.pk %}" class="btn btn-primary btn-sm">Répondre</a>

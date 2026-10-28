@@ -62,6 +62,9 @@ h3 { font-size: 1.1rem; }
 
 /* ---------- Accessibilité ---------- */
 
+/* L'attribut hidden gagne toujours (même sur un élément .d-flex de Bootstrap) */
+[hidden] { display: none !important; }
+
 .skip-link {
     position: absolute;
     left: 1rem;
@@ -284,8 +287,95 @@ h3 { font-size: 1.1rem; }
     font-family: var(--m-font-title); font-size: 2.2rem; font-weight: 700;
 }
 
+/* Liste de cases à cocher (ex. entrées d'une rétrospective) */
+.checkbox-list {
+    max-height: 16rem;
+    overflow-y: auto;
+    border: 1px solid var(--m-border);
+    border-radius: 10px;
+    padding: .6rem .9rem;
+    background: #fff;
+}
+
+/* Galerie d'images */
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; }
+.gallery .polaroid { width: 100%; }
+.polaroid img.cover { aspect-ratio: 1 / 1; object-fit: cover; }
+.badge-main { background: var(--m-success); color: #fff; }
+.story-text { white-space: pre-line; font-size: 1.05rem; }
+.image-placeholder {
+    aspect-ratio: 1 / 1;
+    background: var(--m-blue);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem;
+}
+.keyword {
+    display: inline-block;
+    background: var(--m-yellow);
+    border-radius: 999px;
+    padding: .15rem .75rem;
+    margin: 0 .3rem .4rem 0;
+    font-weight: 600;
+}
+
 /* Pages d'authentification */
 .auth-card { max-width: 460px; margin: 2rem auto; }
 
 /* Pages d'erreur */
 .error-code { font-family: var(--m-font-title); font-size: 4rem; font-weight: 700; color: var(--m-primary-deco); }
+
+/* ---------- Module Face : cadres des visages sur une photo ---------- */
+.photo-frame { position: relative; display: inline-block; max-width: 100%; }
+.photo-frame img { display: block; max-width: 100%; height: auto; }
+.face-box {
+    position: absolute;
+    border: 3px solid var(--m-ai);
+    border-radius: 6px;
+    box-shadow: 0 0 0 2px #fff;
+}
+.face-box .face-label {
+    position: absolute;
+    left: -3px;
+    top: 100%;
+    margin-top: 4px;
+    background: var(--m-ai);
+    color: #fff;
+    font-size: .85rem;
+    font-weight: 700;
+    padding: .05rem .4rem;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+.face-box.is-unknown { border-style: dashed; }
+.person-card .avatar, .person-card .avatar-placeholder { width: 88px; height: 88px; }
+.face-crop {
+    width: 96px; height: 96px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: var(--m-shadow);
+    background-repeat: no-repeat;
+}
+
+/* Étiquettes du journal : pastille de couleur + texte foncé (contraste toujours suffisant) */
+.tag-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .15rem .65rem;
+    border: 2px solid var(--tag-color, var(--m-ai));
+    border-radius: 999px;
+    background: #FFFFFF;
+    color: var(--m-text);
+    font-size: .9rem;
+    text-decoration: none;
+}
+.tag-badge::before {
+    content: "";
+    width: .65rem;
+    height: .65rem;
+    border-radius: 50%;
+    background: var(--tag-color, var(--m-ai));
+}
+a.tag-badge:hover { background: var(--m-blue); color: var(--m-text); }
+.entry-content { white-space: normal; overflow-wrap: anywhere; }
+.checkbox-list .form-check-input.ai-suggested + .form-check-label { font-weight: 700; color: var(--m-ai); }

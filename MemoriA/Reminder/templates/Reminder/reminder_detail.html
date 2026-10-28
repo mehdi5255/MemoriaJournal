@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Rappel de {{ reminder.reminder_time|time:"H:i" }}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'reminder:reminder_list' %}">Rappels</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ reminder.reminder_time|time:"H:i" }}</li>
+{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+        <div>
+            <h1 class="mb-1">Rappel de {{ reminder.reminder_time|time:"H:i" }}</h1>
+            <p class="text-muted mb-0">{{ reminder.days_label|capfirst }} · {{ reminder.get_channel_display }} · {% if reminder.is_active %}actif{% else %}en pause{% endif %}</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'reminder:reminder_update' reminder.pk %}" class="btn btn-outline-primary">Modifier</a>
+            <a href="{% url 'reminder:reminder_delete' reminder.pk %}" class="btn btn-outline-secondary">Supprimer</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <section class="col-lg-5" aria-labelledby="titre-infos">
+        <div class="card p-4 h-100">
+            <h2 id="titre-infos" class="h5 mb-3">Réglages</h2>
+            <dl class="row mb-0">
+                <dt class="col-sm-5">Heure</dt><dd class="col-sm-7">{{ reminder.reminder_time|time:"H:i" }}</dd>
+                <dt class="col-sm-5">Jours</dt><dd class="col-sm-7">{{ reminder.days_label|capfirst }}</dd>
+                <dt class="col-sm-5">Canal</dt><dd class="col-sm-7">{{ reminder.get_channel_display }}</dd>
+                <dt class="col-sm-5">Message</dt><dd class="col-sm-7">{{ reminder.message|default:"—" }}</dd>
+                <dt class="col-sm-5">Dernier envoi</dt><dd class="col-sm-7">{{ reminder.last_sent|date:"j F Y à H:i"|default:"Jamais" }}</dd>
+            </dl>
+
+            <section class="ai-block mt-4" aria-labelledby="titre-heure">
+                <h3 id="titre-heure" class="h6 ai-label">IA · Heure conseillée (KMeans)</h3>
+                {% if task_id and task_type == 'heure' %}
+                    {% url 'reminder:reminder_suggest' reminder.pk as suggest_url %}
+                    {% include "includes/ai_status.html" with task_id=task_id label="Analyse de vos heures d'écriture…" success_message="Heure calculée !" error_message="Le calcul de l'heure a échoué." retry_url=suggest_url result_target="#heure-conseillee" %}
+                {% endif %}
+                <div id="heure-conseillee">{% include "Reminder/includes/suggestion.html" %}</div>
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                    <form method="post" action="{% url 'reminder:reminder_suggest' reminder.pk %}" class="m-0">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-ai btn-sm">Calculer l'heure conseillée</button>
+                    </form>
+                    {% if reminder.suggested_time and reminder.suggested_time != reminder.reminder_time %}
+                        <form method="post" action="{% url 'reminder:reminder_apply' reminder.pk %}" class="m-0">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-sm">Appliquer {{ reminder.suggested_time|time:"H:i" }}</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </section>
+        </div>
+    </section>
+    <section class="col-lg-7" aria-labelledby="titre-questions">
+        <div class="card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 id="titre-questions" class="h5 mb-0">Questions de ce rappel</h2>
+                <a href="{% url 'reminder:prompt_create' %}?reminder={{ reminder.pk }}" class="btn btn-outline-primary btn-sm"><span aria-hidden="true">+</span> Ajouter</a>
+            </div>
+            <section class="ai-block mb-3" aria-labelledby="titre-generer">
+                <h3 id="titre-generer" class="h6 ai-label">IA · Question personnalisée (CamemBERT NER)</h3>
+                <p class="small mb-2">L'IA repère les personnes, lieux et événements de vos 3 dernières entrées pour vous poser une question.</p>
+                {% if task_id and task_type == 'question' %}
+                    {% url 'reminder:prompt_generate' reminder.pk as generate_url %}
+                    {% include "includes/ai_status.html" with task_id=task_id label="Lecture de vos dernières entrées…" success_message="Question prête !" error_message="La création de la question a échoué." retry_url=generate_url result_target="#question-generee" %}
+                    <div id="question-generee" class="mb-2"></div>
+                {% endif %}
+                <form method="post" action="{% url 'reminder:prompt_generate' reminder.pk %}" class="m-0">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-ai btn-sm">Générer la question du jour</button>
+                </form>
+            </section>
+            {% if prompts %}
+                <ul class="list-unstyled mb-0">
+                    {% for prompt in prompts %}
+                        <li class="border-bottom py-2 d-flex justify-content-between gap-2">
+                            <a href="{% url 'reminder:prompt_detail' prompt.pk %}">{{ prompt.question|truncatechars:70 }}</a>
+                            <span class="text-muted small text-nowrap">{{ prompt.prompt_date|date:"j M" }} · {{ prompt.get_status_display }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted mb-0">Aucune question pour l'instant.</p>
+            {% endif %}
+        </div>
+    </section>
+</div>
+{% endblock %}

@@ -55,6 +55,31 @@ class GeneratedImageModelTest(MemoryModelsTestBase):
         GeneratedImage.objects.create(story=self.story, image='generated/b.png', prompt='2')
         self.assertEqual(self.story.images.count(), 2)
 
+    def test_set_as_main_une_seule_principale(self):
+        first = GeneratedImage.objects.create(story=self.story, image='generated/a.png', prompt='1', is_main=True)
+        second = GeneratedImage.objects.create(story=self.story, image='generated/b.png', prompt='2')
+        second.set_as_main()
+        first.refresh_from_db()
+        second.refresh_from_db()
+        self.assertFalse(first.is_main)
+        self.assertTrue(second.is_main)
+        self.assertEqual(self.story.images.filter(is_main=True).count(), 1)
+
+    def test_set_as_main_ne_touche_pas_les_autres_recits(self):
+        other_entry = JournalEntry.objects.create(user=self.user, title='Autre', content='...')
+        other_story = Story.objects.create(entry=other_entry, text='...')
+        other_main = GeneratedImage.objects.create(story=other_story, image='generated/c.png', prompt='3', is_main=True)
+        GeneratedImage.objects.create(story=self.story, image='generated/a.png', prompt='1').set_as_main()
+        other_main.refresh_from_db()
+        self.assertTrue(other_main.is_main)
+
+    def test_main_image(self):
+        self.assertIsNone(self.story.main_image())
+        first = GeneratedImage.objects.create(story=self.story, image='generated/a.png', prompt='1')
+        self.assertEqual(self.story.main_image(), first)          # aucune principale : la première
+        main = GeneratedImage.objects.create(story=self.story, image='generated/b.png', prompt='2', is_main=True)
+        self.assertEqual(self.story.main_image(), main)
+
 
 class RetrospectiveModelTest(MemoryModelsTestBase):
 

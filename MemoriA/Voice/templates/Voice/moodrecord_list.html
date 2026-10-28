@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load static memoria_tags %}
+
+{% block title %}Mon humeur : {{ month|date:"F Y" }}{% endblock %}
+{% block breadcrumb %}<li class="breadcrumb-item active" aria-current="page">Voix et humeur</li>{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <h1 class="mb-1">Mon humeur</h1>
+            <p class="note-manuscrite mb-0" aria-hidden="true">Comment vous sentez-vous ces jours-ci ?</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'voice:mood_create' %}" class="btn btn-primary"><span aria-hidden="true">+</span> Noter mon humeur</a>
+            <a href="{% url 'voice:note_list' %}" class="btn btn-outline-primary">Mes notes vocales</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+{% include "Voice/includes/mood_alert.html" %}
+
+{% if task_id %}
+    {% url 'voice:mood_detect' as detect_url %}
+    {% include "includes/ai_status.html" with task_id=task_id label="Analyse de l'humeur de l'entrée…" success_message="Humeur détectée !" error_message="La détection d'émotion a échoué. Réessayez dans un instant." retry_url=detect_url retry_data=retry_data result_target="#humeur-detectee" %}
+    <div id="humeur-detectee" class="mb-4"></div>
+{% endif %}
+
+{% if detect_form.fields.entry.queryset.exists %}
+    <form method="post" action="{% url 'voice:mood_detect' %}" class="ai-block d-flex flex-wrap align-items-end gap-2 mb-4">
+        {% csrf_token %}
+        <div>
+            <p class="ai-label mb-1">IA · détection d'émotion</p>
+            <label for="id_entry" class="form-label">Détecter mon humeur dans une entrée</label>
+            {% field_widget detect_form.entry %}
+        </div>
+        <button type="submit" class="btn btn-ai">Analyser</button>
+    </form>
+{% endif %}
+
+<nav class="d-flex align-items-center gap-3 mb-4" aria-label="Changer de mois">
+    <a href="?mois={{ previous_month }}" class="btn btn-outline-secondary btn-sm"><span aria-hidden="true">‹</span> Mois précédent</a>
+    <h2 class="h4 mb-0">{{ month|date:"F Y"|capfirst }}</h2>
+    {% if next_month %}
+        <a href="?mois={{ next_month }}" class="btn btn-outline-secondary btn-sm">Mois suivant <span aria-hidden="true">›</span></a>
+    {% endif %}
+</nav>
+
+{% if days %}
+    <section class="card p-3 p-md-4 mb-4" aria-labelledby="titre-graphique">
+        <h2 id="titre-graphique" class="h5 mb-3">Intensité de l'humeur par jour</h2>
+        <div style="height: 280px;">
+            <canvas id="graphique-humeur" role="img"
+                    aria-label="Graphique en barres de l'humeur de {{ month|date:'F Y' }} : {{ days|length }} jour(s) noté(s). Les valeurs sont détaillées dans le tableau ci-dessous."></canvas>
+        </div>
+        {{ chart_data|json_script:"donnees-humeur" }}
+
+        <div class="d-flex flex-wrap gap-3 mt-3" aria-hidden="true">
+            {% for item in distribution %}
+                <span><span class="d-inline-block rounded-circle me-1" style="width:.9rem;height:.9rem;background:{{ item.color }};"></span>{{ item.label }}</span>
+            {% endfor %}
+        </div>
+
+        <details class="mt-3" open>
+            <summary class="fw-bold">Tableau des données du graphique</summary>
+            <div class="table-responsive mt-2">
+                <table class="table table-sm align-middle mb-0">
+                    <caption class="visually-hidden">Émotion dominante et intensité moyenne pour chaque jour noté en {{ month|date:"F Y" }}</caption>
+                    <thead>
+                        <tr><th scope="col">Jour</th><th scope="col">Émotion dominante</th><th scope="col" class="text-end">Intensité moyenne</th><th scope="col" class="text-end">Humeurs notées</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for day in days %}
+                            <tr>
+                                <th scope="row">{{ day.date|date:"l j F" }}</th>
+                                <td>{{ day.label }}</td>
+                                <td class="text-end">{{ day.score|floatformat:2 }}</td>
+                                <td class="text-end">{{ day.count }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </details>
+    </section>
+
+    <section class="card p-3 p-md-4" aria-labelledby="titre-liste">
+        <h2 id="titre-liste" class="h5 mb-3">Humeurs du mois</h2>
+        <ul class="list-unstyled mb-0">
+            {% for mood in latest %}
+                <li class="border-bottom py-2 d-flex flex-wrap justify-content-between gap-2">
+                    <span>
+                        <span class="mood-dot mood-{{ mood.emotion|lower }} me-2" style="width:1.4rem;height:1.4rem;" aria-hidden="true"></span>
+                        <a href="{% url 'voice:mood_detail' mood.pk %}">{{ mood.get_emotion_display }} le {{ mood.record_date|date:"j F" }}</a>
+                        {% if mood.entry %}<span class="text-muted small"> · {{ mood.entry.title }}</span>{% endif %}
+                    </span>
+                    <span class="text-muted small">Intensité {{ mood.score|floatformat:2 }} · {{ mood.get_source_display }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+{% else %}
+    <div class="empty-state">
+        <p class="mb-3">Aucune humeur notée en {{ month|date:"F Y" }}.</p>
+        <a href="{% url 'voice:mood_create' %}" class="btn btn-primary">Noter mon humeur</a>
+    </div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+    {% if days %}
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js" crossorigin="anonymous"></script>
+        <script src="{% static 'js/mood-chart.js' %}"></script>
+    {% endif %}
+{% endblock %}

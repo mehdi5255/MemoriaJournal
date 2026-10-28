@@ -31,9 +31,56 @@ ALLOWED_HOSTS = [h.strip() for h in os.getenv('ALLOWED_HOSTS', 'localhost,127.0.
 # Nécessaire en production derrière HTTPS (ex. https://memoria.onrender.com)
 CSRF_TRUSTED_ORIGINS = [o.strip() for o in os.getenv('CSRF_TRUSTED_ORIGINS', '').split(',') if o.strip()]
 
+# Render donne l'adresse publique du site dans RENDER_EXTERNAL_HOSTNAME (voir docs/DEPLOIEMENT.md)
+RENDER_EXTERNAL_HOSTNAME = os.getenv('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+    CSRF_TRUSTED_ORIGINS.append(f'https://{RENDER_EXTERNAL_HOSTNAME}')
+
+# Hébergement gratuit (peu de mémoire) : ne pas charger les modèles IA locaux au démarrage du worker
+PRELOAD_AI_MODELS = os.getenv('PRELOAD_AI_MODELS', 'True').lower() in ('true', '1', 'yes')
+# Sans serveur de fichiers séparé (Render gratuit), Django sert lui-même les fichiers de media/
+SERVE_MEDIA = os.getenv('SERVE_MEDIA', 'False').lower() in ('true', '1', 'yes')
+
 # Clés des services IA
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '')
 HF_TOKEN = os.getenv('HF_TOKEN', '')
+
+# Modèles IA (modifiables dans .env si un modèle n'est plus disponible)
+GEMINI_MODEL = os.getenv('GEMINI_MODEL', 'gemini-2.5-flash')
+# Modèle « juge » de l'évaluation (evaluate_memory) : différent du modèle évalué, avec son propre quota
+GEMINI_JUDGE_MODEL = os.getenv('GEMINI_JUDGE_MODEL', 'gemini-3.5-flash-lite')
+HF_IMAGE_MODEL = os.getenv('HF_IMAGE_MODEL', 'stabilityai/stable-diffusion-xl-base-1.0')
+HF_IMAGE_TO_IMAGE_MODEL = os.getenv('HF_IMAGE_TO_IMAGE_MODEL', 'stabilityai/stable-diffusion-xl-refiner-1.0')
+KEYBERT_MODEL = os.getenv('KEYBERT_MODEL', 'paraphrase-multilingual-MiniLM-L12-v2')
+
+# Moteur des illustrations :
+#   huggingface : Stable Diffusion XL via l'API Hugging Face (par défaut)
+#   local       : SD-Turbo sur le processeur, gratuit et sans Internet (plus lent)
+#   auto        : Hugging Face, puis SD-Turbo local si l'API échoue (ex. plus de crédit)
+IMAGE_BACKEND = os.getenv('IMAGE_BACKEND', 'huggingface').lower()
+LOCAL_IMAGE_MODEL = os.getenv('LOCAL_IMAGE_MODEL', 'stabilityai/sd-turbo')
+
+# Module Voice : transcription et émotions (mêmes valeurs possibles : huggingface, local, auto)
+VOICE_BACKEND = os.getenv('VOICE_BACKEND', 'huggingface').lower()
+HF_WHISPER_MODEL = os.getenv('HF_WHISPER_MODEL', 'openai/whisper-large-v3')
+LOCAL_WHISPER_MODEL = os.getenv('LOCAL_WHISPER_MODEL', 'openai/whisper-base')
+EMOTION_MODEL = os.getenv('EMOTION_MODEL', 'MilaNLProc/xlm-emo-t')
+
+# Module Face : légende et objets (huggingface, local ou auto) ; visages toujours en local avec OpenCV
+FACE_BACKEND = os.getenv('FACE_BACKEND', 'huggingface').lower()
+CAPTION_MODEL = os.getenv('CAPTION_MODEL', 'Salesforce/blip-image-captioning-base')
+OBJECT_MODEL = os.getenv('OBJECT_MODEL', 'facebook/detr-resnet-50')
+TRANSLATION_MODEL = os.getenv('TRANSLATION_MODEL', 'Helsinki-NLP/opus-mt-en-fr')
+
+# Module Reminder : entités nommées des entrées (huggingface, local ou auto)
+REMINDER_BACKEND = os.getenv('REMINDER_BACKEND', 'huggingface').lower()
+NER_MODEL = os.getenv('NER_MODEL', 'Jean-Baptiste/camembert-ner')
+
+# Module Journal : recherche par le sens (local) et suggestion d'étiquettes (huggingface, local ou auto)
+JOURNAL_BACKEND = os.getenv('JOURNAL_BACKEND', 'huggingface').lower()
+EMBEDDING_MODEL = os.getenv('EMBEDDING_MODEL', 'paraphrase-multilingual-MiniLM-L12-v2')
+ZERO_SHOT_MODEL = os.getenv('ZERO_SHOT_MODEL', 'MoritzLaurer/mDeBERTa-v3-base-mnli-xnli')
 
 
 # --- Applications ---
@@ -147,6 +194,8 @@ LOGOUT_REDIRECT_URL = 'account:login'
 
 EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'MemoriA <noreply@memoria.local>')
+# Adresse du site dans les e-mails de rappel
+SITE_URL = os.getenv('SITE_URL', 'http://127.0.0.1:8000').rstrip('/')
 
 
 # --- Celery + Redis (tâches IA asynchrones) ---
@@ -156,6 +205,17 @@ CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 300           # une tâche IA ne dure jamais plus de 5 minutes
+# Si Redis est arrêté, la page affiche vite un message clair au lieu d'attendre longtemps
+CELERY_BROKER_CONNECTION_TIMEOUT = 3
+CELERY_TASK_PUBLISH_RETRY_POLICY = {'max_retries': 1, 'interval_start': 0, 'interval_step': 1, 'interval_max': 1}
+CELERY_REDIS_SOCKET_CONNECT_TIMEOUT = 3
+CELERY_RESULT_BACKEND_TRANSPORT_OPTIONS = {'retry_policy': {'max_retries': 1, 'interval_start': 0,
+                                                            'interval_step': 1, 'interval_max': 1}}
+
+# Celery Beat : envoi des rappels toutes les 5 minutes (celery -A MemoriA beat -l info)
+CELERY_BEAT_SCHEDULE = {
+    'envoyer-les-rappels': {'task': 'Reminder.tasks.send_reminders_task', 'schedule': 300.0},
+}
 
 # Pendant les tests : tâches exécutées tout de suite, sans Redis
 TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
@@ -163,6 +223,15 @@ if TESTING:
     CELERY_TASK_ALWAYS_EAGER = True
     CELERY_TASK_EAGER_PROPAGATES = True
     CELERY_TASK_STORE_EAGER_RESULT = True
+    # Tests identiques sur tous les PC : jamais de modèle local chargé
+    IMAGE_BACKEND = 'huggingface'
+    VOICE_BACKEND = 'huggingface'
+    FACE_BACKEND = 'huggingface'
+    REMINDER_BACKEND = 'huggingface'
+    JOURNAL_BACKEND = 'huggingface'
+    # Jamais de vrai appel IA pendant les tests (CLAUDE.md : tous les appels sont mockés)
+    GEMINI_API_KEY = ''
+    HF_TOKEN = ''
     # Pas de dossier staticfiles/ pendant les tests : on masque l'avertissement de whitenoise
     import warnings
     warnings.filterwarnings('ignore', message='No directory at')

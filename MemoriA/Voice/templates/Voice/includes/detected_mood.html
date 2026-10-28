@@ -1,0 +1,11 @@
+{% comment %}Humeur détectée par l'IA dans le texte d'une entrée (affichée sans recharger).{% endcomment %}
+<div class="ai-block">
+    <p class="ai-label mb-2">IA · détection d'émotion</p>
+    <p class="mb-0">
+        <span class="mood-dot mood-{{ mood.emotion|lower }} me-2" style="width:1.4rem;height:1.4rem;" aria-hidden="true"></span>
+        « {{ mood.entry.title }} » : <a href="{% url 'voice:mood_detail' mood.pk %}">{{ mood.get_emotion_display }}</a>
+        <span class="text-muted">(confiance {{ mood.score|floatformat:2 }}, le {{ mood.record_date|date:"j F" }})</span>
+    </p>
+    <p class="small text-muted mt-2 mb-0">Rechargez la page pour voir cette humeur dans le graphique.</p>
+</div>
+{% if alert %}<div class="mt-3">{% include "Voice/includes/mood_alert.html" %}</div>{% endif %}

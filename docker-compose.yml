@@ -8,6 +8,8 @@ x-app: &app
   environment:
     REDIS_URL: redis://redis:6379/0
     SQLITE_PATH: /data/db.sqlite3
+    # Modèles téléchargés (KeyBERT, SD-Turbo) gardés dans le volume entre deux démarrages
+    HF_HOME: /data/huggingface
     # Pas de HTTPS en local : on désactive la redirection forcée
     SECURE_SSL_REDIRECT: "False"
   volumes:

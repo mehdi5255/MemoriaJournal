@@ -19,6 +19,14 @@ class Story(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
 
+    def main_image(self):
+        """Image principale du récit, sinon la première image (utilise prefetch_related si présent)."""
+        images = list(self.images.all())
+        for image in images:
+            if image.is_main:
+                return image
+        return images[0] if images else None
+
     def __str__(self):
         return f"Récit : {self.entry.title}"
 
@@ -36,6 +44,13 @@ class GeneratedImage(models.Model):
     style = models.CharField(max_length=10, choices=STYLE_CHOICES, default='Realiste')
     is_main = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
+
+    def set_as_main(self):
+        """Une seule image principale par récit : les autres perdent ce statut."""
+        GeneratedImage.objects.filter(story=self.story, is_main=True).exclude(pk=self.pk).update(is_main=False)
+        if not self.is_main:
+            self.is_main = True
+            self.save(update_fields=['is_main'])
 
     def __str__(self):
         return f"Image {self.id} - {self.style}"
