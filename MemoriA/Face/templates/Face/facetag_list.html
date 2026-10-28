@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Visages{% if current_state == 'inconnus' %} à identifier{% elif current_state == 'a-confirmer' %} à confirmer{% endif %}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'face:person_list' %}">Mes proches</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Visages</li>
+{% endblock %}
+{% block page_title %}Visages sur mes photos{% endblock %}
+
+{% block content %}
+<nav class="mb-4" aria-label="Filtrer les visages">
+    <ul class="nav nav-pills gap-2">
+        <li class="nav-item"><a class="nav-link {% if not current_state %}active{% endif %}" href="{% url 'face:face_list' %}" {% if not current_state %}aria-current="page"{% endif %}>Tous</a></li>
+        <li class="nav-item"><a class="nav-link {% if current_state == 'inconnus' %}active{% endif %}" href="?etat=inconnus" {% if current_state == 'inconnus' %}aria-current="page"{% endif %}>Sans nom</a></li>
+        <li class="nav-item"><a class="nav-link {% if current_state == 'a-confirmer' %}active{% endif %}" href="?etat=a-confirmer" {% if current_state == 'a-confirmer' %}aria-current="page"{% endif %}>À confirmer</a></li>
+        <li class="nav-item ms-auto"><a class="btn btn-ai" href="{% url 'face:face_groups' %}">Regrouper les visages inconnus</a></li>
+    </ul>
+</nav>
+
+{% if faces %}
+    <h2 class="visually-hidden">Liste des visages</h2>
+    <div class="table-responsive card p-3">
+        <table class="table align-middle mb-0">
+            <caption class="visually-hidden">Visages détectés ou ajoutés sur vos photos</caption>
+            <thead>
+                <tr><th scope="col">Personne</th><th scope="col">Photo</th><th scope="col" class="text-end">Confiance</th><th scope="col">État</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr>
+            </thead>
+            <tbody>
+                {% for face in faces %}
+                    <tr>
+                        <th scope="row"><a href="{% url 'face:face_detail' face.pk %}">{{ face.person.name|default:"Inconnue" }}</a></th>
+                        <td><a href="{% url 'face:photo_detail' face.photo_id %}">{{ face.photo.entry.title }}</a></td>
+                        <td class="text-end">{{ face.confidence|floatformat:2 }}</td>
+                        <td>{% if face.is_confirmed %}Confirmé{% elif face.person %}À confirmer{% else %}Sans nom{% endif %}</td>
+                        <td class="text-end"><a href="{% url 'face:face_update' face.pk %}" class="btn btn-outline-secondary btn-sm">Identifier<span class="visually-hidden"> ce visage</span></a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include "Memory/includes/pagination.html" %}
+{% else %}
+    <div class="empty-state">
+        <p class="mb-3">Aucun visage{% if current_state %} dans cette catégorie{% endif %} pour l'instant.</p>
+        <a href="{% url 'face:photo_list' %}" class="btn btn-primary">Voir mes photos</a>
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Mes photos{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'face:person_list' %}">Mes proches</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Photos</li>
+{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <h1 class="mb-0">Mes photos</h1>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'face:photo_create' %}" class="btn btn-primary"><span aria-hidden="true">+</span> Ajouter une photo</a>
+            <a href="{% url 'face:face_list' %}" class="btn btn-outline-primary">Tous les visages</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+<nav class="mb-4" aria-label="Filtrer les photos">
+    <ul class="nav nav-pills gap-2">
+        <li class="nav-item"><a class="nav-link {% if not without_faces %}active{% endif %}" href="{% url 'face:photo_list' %}" {% if not without_faces %}aria-current="page"{% endif %}>Toutes</a></li>
+        <li class="nav-item"><a class="nav-link {% if without_faces %}active{% endif %}" href="?visages=non" {% if without_faces %}aria-current="page"{% endif %}>Sans visage identifié</a></li>
+    </ul>
+</nav>
+
+{% if photos %}
+    <h2 class="visually-hidden">Galerie</h2>
+    <ul class="list-unstyled gallery">
+        {% for photo in photos %}
+            <li>
+                <figure class="polaroid mb-2">
+                    <a href="{% url 'face:photo_detail' photo.pk %}">
+                        <img src="{{ photo.image.url }}" alt="{{ photo.alt_text }}" class="cover" loading="lazy">
+                    </a>
+                    <figcaption>{{ photo.entry.title|truncatechars:22 }}</figcaption>
+                </figure>
+                <p class="small text-muted mb-0">{{ photo.faces }} visage{{ photo.faces|pluralize }}{% if photo.location %} · {{ photo.location }}{% endif %}</p>
+            </li>
+        {% endfor %}
+    </ul>
+    {% include "Memory/includes/pagination.html" %}
+{% else %}
+    <div class="empty-state">
+        {% if without_faces %}
+            <p class="mb-0">Toutes vos photos ont au moins un visage.</p>
+        {% else %}
+            <p class="mb-3">Aucune photo pour l'instant. Ajoutez les photos de vos journées.</p>
+            <a href="{% url 'face:photo_create' %}" class="btn btn-primary">Ajouter ma première photo</a>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

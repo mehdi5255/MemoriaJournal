@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Mes proches{% endblock %}
+{% block breadcrumb %}<li class="breadcrumb-item active" aria-current="page">Mes proches</li>{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <h1 class="mb-1">Mes proches</h1>
+            <p class="note-manuscrite mb-0" aria-hidden="true">Un album pour chaque personne qui compte</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'face:person_create' %}" class="btn btn-primary"><span aria-hidden="true">+</span> Ajouter un proche</a>
+            <a href="{% url 'face:photo_list' %}" class="btn btn-outline-primary">Mes photos</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+{% if unknown_faces %}
+    <div class="alert alert-info d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <span>{{ unknown_faces }} visage{{ unknown_faces|pluralize }} sans nom sur vos photos.</span>
+        <span class="d-flex gap-2"><a href="{% url 'face:face_groups' %}" class="btn btn-ai btn-sm">Les regrouper avec l'IA</a><a href="{% url 'face:face_list' %}?etat=inconnus" class="btn btn-outline-secondary btn-sm">Les identifier</a></span>
+    </div>
+{% endif %}
+
+<form method="get" class="d-flex flex-wrap align-items-end gap-2 mb-4" aria-label="Filtrer les proches">
+    <div>
+        <label for="filtre-relation" class="form-label">Relation</label>
+        <select id="filtre-relation" name="relation" class="form-select">
+            <option value="">Toutes</option>
+            {% for value, label in relations %}
+                <option value="{{ value }}" {% if value == current_relation %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-outline-secondary">Filtrer</button>
+    {% if current_relation %}<a href="{% url 'face:person_list' %}" class="btn btn-link">Effacer le filtre</a>{% endif %}
+</form>
+
+{% if persons %}
+    <h2 class="visually-hidden">Liste des proches</h2>
+    <ul class="list-unstyled row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+        {% for person in persons %}
+            <li class="col">
+                <article class="card person-card p-3 h-100 text-center">
+                    <div class="mb-2">
+                        {% if person.cover_photo %}
+                            <img src="{{ person.cover_photo.url }}" alt="" class="avatar">
+                        {% else %}
+                            <span class="avatar-placeholder" aria-hidden="true">{{ person.name|first|upper }}</span>
+                        {% endif %}
+                    </div>
+                    <h3 class="h5 mb-1"><a href="{% url 'face:person_detail' person.pk %}">{{ person.name }}</a></h3>
+                    <p class="text-muted mb-0">{{ person.get_relation_display }} · {{ person.photo_count }} photo{{ person.photo_count|pluralize }}</p>
+                </article>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <div class="empty-state">
+        {% if current_relation %}
+            <p class="mb-0">Aucun proche dans cette catégorie.</p>
+        {% else %}
+            <p class="mb-3">Aucun proche pour l'instant. Ajoutez les personnes qui apparaissent sur vos photos.</p>
+            <a href="{% url 'face:person_create' %}" class="btn btn-primary">Ajouter mon premier proche</a>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

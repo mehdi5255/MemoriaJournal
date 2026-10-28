@@ -1,0 +1,82 @@
+{% comment %}Photo avec ses cadres, visages et informations IA.
+Aussi renvoyé par la tâche Celery (sans formulaires : pas de jeton CSRF hors d'une requête).{% endcomment %}
+<div class="row g-4">
+    <div class="col-lg-7">
+        <figure class="polaroid w-100 mb-0" style="transform:none;">
+            {% if image_missing %}
+                <div class="image-placeholder" role="img" aria-label="Image introuvable">?</div>
+            {% else %}
+                <div class="photo-frame">
+                    <img src="{{ photo.image.url }}" alt="{{ photo.alt_text }}">
+                    {% for item in faces %}
+                        <span class="face-box{% if not item.tag.person %} is-unknown{% endif %}" style="{{ item.style }}" aria-hidden="true">
+                            <span class="face-label">{{ item.tag.person.name|default:"?" }}</span>
+                        </span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <figcaption>{{ photo.caption|default:"Sans légende" }}</figcaption>
+        </figure>
+    </div>
+
+    <div class="col-lg-5">
+        {% if errors %}
+            <div class="alert alert-warning" role="status">
+                <p class="fw-bold mb-1">Une partie de l'analyse n'a pas abouti :</p>
+                <ul class="mb-0">{% for error in errors %}<li>{{ error }}</li>{% endfor %}</ul>
+            </div>
+        {% endif %}
+
+        <section class="card p-4 mb-4" aria-labelledby="titre-visages">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 id="titre-visages" class="mb-0">Visages ({{ faces|length }})</h2>
+                <a href="{% url 'face:face_create' photo.pk %}" class="btn btn-primary btn-sm"><span aria-hidden="true">+</span> Ajouter</a>
+            </div>
+            {% if new_count is not None %}
+                <p class="ai-label">IA · YuNet : {{ new_count }} nouveau{{ new_count|pluralize:"x" }} visage{{ new_count|pluralize }} détecté{{ new_count|pluralize }}{% if suggested %}, {{ suggested|length }} reconnu{{ suggested|length|pluralize }} par SFace{% endif %}.</p>
+            {% endif %}
+            {% if faces %}
+                <ul class="list-unstyled mb-0">
+                    {% for item in faces %}
+                        <li class="border-bottom py-2">
+                            <div class="d-flex justify-content-between align-items-center gap-2">
+                                <span>
+                                    <a href="{% url 'face:face_detail' item.tag.pk %}">{% if item.tag.person and not item.tag.is_confirmed %}C'est {{ item.tag.person.name }} ?{% else %}{{ item.tag.person.name|default:"Personne inconnue" }}{% endif %}</a>
+                                    <span class="d-block small text-muted">Confiance {{ item.tag.confidence|floatformat:2 }}{% if item.tag.is_confirmed %} · confirmé{% endif %}</span>
+                                </span>
+                                <a href="{% url 'face:face_update' item.tag.pk %}" class="btn btn-outline-secondary btn-sm">Identifier<span class="visually-hidden"> le visage {{ forloop.counter }}</span></a>
+                            </div>
+                            {% if item.tag.person and not item.tag.is_confirmed %}
+                                {% if with_forms %}
+                                    <form method="post" action="{% url 'face:face_answer' item.tag.pk %}" class="d-flex gap-2 mt-2">
+                                        {% csrf_token %}
+                                        <button type="submit" name="reponse" value="oui" class="btn btn-success btn-sm">Oui, c'est {{ item.tag.person.name }}</button>
+                                        <button type="submit" name="reponse" value="non" class="btn btn-outline-secondary btn-sm">Non</button>
+                                    </form>
+                                {% else %}
+                                    <p class="small mt-1 mb-0">Rechargez la page pour répondre « oui » ou « non ».</p>
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted mb-0">Aucun visage sur cette photo.</p>
+            {% endif %}
+        </section>
+
+        <section class="card p-4" aria-labelledby="titre-infos">
+            <h2 id="titre-infos" class="mb-3">Informations</h2>
+            <dl class="row mb-0">
+                <dt class="col-sm-5">Entrée</dt>
+                <dd class="col-sm-7">{{ photo.entry.title }}</dd>
+                <dt class="col-sm-5">Légende</dt>
+                <dd class="col-sm-7">{{ photo.caption|default:"—" }}</dd>
+                <dt class="col-sm-5">Objets détectés</dt>
+                <dd class="col-sm-7">{{ photo.detected_objects|join:", "|default:"—" }}</dd>
+                <dt class="col-sm-5">Ajoutée le</dt>
+                <dd class="col-sm-7">{{ photo.creation_date|date:"j F Y" }}</dd>
+            </dl>
+        </section>
+    </div>
+</div>

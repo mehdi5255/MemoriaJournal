@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}{% if face %}Identifier le visage {{ face.pk }}{% else %}Ajouter un visage : photo {{ photo.pk }}{% endif %}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'face:person_list' %}">Mes proches</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'face:photo_detail' photo.pk %}">{{ photo.entry.title }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% if face %}Identifier{% else %}Nouveau visage{% endif %}</li>
+{% endblock %}
+{% block page_title %}{% if face %}Identifier le visage{% else %}Ajouter un visage{% endif %}{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-md-6">
+        <figure class="polaroid w-100 mb-0" style="transform:none;">
+            <img src="{{ photo.image.url }}" alt="{{ photo.alt_text }}">
+            <figcaption>{{ photo.image.width }} x {{ photo.image.height }} pixels</figcaption>
+        </figure>
+    </div>
+    <div class="col-md-6">
+        <div class="card p-4">
+            <p class="text-muted">La position du cadre se compte en pixels depuis le coin en haut à gauche de la photo.
+                Les champs marqués d'une * sont obligatoires.</p>
+            <form method="post">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {% for error in form.non_field_errors %}<p class="mb-0">{{ error }}</p>{% endfor %}
+                    </div>
+                {% elif form.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        <p class="mb-0">Le formulaire contient des erreurs : corrigez les champs indiqués.</p>
+                    </div>
+                {% endif %}
+                {% for field in form %}
+                    {% if field.name == 'new_person_name' %}
+                        {# Nouveau proche créé sans quitter la page #}
+                        <fieldset class="border rounded p-3 mb-3" aria-describedby="aide-nouveau-proche">
+                            <legend class="fs-6 fw-bold float-none w-auto px-1 mb-1">Ou ajouter une nouvelle personne</legend>
+                            <p id="aide-nouveau-proche" class="form-text mt-0">Écrivez son nom : elle sera ajoutée à vos proches
+                                et ce visage deviendra sa photo de profil. Laissez « Personne » sur « Inconnue ».</p>
+                            {% include "includes/form_field.html" %}
+                            {% include "includes/form_field.html" with field=form.new_person_relation %}
+                        </fieldset>
+                    {% elif field.name != 'new_person_relation' %}
+                        {% include "includes/form_field.html" %}
+                    {% endif %}
+                {% endfor %}
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    <a href="{% url 'face:photo_detail' photo.pk %}" class="btn btn-outline-secondary">Annuler</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

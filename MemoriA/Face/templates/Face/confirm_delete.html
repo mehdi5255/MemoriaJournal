@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Supprimer : {{ object }}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'face:person_list' %}">Mes proches</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Suppression</li>
+{% endblock %}
+{% block page_title %}Confirmer la suppression{% endblock %}
+
+{% block content %}
+<div class="card p-4" style="max-width: 620px;">
+    <p class="fs-5">Voulez-vous vraiment supprimer <strong>« {{ object }} »</strong> ?</p>
+    {% if photo %}<p>Le fichier et les visages de cette photo seront supprimés. L'entrée du journal est conservée.</p>{% endif %}
+    {% if person %}<p>Les photos sont conservées : les visages de cette personne deviendront « inconnus ».</p>{% endif %}
+    <p class="mb-4">Cette action est définitive.</p>
+    <form method="post" class="d-flex flex-wrap gap-2">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Oui, supprimer</button>
+        <a href="{% if photo %}{% url 'face:photo_detail' photo.pk %}{% elif person %}{% url 'face:person_detail' person.pk %}{% elif face %}{% url 'face:face_detail' face.pk %}{% else %}{% url 'face:person_list' %}{% endif %}" class="btn btn-outline-secondary">Non, annuler</a>
+    </form>
+</div>
+{% endblock %}

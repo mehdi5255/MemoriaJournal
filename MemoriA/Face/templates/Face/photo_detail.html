@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Photo : {{ photo.alt_text|truncatechars:60 }}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'face:person_list' %}">Mes proches</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'face:photo_list' %}">Photos</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ photo.entry.title }}</li>
+{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+        <div>
+            <h1 class="mb-1">Photo de « {{ photo.entry.title }} »</h1>
+            <p class="text-muted mb-0">{{ photo.taken_date|default:photo.entry.entry_date|date:"l j F Y" }}{% if photo.location %} · {{ photo.location }}{% endif %}</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <form method="post" action="{% url 'face:photo_analyze' photo.pk %}" class="m-0">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-ai">{% if photo.faces_analyzed %}Analyser à nouveau{% else %}Analyser avec l'IA{% endif %}</button>
+            </form>
+            <a href="{% url 'face:photo_update' photo.pk %}" class="btn btn-outline-primary">Modifier</a>
+            <a href="{% url 'face:photo_delete' photo.pk %}" class="btn btn-outline-secondary">Supprimer</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+{% if task_id %}
+    {% url 'face:photo_analyze' photo.pk as analyze_url %}
+    {% include "includes/ai_status.html" with task_id=task_id label="Analyse de la photo : légende, objets et visages… (jusqu'à une minute)" success_message="Analyse terminée !" error_message="L'analyse de la photo a échoué. Réessayez dans un instant." retry_url=analyze_url result_target="#analyse-photo" %}
+{% endif %}
+<div id="analyse-photo">
+    {% include "Face/includes/photo_analysis.html" %}
+</div>
+{% endblock %}

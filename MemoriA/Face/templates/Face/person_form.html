@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}{% if person %}Modifier : {{ person.name }}{% else %}Ajouter un proche{% endif %}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'face:person_list' %}">Mes proches</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% if person %}Modifier{% else %}Nouveau proche{% endif %}</li>
+{% endblock %}
+{% block page_title %}{% if person %}Modifier la fiche de {{ person.name }}{% else %}Ajouter un proche{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card p-4" style="max-width: 680px;">
+    <p class="text-muted">Les champs marqués d'une * sont obligatoires.</p>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% include "includes/form.html" %}
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <a href="{% if person %}{% url 'face:person_detail' person.pk %}{% else %}{% url 'face:person_list' %}{% endif %}" class="btn btn-outline-secondary">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
