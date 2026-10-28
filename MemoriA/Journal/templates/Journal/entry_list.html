@@ -72,6 +72,12 @@
     {% if task_id %}
         {% url 'journal:semantic_search' as search_url %}
         {% include "includes/ai_status.html" with task_id=task_id label="Recherche des entrées par le sens…" success_message="Recherche terminée." error_message="La recherche par le sens a échoué." retry_url=search_url retry_data=retry_data result_target="#resultats-sens" %}
+    {% else %}
+        <form method="post" action="{% url 'journal:semantic_search' %}" class="m-0">
+            {% csrf_token %}
+            <input type="hidden" name="q" value="{{ current.q }}">
+            <button type="submit" class="btn btn-ai btn-sm">Réessayer</button>
+        </form>
     {% endif %}
     <div id="resultats-sens"></div>
 </section>

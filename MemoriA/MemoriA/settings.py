@@ -194,6 +194,12 @@ CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 300           # une tâche IA ne dure jamais plus de 5 minutes
+# Si Redis est arrêté, la page affiche vite un message clair au lieu d'attendre longtemps
+CELERY_BROKER_CONNECTION_TIMEOUT = 3
+CELERY_TASK_PUBLISH_RETRY_POLICY = {'max_retries': 1, 'interval_start': 0, 'interval_step': 1, 'interval_max': 1}
+CELERY_REDIS_SOCKET_CONNECT_TIMEOUT = 3
+CELERY_RESULT_BACKEND_TRANSPORT_OPTIONS = {'retry_policy': {'max_retries': 1, 'interval_start': 0,
+                                                            'interval_step': 1, 'interval_max': 1}}
 
 # Celery Beat : envoi des rappels toutes les 5 minutes (celery -A MemoriA beat -l info)
 CELERY_BEAT_SCHEDULE = {

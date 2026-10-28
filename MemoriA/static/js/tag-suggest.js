@@ -16,15 +16,21 @@
     var result = document.getElementById('suggestion-resultat');
     var model = document.getElementById('suggestion-modele');
 
-    function showError(message) {
+    function newBox() {
+        // L'indicateur de chargement apparaît tout de suite, avant même la réponse du serveur
         zone.innerHTML = '';
         var box = model.content.firstElementChild.cloneNode(true);
+        box.querySelector('.js-retry').addEventListener('click', suggest);
+        zone.appendChild(box);
+        return box;
+    }
+
+    function showError(box, message) {
         box.querySelector('.ai-loading').hidden = true;
         box.querySelector('.ai-error p').textContent = message;
         box.querySelector('.ai-error').hidden = false;
         box.setAttribute('aria-busy', 'false');
-        box.querySelector('.js-retry').addEventListener('click', suggest);
-        zone.appendChild(box);
+        box.querySelector('.js-retry').focus();
     }
 
     function checkTags(ids) {
@@ -42,24 +48,21 @@
         data.append('content', form.querySelector('[name="content"]').value);
         result.innerHTML = '';
         button.disabled = true;
+        var box = newBox();
 
         fetch(button.dataset.url, { method: 'POST', body: data, credentials: 'same-origin' })
             .then(function (response) { return response.json(); })
             .then(function (answer) {
                 button.disabled = false;
-                if (answer.error) { showError(answer.error); return; }
-                zone.innerHTML = '';
-                var box = model.content.firstElementChild.cloneNode(true);
+                if (answer.error) { showError(box, answer.error); return; }
                 box.dataset.statusUrl = answer.status_url;
                 box.dataset.resultTarget = '#suggestion-resultat';
-                box.querySelector('.js-retry').addEventListener('click', suggest);
                 box.addEventListener('ai:success', function (event) { checkTags(event.detail.tag_ids || []); });
-                zone.appendChild(box);
                 window.MemoriaAI.watch(box);
             })
             .catch(function () {
                 button.disabled = false;
-                showError("Le service ne répond pas. Réessayez dans un instant.");
+                showError(box, "Le service ne répond pas. Réessayez dans un instant.");
             });
     }
 
