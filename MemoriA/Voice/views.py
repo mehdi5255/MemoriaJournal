@@ -5,18 +5,20 @@ from datetime import date, timedelta
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
-from Account.services import launch_task
+from Account.services import AIServiceError, launch_task
 
 from . import tasks
-from .forms import DetectMoodForm, MoodRecordForm, VoiceNoteForm, VoiceNoteUpdateForm
+from .forms import (AUDIO_MAX_SECONDS, AUDIO_MAX_SIZE, DetectMoodForm, MoodRecordForm, VoiceNoteForm,
+                    VoiceNoteUpdateForm, audio_duration, detect_audio_format)
 from .models import MoodRecord, VoiceNote
-from .services import mood_alert
+from .services import mood_alert, save_dictation
 
 # Couleur de chaque émotion dans le graphique (même code que les pastilles du tableau de bord)
 EMOTION_COLORS = {'Joie': '#F2C94C', 'Surprise': '#2E9E78', 'Neutre': '#8A8A96',
@@ -266,3 +268,41 @@ class MoodDeleteView(MoodOwnerMixin, DeleteMessageMixin, DeleteView):
     template_name = 'Voice/confirm_delete.html'
     success_url = reverse_lazy('voice:mood_list')
     success_message = "L'humeur a été supprimée."
+
+
+# ---------- Dictée dans le formulaire d'une entrée (appelée en JavaScript) ----------
+
+class DictationView(LoginRequiredMixin, View):
+    """Reçoit l'enregistrement, vérifie format et durée, puis lance la transcription (Celery)."""
+    http_method_names = ['post']
+
+    def post(self, request):
+        audio = request.FILES.get('audio')
+        if not audio:
+            return JsonResponse({'error': "Aucun enregistrement reçu."}, status=400)
+        if audio.size > AUDIO_MAX_SIZE:
+            return JsonResponse({'error': "L'enregistrement ne doit pas dépasser 20 Mo."}, status=400)
+        data = audio.read()
+        audio_format = detect_audio_format(data[:16])
+        if not audio_format:
+            return JsonResponse({'error': "Format non reconnu : WebM, OGG, MP3, WAV ou M4A."}, status=400)
+        seconds = audio_duration(data)
+        if seconds is None:
+            # WebM : le serveur ne lit pas la durée, on prend celle mesurée par le navigateur
+            seconds = int(request.POST['duration']) if request.POST.get('duration', '').isdigit() else None
+        if seconds is None:
+            return JsonResponse({'error': "Impossible de lire la durée de l'enregistrement."}, status=400)
+        if seconds > AUDIO_MAX_SECONDS:
+            return JsonResponse({'error': "Une note vocale ne doit pas dépasser 10 minutes."}, status=400)
+
+        token = save_dictation(request.user, data, audio_format, seconds)
+        try:
+            task_id = tasks.transcribe_dictation_task.delay(request.user.pk, token).id
+        except AIServiceError as error:
+            return JsonResponse({'error': str(error), 'token': token}, status=503)
+        except Exception:
+            return JsonResponse({'error': "Le service de transcription est indisponible pour le moment "
+                                          "(Redis ou le worker Celery ne répond pas). Réessayez dans un instant.",
+                                 'token': token}, status=503)
+        return JsonResponse({'task_id': task_id, 'token': token,
+                             'status_url': reverse('account:task_status', args=[task_id])})

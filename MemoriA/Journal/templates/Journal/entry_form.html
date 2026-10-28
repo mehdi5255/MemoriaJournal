@@ -13,7 +13,20 @@
     <p class="text-muted">Les champs marqués d'une * sont obligatoires.</p>
     <form method="post" id="entry-form">
         {% csrf_token %}
-        {% include "includes/form.html" %}
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                {% for error in form.non_field_errors %}<p class="mb-0">{{ error }}</p>{% endfor %}
+            </div>
+        {% elif form.errors %}
+            <div class="alert alert-danger" role="alert">
+                <p class="mb-0">Le formulaire contient des erreurs : corrigez les champs indiqués.</p>
+            </div>
+        {% endif %}
+        {% for field in form %}
+            {% include "includes/form_field.html" %}
+            {# La dictée se place juste sous le champ « Ma journée » #}
+            {% if field.name == 'content' %}{% include "Journal/includes/dictation.html" %}{% endif %}
+        {% endfor %}
         {% if not form.tags.field.queryset %}
             <p class="small text-muted">Vous n'avez pas encore d'étiquette. <a href="{% url 'journal:tag_create' %}">Créer une étiquette</a></p>
         {% endif %}
@@ -50,4 +63,5 @@
 </template>
 {% endblock %}
 
-{% block extra_js %}<script src="{% static 'js/tag-suggest.js' %}"></script>{% endblock %}
+{% block extra_js %}<script src="{% static 'js/tag-suggest.js' %}"></script>
+<script src="{% static 'js/dictation.js' %}"></script>{% endblock %}

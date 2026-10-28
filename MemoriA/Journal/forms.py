@@ -39,6 +39,8 @@ class TagForm(forms.ModelForm):
 
 
 class JournalEntryForm(forms.ModelForm):
+    # Jetons des dictées (rempli par dictation.js) : chaque dictée devient une note vocale de l'entrée
+    dictations = forms.CharField(required=False, widget=forms.HiddenInput, max_length=1000)
 
     class Meta:
         model = JournalEntry

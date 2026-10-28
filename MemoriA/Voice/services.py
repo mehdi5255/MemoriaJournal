@@ -185,3 +185,81 @@ def mood_alert(user):
             'message': f"Votre humeur est négative depuis {streak} jours de suite. Prenez soin de vous : "
                        "parlez-en à un proche, et n'hésitez pas à consulter un professionnel de santé "
                        "si ce sentiment dure."}
+
+
+# ---------- Dictée dans le formulaire d'une entrée ----------
+# L'entrée n'existe pas encore pendant la dictée : l'audio est gardé dans media/dictations/<utilisateur>/,
+# puis transformé en VoiceNote quand l'entrée est enregistrée (attach_dictations).
+
+DICTATION_TOKEN = re.compile(r'^[0-9a-f]{32}$')
+
+
+def dictation_path(user, token, suffix):
+    return f"dictations/{user.pk}/{token}.{suffix}"
+
+
+def save_dictation(user, data, audio_format, seconds):
+    """Garde l'enregistrement et ses informations (format, durée). Renvoie le jeton de la dictée."""
+    import json
+    import uuid
+    from django.core.files.base import ContentFile
+    from django.core.files.storage import default_storage
+    token = uuid.uuid4().hex
+    default_storage.save(dictation_path(user, token, audio_format), ContentFile(data))
+    info = {'format': audio_format, 'duration': seconds, 'text': '', 'language': ''}
+    default_storage.save(dictation_path(user, token, 'json'), ContentFile(json.dumps(info).encode()))
+    return token
+
+
+def read_dictation(user, token):
+    import json
+    from django.core.files.storage import default_storage
+    if not DICTATION_TOKEN.match(token or ''):
+        return None
+    path = dictation_path(user, token, 'json')
+    if not default_storage.exists(path):
+        return None
+    with default_storage.open(path) as file:
+        return json.loads(file.read())
+
+
+def transcribe_dictation(user, token):
+    """Transcrit la dictée et garde le texte avec l'audio. Renvoie (texte, langue)."""
+    import json
+    from django.core.files.base import ContentFile
+    from django.core.files.storage import default_storage
+    info = read_dictation(user, token)
+    if info is None:
+        raise AIServiceError("L'enregistrement est introuvable : recommencez la dictée.")
+    with default_storage.open(dictation_path(user, token, info['format'])) as file:
+        text, language = transcribe(file.read(), user)
+    info.update(text=text, language=language)
+    path = dictation_path(user, token, 'json')
+    default_storage.delete(path)
+    default_storage.save(path, ContentFile(json.dumps(info).encode()))
+    return text, language
+
+
+def attach_dictations(entry, user, tokens):
+    """Après l'enregistrement de l'entrée : chaque dictée devient une note vocale de l'entrée."""
+    from django.core.files.base import ContentFile
+    from django.core.files.storage import default_storage
+
+    from .models import VoiceNote
+    notes = []
+    for number, token in enumerate(t for t in tokens.split(',') if t):
+        info = read_dictation(user, token)
+        if info is None:
+            continue                                   # jeton inconnu ou d'un autre utilisateur : ignoré
+        audio_path = dictation_path(user, token, info['format'])
+        note = VoiceNote(entry=entry, title=f"Dictée du {timezone.localdate():%d/%m/%Y}"
+                                            + (f" ({number + 1})" if number else ''),
+                         duration=info['duration'], transcription=info['text'], language=info['language'],
+                         status='Termine' if info['text'] else 'Echec')
+        with default_storage.open(audio_path) as file:
+            note.audio.save(f"dictee.{info['format']}", ContentFile(file.read()), save=False)
+        note.save()
+        notes.append(note)
+        default_storage.delete(audio_path)
+        default_storage.delete(dictation_path(user, token, 'json'))
+    return notes

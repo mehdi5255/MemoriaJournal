@@ -75,3 +75,12 @@ def detect_entry_mood_task(entry_id, user_id):
     html = render_to_string('Voice/includes/detected_mood.html',
                             {'mood': mood, 'alert': services.mood_alert(user)})
     return {'html': html, 'message': "Humeur détectée."}
+
+
+@shared_task
+def transcribe_dictation_task(user_id, token):
+    """Dictée du formulaire d'entrée : renvoie le texte, que la page ajoute dans « Ma journée »."""
+    user = User.objects.get(pk=user_id)
+    text, language = services.transcribe_dictation(user, token)
+    return {'text': text, 'language': language, 'token': token,
+            'message': "Transcription ajoutée au texte de votre journée."}

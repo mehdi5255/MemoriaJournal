@@ -13,6 +13,7 @@ from django.views.generic import CreateView, DeleteView, DetailView, ListView, U
 
 from Account.services import AIServiceError, launch_task
 from Memory.models import Story
+from Voice.services import attach_dictations
 
 from . import services, tasks
 from .forms import JournalEntryForm, TagForm
@@ -59,6 +60,11 @@ class EmbeddingMixin:
 
     def form_valid(self, form):
         response = super().form_valid(form)
+        # Les dictées du formulaire deviennent des notes vocales de l'entrée (avec leur transcription)
+        notes = attach_dictations(self.object, self.request.user, form.cleaned_data.get('dictations', ''))
+        if notes:
+            messages.info(self.request, f"{len(notes)} dictée{'s' if len(notes) > 1 else ''} gardée"
+                                        f"{'s' if len(notes) > 1 else ''} comme note vocale.")
         self.task_id = launch_task(self.request, tasks.compute_embedding_task, self.object.pk, self.request.user.pk)
         return redirect(self.get_success_url()) if self.task_id else response
 

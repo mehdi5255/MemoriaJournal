@@ -7,6 +7,9 @@ urlpatterns = [
     # Page Humeur (lien « Voix et humeur » du menu)
     path('', views.MoodListView.as_view(), name='mood_list'),
 
+    # Dictée depuis le formulaire d'une entrée (JavaScript)
+    path('dictee/', views.DictationView.as_view(), name='dictation'),
+
     # Notes vocales
     path('notes/', views.VoiceNoteListView.as_view(), name='note_list'),
     path('notes/ajouter/', views.VoiceNoteCreateView.as_view(), name='note_create'),
