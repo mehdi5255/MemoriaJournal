@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Étiquette {{ tag.name }}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'journal:tag_list' %}">Étiquettes</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ tag.name }}</li>
+{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+        <div>
+            <h1 class="mb-1">Étiquette « {{ tag.name }} »</h1>
+            <p class="text-muted mb-0"><span class="tag-badge" style="--tag-color: {{ tag.color }}">Couleur {{ tag.color }}</span></p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'journal:tag_update' tag.pk %}" class="btn btn-outline-primary">Modifier</a>
+            <a href="{% url 'journal:tag_delete' tag.pk %}" class="btn btn-outline-secondary">Supprimer</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+<section aria-labelledby="titre-entrees">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <h2 id="titre-entrees" class="h5 mb-0">Entrées avec cette étiquette</h2>
+        {% if entries %}<a href="{% url 'journal:entry_list' %}?etiquette={{ tag.pk }}" class="btn btn-link">Voir et filtrer</a>{% endif %}
+    </div>
+    {% if entries %}
+        <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3">
+            {% for entry in entries %}
+                <li class="col">{% include "Journal/includes/entry_card.html" %}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="empty-state">
+            <p class="mb-3">Aucune entrée avec cette étiquette pour l'instant.</p>
+            <a href="{% url 'journal:entry_create' %}" class="btn btn-primary">Écrire une entrée</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

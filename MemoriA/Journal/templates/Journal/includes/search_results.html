@@ -1,0 +1,15 @@
+{% comment %}Résultats de la recherche par le sens (rendu par la tâche semantic_search_task).{% endcomment %}
+{% if results %}
+    <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mb-0">
+        {% for entry, score in results %}
+            <li class="col">
+                {% include "Journal/includes/entry_card.html" %}
+                <p class="small ai-label mt-1 mb-0">Proximité de sens : {% widthratio score 1 100 %} %</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <div class="empty-state">
+        <p class="mb-0">Aucune entrée ne parle vraiment de « {{ query }} ». Essayez d'autres mots.</p>
+    </div>
+{% endif %}

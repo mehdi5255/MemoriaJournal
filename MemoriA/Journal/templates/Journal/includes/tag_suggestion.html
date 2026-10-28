@@ -1,0 +1,11 @@
+{% comment %}Étiquettes proposées par l'IA (rendu par la tâche suggest_tags_task) ; les cases sont cochées par tag-suggest.js.{% endcomment %}
+{% if found %}
+    <p class="mb-1">L'IA propose (cases cochées ci-dessus, vous pouvez les décocher) :</p>
+    <ul class="list-inline mb-0">
+        {% for tag, score in found %}
+            <li class="list-inline-item"><span class="tag-badge" style="--tag-color: {{ tag.color }}">{{ tag.name }} · {% widthratio score 1 100 %} %</span></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p class="mb-0">Aucune de vos étiquettes ne correspond vraiment à ce texte.</p>
+{% endif %}
