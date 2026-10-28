@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Question du {{ prompt.prompt_date|date:"j F Y" }}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'reminder:reminder_list' %}">Rappels</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'reminder:prompt_list' %}">Questions</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ prompt.prompt_date|date:"j F" }}</li>
+{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+        <h1 class="mb-0">Question du {{ prompt.prompt_date|date:"j F Y" }}</h1>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'reminder:prompt_update' prompt.pk %}" class="btn btn-outline-primary">Modifier</a>
+            <a href="{% url 'reminder:prompt_delete' prompt.pk %}" class="btn btn-outline-secondary">Supprimer</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-lg-7">
+        {% include "Reminder/includes/prompt_card.html" %}
+        {% if prompt.answer_entry %}
+            <section class="card p-4 mt-4" aria-labelledby="titre-reponse">
+                <h2 id="titre-reponse" class="h5">Ma réponse</h2>
+                <p class="text-muted small">« {{ prompt.answer_entry.title }} » · {{ prompt.answer_entry.entry_date|date:"j F Y" }}</p>
+                <p class="story-text mb-0">{{ prompt.answer_entry.content }}</p>
+            </section>
+        {% endif %}
+    </div>
+    <div class="col-lg-5">
+        <section class="card p-4" aria-labelledby="titre-infos">
+            <h2 id="titre-infos" class="h5 mb-3">Informations</h2>
+            <dl class="row mb-0">
+                <dt class="col-sm-5">Rappel</dt><dd class="col-sm-7"><a href="{% url 'reminder:reminder_detail' prompt.reminder.pk %}">{{ prompt.reminder.reminder_time|time:"H:i" }}</a></dd>
+                <dt class="col-sm-5">Statut</dt><dd class="col-sm-7">{{ prompt.get_status_display }}</dd>
+                <dt class="col-sm-5">Inspirée par</dt><dd class="col-sm-7">{{ prompt.detected_entities|join:", "|default:"—" }}</dd>
+            </dl>
+        </section>
+    </div>
+</div>
+{% endblock %}

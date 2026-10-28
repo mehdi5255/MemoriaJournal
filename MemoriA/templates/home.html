@@ -72,14 +72,11 @@
         <div class="card p-3 p-md-4 h-100">
             <h2 id="titre-question" class="mb-3">Question du jour</h2>
             {% if daily_prompt %}
-                <div class="ai-block">
-                    <p class="ai-label mb-1">Proposée par l'IA</p>
-                    <p class="fs-5 mb-3">{{ daily_prompt.question }}</p>
-                    <p class="mb-0 text-muted">Statut : {{ daily_prompt.get_status_display }}</p>
-                </div>
+                {% include "Reminder/includes/prompt_card.html" with prompt=daily_prompt depuis="accueil" %}
             {% else %}
                 <div class="empty-state">
-                    <p class="mb-0">Pas encore de question aujourd'hui. Activez un rappel pour en recevoir une chaque jour.</p>
+                    <p class="mb-3">Pas encore de question aujourd'hui. Activez un rappel pour en recevoir une chaque jour.</p>
+                    <a href="{% url 'reminder:reminder_list' %}" class="btn btn-outline-primary btn-sm">Mes rappels</a>
                 </div>
             {% endif %}
         </div>

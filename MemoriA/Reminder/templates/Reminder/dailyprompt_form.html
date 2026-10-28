@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}{% if prompt %}Modifier la question du {{ prompt.prompt_date|date:"j F Y" }}{% else %}Nouvelle question{% endif %}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'reminder:reminder_list' %}">Rappels</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'reminder:prompt_list' %}">Questions</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% if prompt %}Modifier{% else %}Nouvelle{% endif %}</li>
+{% endblock %}
+{% block page_title %}{% if prompt %}Modifier la question{% else %}Nouvelle question{% endif %}{% endblock %}
+
+{% block content %}
+<div class="card p-4" style="max-width: 680px;">
+    {% if not prompt and not form.fields.reminder.queryset.exists %}
+        <div class="empty-state">
+            <p class="mb-3">Une question est rattachée à un rappel : créez d'abord un rappel.</p>
+            <a href="{% url 'reminder:reminder_create' %}" class="btn btn-primary">Créer un rappel</a>
+        </div>
+    {% else %}
+        <p class="text-muted">Les champs marqués d'une * sont obligatoires.</p>
+        <form method="post">
+            {% csrf_token %}
+            {% include "includes/form.html" %}
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                <a href="{% if prompt %}{% url 'reminder:prompt_detail' prompt.pk %}{% else %}{% url 'reminder:prompt_list' %}{% endif %}" class="btn btn-outline-secondary">Annuler</a>
+            </div>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

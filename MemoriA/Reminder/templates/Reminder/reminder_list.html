@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Mes rappels{% endblock %}
+{% block breadcrumb %}<li class="breadcrumb-item active" aria-current="page">Rappels</li>{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <h1 class="mb-1">Mes rappels</h1>
+            <p class="note-manuscrite mb-0" aria-hidden="true">Un petit mot chaque jour pour ne rien oublier</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'reminder:reminder_create' %}" class="btn btn-primary"><span aria-hidden="true">+</span> Nouveau rappel</a>
+            <a href="{% url 'reminder:prompt_list' %}" class="btn btn-outline-primary">Toutes les questions</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+<section class="card p-3 p-md-4 mb-4" aria-labelledby="titre-question">
+    <h2 id="titre-question" class="h5 mb-3">Question du jour</h2>
+    {% if today_prompt %}
+        {% include "Reminder/includes/prompt_card.html" with prompt=today_prompt %}
+    {% else %}
+        <p class="text-muted mb-0">Pas encore de question aujourd'hui.
+            {% if reminders %}Elle sera proposée à l'heure de votre rappel.{% else %}Créez un rappel pour en recevoir une chaque jour.{% endif %}</p>
+    {% endif %}
+</section>
+
+<section class="mb-4" aria-labelledby="titre-rappels">
+    <h2 id="titre-rappels" class="h5 mb-3">Mes rappels</h2>
+    {% if reminders %}
+        <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3">
+            {% for reminder in reminders %}
+                <li class="col">
+                    <article class="card p-3 h-100">
+                        <h3 class="h5 mb-1"><a href="{% url 'reminder:reminder_detail' reminder.pk %}">{{ reminder.reminder_time|time:"H:i" }}</a>
+                            {% if not reminder.is_active %}<span class="badge text-bg-light border ms-1">En pause</span>{% endif %}</h3>
+                        <p class="text-muted mb-1">{{ reminder.days_label|capfirst }} · {{ reminder.get_channel_display }}</p>
+                        {% if reminder.suggested_time %}<p class="ai-label small mb-0">Heure conseillée par l'IA : {{ reminder.suggested_time|time:"H:i" }}</p>{% endif %}
+                    </article>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="empty-state">
+            <p class="mb-3">Aucun rappel pour l'instant. Choisissez une heure pour penser à écrire chaque jour.</p>
+            <a href="{% url 'reminder:reminder_create' %}" class="btn btn-primary">Créer mon premier rappel</a>
+        </div>
+    {% endif %}
+</section>
+
+<section class="card p-3 p-md-4" aria-labelledby="titre-recentes">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 id="titre-recentes" class="h5 mb-0">Questions précédentes</h2>
+        {% if total_prompts %}<span class="text-muted small">{{ answered }} réponse{{ answered|pluralize }} sur {{ total_prompts }} question{{ total_prompts|pluralize }}</span>{% endif %}
+    </div>
+    {% if recent_prompts %}
+        <ul class="list-unstyled mb-0">
+            {% for prompt in recent_prompts %}
+                <li class="border-bottom py-2 d-flex justify-content-between gap-2">
+                    <a href="{% url 'reminder:prompt_detail' prompt.pk %}">{{ prompt.question|truncatechars:80 }}</a>
+                    <span class="text-muted small text-nowrap">{{ prompt.prompt_date|date:"j M" }} · {{ prompt.get_status_display }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-muted mb-0">Aucune question précédente.</p>
+    {% endif %}
+</section>
+{% endblock %}

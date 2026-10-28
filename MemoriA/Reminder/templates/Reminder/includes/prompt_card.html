@@ -1,0 +1,23 @@
+{% comment %}Question du jour avec « Répondre » et « Pas aujourd'hui ». Paramètre : prompt, depuis ("accueil" ou vide).{% endcomment %}
+<div class="ai-block">
+    <p class="ai-label mb-1">Question du {{ prompt.prompt_date|date:"j F" }}</p>
+    <p class="fs-5 mb-3">{{ prompt.question }}</p>
+    {% if prompt.status == 'Repondu' %}
+        <p class="mb-0 text-success fw-bold">Répondu ✓
+            {% if prompt.answer_entry %}<span class="fw-normal text-body"> · « {{ prompt.answer_entry.title }} »</span>{% endif %}
+        </p>
+    {% else %}
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'reminder:prompt_answer' prompt.pk %}" class="btn btn-primary">Répondre</a>
+            {% if prompt.status != 'Ignore' %}
+                <form method="post" action="{% url 'reminder:prompt_ignore' prompt.pk %}" class="m-0">
+                    {% csrf_token %}
+                    {% if depuis %}<input type="hidden" name="depuis" value="{{ depuis }}">{% endif %}
+                    <button type="submit" class="btn btn-outline-secondary">Pas aujourd'hui</button>
+                </form>
+            {% else %}
+                <span class="text-muted align-self-center">Question ignorée</span>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>

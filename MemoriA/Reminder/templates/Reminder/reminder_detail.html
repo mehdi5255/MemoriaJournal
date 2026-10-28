@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Rappel de {{ reminder.reminder_time|time:"H:i" }}{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'reminder:reminder_list' %}">Rappels</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ reminder.reminder_time|time:"H:i" }}</li>
+{% endblock %}
+
+{% block page_header %}
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+        <div>
+            <h1 class="mb-1">Rappel de {{ reminder.reminder_time|time:"H:i" }}</h1>
+            <p class="text-muted mb-0">{{ reminder.days_label|capfirst }} · {{ reminder.get_channel_display }} · {% if reminder.is_active %}actif{% else %}en pause{% endif %}</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'reminder:reminder_update' reminder.pk %}" class="btn btn-outline-primary">Modifier</a>
+            <a href="{% url 'reminder:reminder_delete' reminder.pk %}" class="btn btn-outline-secondary">Supprimer</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <section class="col-lg-5" aria-labelledby="titre-infos">
+        <div class="card p-4 h-100">
+            <h2 id="titre-infos" class="h5 mb-3">Réglages</h2>
+            <dl class="row mb-0">
+                <dt class="col-sm-5">Heure</dt><dd class="col-sm-7">{{ reminder.reminder_time|time:"H:i" }}</dd>
+                <dt class="col-sm-5">Jours</dt><dd class="col-sm-7">{{ reminder.days_label|capfirst }}</dd>
+                <dt class="col-sm-5">Canal</dt><dd class="col-sm-7">{{ reminder.get_channel_display }}</dd>
+                <dt class="col-sm-5">Message</dt><dd class="col-sm-7">{{ reminder.message|default:"—" }}</dd>
+                <dt class="col-sm-5">Dernier envoi</dt><dd class="col-sm-7">{{ reminder.last_sent|date:"j F Y à H:i"|default:"Jamais" }}</dd>
+                <dt class="col-sm-5">Heure conseillée</dt>
+                <dd class="col-sm-7">{% if reminder.suggested_time %}<span class="ai-label">{{ reminder.suggested_time|time:"H:i" }} (IA)</span>{% else %}Pas encore calculée{% endif %}</dd>
+            </dl>
+        </div>
+    </section>
+    <section class="col-lg-7" aria-labelledby="titre-questions">
+        <div class="card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 id="titre-questions" class="h5 mb-0">Questions de ce rappel</h2>
+                <a href="{% url 'reminder:prompt_create' %}?reminder={{ reminder.pk }}" class="btn btn-outline-primary btn-sm"><span aria-hidden="true">+</span> Ajouter</a>
+            </div>
+            {% if prompts %}
+                <ul class="list-unstyled mb-0">
+                    {% for prompt in prompts %}
+                        <li class="border-bottom py-2 d-flex justify-content-between gap-2">
+                            <a href="{% url 'reminder:prompt_detail' prompt.pk %}">{{ prompt.question|truncatechars:70 }}</a>
+                            <span class="text-muted small text-nowrap">{{ prompt.prompt_date|date:"j M" }} · {{ prompt.get_status_display }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted mb-0">Aucune question pour l'instant.</p>
+            {% endif %}
+        </div>
+    </section>
+</div>
+{% endblock %}
