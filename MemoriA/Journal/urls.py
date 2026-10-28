@@ -12,6 +12,11 @@ urlpatterns = [
     path('<int:pk>/modifier/', views.EntryUpdateView.as_view(), name='entry_update'),
     path('<int:pk>/supprimer/', views.EntryDeleteView.as_view(), name='entry_delete'),
 
+    # IA : recherche par le sens, souvenirs similaires, suggestion d'étiquettes
+    path('recherche/', views.SemanticSearchView.as_view(), name='semantic_search'),
+    path('<int:pk>/analyser/', views.EntryAnalyzeView.as_view(), name='entry_analyze'),
+    path('etiquettes/suggerer/', views.TagSuggestView.as_view(), name='tag_suggest'),
+
     # Étiquettes
     path('etiquettes/', views.TagListView.as_view(), name='tag_list'),
     path('etiquettes/ajouter/', views.TagCreateView.as_view(), name='tag_create'),

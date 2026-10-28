@@ -1,0 +1,15 @@
+{% comment %}Les 3 souvenirs les plus proches (aussi rendu par la tâche compute_embedding_task).{% endcomment %}
+{% if similar %}
+    <ul class="list-unstyled mb-0">
+        {% for other, score in similar %}
+            <li class="border-bottom py-2">
+                <a href="{% url 'journal:entry_detail' other.pk %}">{{ other.title }}</a>
+                <p class="small text-muted mb-0">{{ other.entry_date|date:"j F Y" }} · ressemblance {% widthratio score 1 100 %} %</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% elif entry.embedding %}
+    <p class="text-muted mb-0">Aucun souvenir proche pour l'instant : écrivez d'autres entrées !</p>
+{% else %}
+    <p class="text-muted mb-0">L'IA n'a pas encore lu cette entrée.</p>
+{% endif %}

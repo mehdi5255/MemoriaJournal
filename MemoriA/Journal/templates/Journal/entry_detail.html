@@ -108,7 +108,20 @@
             {% endif %}
         </section>
 
-        {% block similar %}{% endblock %}
+        <section class="card p-4 ai-block" aria-labelledby="titre-similaires">
+            <h2 id="titre-similaires" class="h5 ai-label mb-3">IA · 3 souvenirs similaires</h2>
+            {% if task_id %}
+                {% url 'journal:entry_analyze' entry.pk as analyze_url %}
+                {% include "includes/ai_status.html" with task_id=task_id label="L'IA lit votre entrée…" success_message="Entrée analysée." error_message="L'analyse de l'entrée a échoué." retry_url=analyze_url result_target="#souvenirs-similaires" %}
+            {% endif %}
+            <div id="souvenirs-similaires">{% include "Journal/includes/similar.html" %}</div>
+            {% if not entry.embedding and not task_id %}
+                <form method="post" action="{% url 'journal:entry_analyze' entry.pk %}" class="mt-3">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-ai btn-sm">Chercher des souvenirs similaires</button>
+                </form>
+            {% endif %}
+        </section>
     </div>
 </div>
 {% endblock %}

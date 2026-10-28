@@ -1,5 +1,6 @@
 # Tests des vues de Journal (CRUD des entrées et des étiquettes, filtres, permissions)
 from datetime import timedelta
+from unittest.mock import patch
 
 from django.contrib.auth.models import User
 from django.test import TestCase
@@ -12,6 +13,10 @@ from Journal.models import JournalEntry, Tag
 class JournalViewsTestBase(TestCase):
 
     def setUp(self):
+        # Le calcul d'embedding est lancé à chaque enregistrement : le modèle est simulé
+        patcher = patch('Journal.services.encode', side_effect=lambda texts: [[1.0, 0.0] for _ in texts])
+        self.mock_encode = patcher.start()
+        self.addCleanup(patcher.stop)
         self.user = User.objects.create_user('sarah', password='motdepasse123')
         self.other = User.objects.create_user('amine', password='motdepasse123')
         self.client.login(username='sarah', password='motdepasse123')
@@ -113,7 +118,8 @@ class EntryViewsTest(JournalViewsTestBase):
     def test_creation(self):
         response = self.client.post(reverse('journal:entry_create'), self.entry_data())
         entry = JournalEntry.objects.get(title='Soirée cinéma')
-        self.assertRedirects(response, reverse('journal:entry_detail', args=[entry.pk]))
+        self.assertTrue(response.url.startswith(reverse('journal:entry_detail', args=[entry.pk]) + '?task='))
+        self.assertEqual(entry.embedding, [1.0, 0.0])                     # calculé par la tâche
         self.assertEqual(entry.user, self.user)
         self.assertEqual(list(entry.tags.all()), [self.tag])
         response = self.client.post(reverse('journal:entry_create'), self.entry_data(title='Deuxième'), follow=True)
@@ -140,7 +146,7 @@ class EntryViewsTest(JournalViewsTestBase):
     def test_modification(self):
         response = self.client.post(reverse('journal:entry_update', args=[self.entry.pk]),
                                     self.entry_data(title='Djerba (modifié)', is_favorite='on'))
-        self.assertRedirects(response, reverse('journal:entry_detail', args=[self.entry.pk]))
+        self.assertTrue(response.url.startswith(reverse('journal:entry_detail', args=[self.entry.pk])))
         self.entry.refresh_from_db()
         self.assertEqual(self.entry.title, 'Djerba (modifié)')
         self.assertTrue(self.entry.is_favorite)

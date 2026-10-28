@@ -47,13 +47,35 @@
                 <label class="form-check-label" for="filtre-favori">Favoris seulement</label>
             </div>
         </div>
+        <fieldset class="col-12">
+            <legend class="form-label fs-6 mb-1">Type de recherche</legend>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="mode" id="mode-mots" value="" {% if current.mode != 'sens' %}checked{% endif %}>
+                <label class="form-check-label" for="mode-mots">Mots exacts (avec les filtres)</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="mode" id="mode-sens" value="sens" aria-describedby="aide-sens" {% if current.mode == 'sens' %}checked{% endif %}>
+                <label class="form-check-label" for="mode-sens">Par le sens (IA)</label>
+            </div>
+            <div id="aide-sens" class="form-text">Par le sens : « au bord de la mer » retrouve aussi une journée « à la plage ».</div>
+        </fieldset>
         <div class="col-12 d-flex flex-wrap gap-2">
-            <button type="submit" class="btn btn-outline-secondary">Filtrer</button>
+            <button type="submit" class="btn btn-outline-secondary">Rechercher</button>
             {% if has_filters %}<a href="{% url 'journal:entry_list' %}" class="btn btn-link">Effacer les filtres</a>{% endif %}
         </div>
     </form>
 </section>
 
+{% if semantic %}
+<section class="ai-block" aria-labelledby="titre-sens">
+    <h2 id="titre-sens" class="h5 ai-label mb-3">IA · Entrées proches de « {{ current.q }} »</h2>
+    {% if task_id %}
+        {% url 'journal:semantic_search' as search_url %}
+        {% include "includes/ai_status.html" with task_id=task_id label="Recherche des entrées par le sens…" success_message="Recherche terminée." error_message="La recherche par le sens a échoué." retry_url=search_url retry_data=retry_data result_target="#resultats-sens" %}
+    {% endif %}
+    <div id="resultats-sens"></div>
+</section>
+{% else %}
 <section aria-labelledby="titre-resultats">
     <h2 id="titre-resultats" class="h5 mb-3">
         {% if has_filters %}{{ paginator.count|default:0 }} entrée{{ paginator.count|pluralize }} trouvée{{ paginator.count|pluralize }}{% else %}{{ total }} entrée{{ total|pluralize }}{% endif %}
@@ -87,4 +109,5 @@
         </div>
     {% endif %}
 </section>
+{% endif %}
 {% endblock %}
