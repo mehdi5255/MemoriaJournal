@@ -1,0 +1,1059 @@
+{
+  "detection": {
+    "n": 20,
+    "lignes": [
+      {
+        "id": 1,
+        "visages_attendus": 1,
+        "visages_detectes": 1,
+        "vrais_positifs": 1,
+        "visages_secondaires": 0,
+        "faux_positifs": 0,
+        "faux_negatifs": 0
+      },
+      {
+        "id": 2,
+        "visages_attendus": 2,
+        "visages_detectes": 2,
+        "vrais_positifs": 2,
+        "visages_secondaires": 0,
+        "faux_positifs": 0,
+        "faux_negatifs": 0
+      },
+      {
+        "id": 3,
+        "visages_attendus": 3,
+        "visages_detectes": 6,
+        "vrais_positifs": 3,
+        "visages_secondaires": 3,
+        "faux_positifs": 0,
+        "faux_negatifs": 0
+      },
+      {
+        "id": 4,
+        "visages_attendus": 4,
+        "visages_detectes": 4,
+        "vrais_positifs": 4,
+        "visages_secondaires": 0,
+        "faux_positifs": 0,
+        "faux_negatifs": 0
+      },
+      {
+        "id": 5,
+        "visages_attendus": 0,
+        "visages_detectes": 0,
+        "vrais_positifs": 0,
+        "visages_secondaires": 0,
+        "faux_positifs": 0,
+        "faux_negatifs": 0
+      },
+      {
+        "id": 6,
+        "visages_attendus": 1,
+        "visages_detectes": 1,
+        "vrais_positifs": 1,
+        "visages_secondaires": 0,
+        "faux_positifs": 0,
+        "faux_negatifs": 0
+      },
+      {
+        "id": 7,
+        "visages_attendus": 2,
+        "visages_detectes": 2,
+        "vrais_positifs": 2,
+        "visages_secondaires": 0,
+        "faux_positifs": 0,
+        "faux_negatifs": 0
+      },
+      {
+        "id": 8,
+        "visages_attendus": 3,
+        "visages_detectes": 3,
+        "vrais_positifs": 3,
+        "visages_secondaires": 0,
+        "faux_positifs": 0,
+        "faux_negatifs": 0
+      },
+      {
+        "id": 9,
+        "visages_attendus": 4,
+        "visages_detectes": 6,
+        "vrais_positifs": 4,
+        "visages_secondaires": 2,
+        "faux_positifs": 0,
+        "faux_negatifs": 0
+      },
+      {
+        "id": 10,
+        "visages_attendus": 0,
+        "visages_detectes": 0,
+        "vrais_positifs": 0,
+        "visages_secondaires": 0,
+        "faux_positifs": 0,
+        "faux_negatifs": 0
+      },
+      {
+        "id": 11,
+        "visages_attendus": 1,
+        "visages_detectes": 2,
+        "vrais_positifs": 1,
+        "visages_secondaires": 1,
+        "faux_positifs": 0,
+        "faux_negatifs": 0
+      },
+      {
+        "id": 12,
+        "visages_attendus": 2,
+        "visages_detectes": 2,
+        "vrais_positifs": 2,
+        "visages_secondaires": 0,
+        "faux_positifs": 0,
+        "faux_negatifs": 0
+      },
+      {
+        "id": 13,
+        "visages_attendus": 3,
+        "visages_detectes": 3,
+        "vrais_positifs": 3,
+        "visages_secondaires": 0,
+        "faux_positifs": 0,
+        "faux_negatifs": 0
+      },
+      {
+        "id": 14,
+        "visages_attendus": 4,
+        "visages_detectes": 4,
+        "vrais_positifs": 4,
+        "visages_secondaires": 0,
+        "faux_positifs": 0,
+        "faux_negatifs": 0
+      },
+      {
+        "id": 15,
+        "visages_attendus": 0,
+        "visages_detectes": 0,
+        "vrais_positifs": 0,
+        "visages_secondaires": 0,
+        "faux_positifs": 0,
+        "faux_negatifs": 0
+      },
+      {
+        "id": 16,
+        "visages_attendus": 1,
+        "visages_detectes": 1,
+        "vrais_positifs": 1,
+        "visages_secondaires": 0,
+        "faux_positifs": 0,
+        "faux_negatifs": 0
+      },
+      {
+        "id": 17,
+        "visages_attendus": 2,
+        "visages_detectes": 2,
+        "vrais_positifs": 2,
+        "visages_secondaires": 0,
+        "faux_positifs": 0,
+        "faux_negatifs": 0
+      },
+      {
+        "id": 18,
+        "visages_attendus": 3,
+        "visages_detectes": 4,
+        "vrais_positifs": 3,
+        "visages_secondaires": 1,
+        "faux_positifs": 0,
+        "faux_negatifs": 0
+      },
+      {
+        "id": 19,
+        "visages_attendus": 4,
+        "visages_detectes": 5,
+        "vrais_positifs": 4,
+        "visages_secondaires": 1,
+        "faux_positifs": 0,
+        "faux_negatifs": 0
+      },
+      {
+        "id": 20,
+        "visages_attendus": 2,
+        "visages_detectes": 3,
+        "vrais_positifs": 2,
+        "visages_secondaires": 1,
+        "faux_positifs": 0,
+        "faux_negatifs": 0
+      }
+    ],
+    "vrais_positifs": 42,
+    "visages_secondaires": 9,
+    "faux_positifs": 0,
+    "faux_negatifs": 0,
+    "vignettes_sans_visage": 38,
+    "precision_stricte": 0.824,
+    "f1_strict": 0.903,
+    "precision": 1.0,
+    "rappel": 1.0,
+    "f1": 1.0,
+    "seuil": 0.8,
+    "temps": {
+      "moyenne_ms": 22,
+      "max_ms": 27,
+      "n": 19
+    }
+  },
+  "date": "2026-10-28",
+  "identification": {
+    "n": 45,
+    "proches": [
+      "Colin Powell",
+      "Tony Blair",
+      "Donald Rumsfeld",
+      "Gerhard Schroeder",
+      "Ariel Sharon"
+    ],
+    "non_detectes": 0,
+    "seuil": 0.363,
+    "accuracy": 1.0,
+    "proches_reconnus": 1.0,
+    "inconnus_rejetes": 1.0,
+    "matrice": [
+      [
+        6,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        6,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        6,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        6,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        6,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        15
+      ]
+    ],
+    "etiquettes": [
+      "Colin Powell",
+      "Tony Blair",
+      "Donald Rumsfeld",
+      "Gerhard Schroeder",
+      "Ariel Sharon",
+      "Inconnu"
+    ],
+    "courbe_seuil": [
+      {
+        "seuil": 0.2,
+        "proches_reconnus": 1.0,
+        "inconnus_rejetes": 0.4,
+        "accuracy": 0.8
+      },
+      {
+        "seuil": 0.25,
+        "proches_reconnus": 1.0,
+        "inconnus_rejetes": 0.8,
+        "accuracy": 0.933
+      },
+      {
+        "seuil": 0.3,
+        "proches_reconnus": 1.0,
+        "inconnus_rejetes": 0.8,
+        "accuracy": 0.933
+      },
+      {
+        "seuil": 0.35,
+        "proches_reconnus": 1.0,
+        "inconnus_rejetes": 1.0,
+        "accuracy": 1.0
+      },
+      {
+        "seuil": 0.4,
+        "proches_reconnus": 1.0,
+        "inconnus_rejetes": 1.0,
+        "accuracy": 1.0
+      },
+      {
+        "seuil": 0.45,
+        "proches_reconnus": 1.0,
+        "inconnus_rejetes": 1.0,
+        "accuracy": 1.0
+      },
+      {
+        "seuil": 0.5,
+        "proches_reconnus": 1.0,
+        "inconnus_rejetes": 1.0,
+        "accuracy": 1.0
+      },
+      {
+        "seuil": 0.55,
+        "proches_reconnus": 1.0,
+        "inconnus_rejetes": 1.0,
+        "accuracy": 1.0
+      },
+      {
+        "seuil": 0.6,
+        "proches_reconnus": 1.0,
+        "inconnus_rejetes": 1.0,
+        "accuracy": 1.0
+      },
+      {
+        "seuil": 0.65,
+        "proches_reconnus": 0.967,
+        "inconnus_rejetes": 1.0,
+        "accuracy": 0.978
+      }
+    ],
+    "dbscan_ari": 0.756,
+    "dbscan_groupes": 4,
+    "dbscan_isoles": 0,
+    "temps": {
+      "moyenne_ms": 13,
+      "max_ms": 16,
+      "n": 44
+    }
+  },
+  "objets": {
+    "n": 20,
+    "reussis": 20,
+    "lignes": [
+      {
+        "id": 1,
+        "scene": "a cat sleeping on a sofa in a living room",
+        "attendus": [
+          "chat",
+          "canapé"
+        ],
+        "predits": [
+          "chat",
+          "canapé"
+        ],
+        "corrects": [
+          "canapé",
+          "chat"
+        ],
+        "en_trop": [],
+        "oublies": [],
+        "precision": 1.0,
+        "rappel": 1.0,
+        "ajouts_verifies": [],
+        "en_trop_corrige": []
+      },
+      {
+        "id": 2,
+        "scene": "a dog playing with a ball in a garden",
+        "attendus": [
+          "chien",
+          "ballon"
+        ],
+        "predits": [
+          "chien",
+          "ballon"
+        ],
+        "corrects": [
+          "ballon",
+          "chien"
+        ],
+        "en_trop": [],
+        "oublies": [],
+        "precision": 1.0,
+        "rappel": 1.0,
+        "ajouts_verifies": [],
+        "en_trop_corrige": []
+      },
+      {
+        "id": 3,
+        "scene": "a laptop and a cup of coffee on a wooden desk",
+        "attendus": [
+          "clavier",
+          "tasse",
+          "table"
+        ],
+        "predits": [
+          "clavier",
+          "tasse"
+        ],
+        "corrects": [
+          "clavier",
+          "tasse"
+        ],
+        "en_trop": [],
+        "oublies": [
+          "table"
+        ],
+        "precision": 1.0,
+        "rappel": 0.6666666666666666,
+        "ajouts_verifies": [],
+        "en_trop_corrige": []
+      },
+      {
+        "id": 4,
+        "scene": "a bicycle parked next to a bench in a park",
+        "attendus": [
+          "vélo"
+        ],
+        "predits": [
+          "vélo"
+        ],
+        "corrects": [
+          "vélo"
+        ],
+        "en_trop": [],
+        "oublies": [],
+        "precision": 1.0,
+        "rappel": 1.0,
+        "ajouts_verifies": [],
+        "en_trop_corrige": []
+      },
+      {
+        "id": 5,
+        "scene": "a plate of pizza and a glass of wine on a restaurant table",
+        "attendus": [
+          "pizza",
+          "verre à vin",
+          "table",
+          "fourchette"
+        ],
+        "predits": [
+          "verre à vin",
+          "pizza",
+          "table",
+          "fourchette",
+          "couteau"
+        ],
+        "corrects": [
+          "fourchette",
+          "pizza",
+          "table",
+          "verre à vin"
+        ],
+        "en_trop": [
+          "couteau"
+        ],
+        "oublies": [],
+        "precision": 0.8,
+        "rappel": 1.0,
+        "ajouts_verifies": [
+          "couteau"
+        ],
+        "en_trop_corrige": []
+      },
+      {
+        "id": 6,
+        "scene": "a red car parked in front of a house",
+        "attendus": [
+          "voiture"
+        ],
+        "predits": [
+          "voiture",
+          "camion"
+        ],
+        "corrects": [
+          "voiture"
+        ],
+        "en_trop": [
+          "camion"
+        ],
+        "oublies": [],
+        "precision": 0.5,
+        "rappel": 1.0,
+        "ajouts_verifies": [],
+        "en_trop_corrige": [
+          "camion"
+        ]
+      },
+      {
+        "id": 7,
+        "scene": "two people walking on a beach with an umbrella",
+        "attendus": [
+          "personne",
+          "parapluie"
+        ],
+        "predits": [
+          "personne",
+          "parapluie"
+        ],
+        "corrects": [
+          "parapluie",
+          "personne"
+        ],
+        "en_trop": [],
+        "oublies": [],
+        "precision": 1.0,
+        "rappel": 1.0,
+        "ajouts_verifies": [],
+        "en_trop_corrige": []
+      },
+      {
+        "id": 8,
+        "scene": "a birthday cake with candles on a table",
+        "attendus": [
+          "gâteau"
+        ],
+        "predits": [
+          "gâteau",
+          "table"
+        ],
+        "corrects": [
+          "gâteau"
+        ],
+        "en_trop": [
+          "table"
+        ],
+        "oublies": [],
+        "precision": 0.5,
+        "rappel": 1.0,
+        "ajouts_verifies": [],
+        "en_trop_corrige": [
+          "table"
+        ]
+      },
+      {
+        "id": 9,
+        "scene": "a family having dinner at a dining table",
+        "attendus": [
+          "personne",
+          "table",
+          "verre à vin",
+          "bol"
+        ],
+        "predits": [
+          "personne",
+          "verre à vin",
+          "bol",
+          "table",
+          "plante",
+          "fourchette",
+          "chaise",
+          "vase"
+        ],
+        "corrects": [
+          "bol",
+          "personne",
+          "table",
+          "verre à vin"
+        ],
+        "en_trop": [
+          "chaise",
+          "fourchette",
+          "plante",
+          "vase"
+        ],
+        "oublies": [],
+        "precision": 0.5,
+        "rappel": 1.0,
+        "ajouts_verifies": [
+          "chaise",
+          "fourchette",
+          "plante",
+          "vase"
+        ],
+        "en_trop_corrige": []
+      },
+      {
+        "id": 10,
+        "scene": "a boat on a calm sea at sunset",
+        "attendus": [
+          "bateau"
+        ],
+        "predits": [
+          "bateau"
+        ],
+        "corrects": [
+          "bateau"
+        ],
+        "en_trop": [],
+        "oublies": [],
+        "precision": 1.0,
+        "rappel": 1.0,
+        "ajouts_verifies": [],
+        "en_trop_corrige": []
+      },
+      {
+        "id": 11,
+        "scene": "a kitchen with a refrigerator and an oven",
+        "attendus": [
+          "réfrigérateur",
+          "four",
+          "micro-ondes",
+          "évier"
+        ],
+        "predits": [
+          "réfrigérateur",
+          "évier",
+          "four",
+          "plante",
+          "bouteille"
+        ],
+        "corrects": [
+          "four",
+          "réfrigérateur",
+          "évier"
+        ],
+        "en_trop": [
+          "bouteille",
+          "plante"
+        ],
+        "oublies": [
+          "micro-ondes"
+        ],
+        "precision": 0.6,
+        "rappel": 0.75,
+        "ajouts_verifies": [
+          "plante"
+        ],
+        "en_trop_corrige": [
+          "bouteille"
+        ]
+      },
+      {
+        "id": 12,
+        "scene": "a bowl of fruits with bananas and apples on a kitchen table",
+        "attendus": [
+          "banane",
+          "pomme",
+          "bol"
+        ],
+        "predits": [
+          "bol",
+          "banane",
+          "pomme",
+          "table"
+        ],
+        "corrects": [
+          "banane",
+          "bol",
+          "pomme"
+        ],
+        "en_trop": [
+          "table"
+        ],
+        "oublies": [],
+        "precision": 0.75,
+        "rappel": 1.0,
+        "ajouts_verifies": [
+          "table"
+        ],
+        "en_trop_corrige": []
+      },
+      {
+        "id": 13,
+        "scene": "a man reading a book on a chair",
+        "attendus": [
+          "personne",
+          "livre",
+          "chaise"
+        ],
+        "predits": [
+          "personne",
+          "livre",
+          "banc",
+          "sac à main"
+        ],
+        "corrects": [
+          "livre",
+          "personne"
+        ],
+        "en_trop": [
+          "banc",
+          "sac à main"
+        ],
+        "oublies": [
+          "chaise"
+        ],
+        "precision": 0.5,
+        "rappel": 0.6666666666666666,
+        "ajouts_verifies": [],
+        "en_trop_corrige": [
+          "banc",
+          "sac à main"
+        ]
+      },
+      {
+        "id": 14,
+        "scene": "a horse in a green field",
+        "attendus": [
+          "cheval"
+        ],
+        "predits": [
+          "cheval"
+        ],
+        "corrects": [
+          "cheval"
+        ],
+        "en_trop": [],
+        "oublies": [],
+        "precision": 1.0,
+        "rappel": 1.0,
+        "ajouts_verifies": [],
+        "en_trop_corrige": []
+      },
+      {
+        "id": 15,
+        "scene": "a bus on a city street",
+        "attendus": [
+          "bus",
+          "feu de circulation"
+        ],
+        "predits": [
+          "bus",
+          "personne",
+          "feu de circulation"
+        ],
+        "corrects": [
+          "bus",
+          "feu de circulation"
+        ],
+        "en_trop": [
+          "personne"
+        ],
+        "oublies": [],
+        "precision": 0.6666666666666666,
+        "rappel": 1.0,
+        "ajouts_verifies": [
+          "personne"
+        ],
+        "en_trop_corrige": []
+      },
+      {
+        "id": 16,
+        "scene": "a bedroom with a bed and a lamp",
+        "attendus": [
+          "lit"
+        ],
+        "predits": [
+          "lit",
+          "plante"
+        ],
+        "corrects": [
+          "lit"
+        ],
+        "en_trop": [
+          "plante"
+        ],
+        "oublies": [],
+        "precision": 0.5,
+        "rappel": 1.0,
+        "ajouts_verifies": [],
+        "en_trop_corrige": [
+          "plante"
+        ]
+      },
+      {
+        "id": 17,
+        "scene": "a child holding a teddy bear",
+        "attendus": [
+          "personne",
+          "ours en peluche"
+        ],
+        "predits": [
+          "ours en peluche",
+          "personne"
+        ],
+        "corrects": [
+          "ours en peluche",
+          "personne"
+        ],
+        "en_trop": [],
+        "oublies": [],
+        "precision": 1.0,
+        "rappel": 1.0,
+        "ajouts_verifies": [],
+        "en_trop_corrige": []
+      },
+      {
+        "id": 18,
+        "scene": "a woman talking on a cell phone in the street",
+        "attendus": [
+          "personne",
+          "téléphone",
+          "voiture"
+        ],
+        "predits": [
+          "personne",
+          "voiture",
+          "téléphone"
+        ],
+        "corrects": [
+          "personne",
+          "téléphone",
+          "voiture"
+        ],
+        "en_trop": [],
+        "oublies": [],
+        "precision": 1.0,
+        "rappel": 1.0,
+        "ajouts_verifies": [],
+        "en_trop_corrige": []
+      },
+      {
+        "id": 19,
+        "scene": "a bottle of water and a backpack on a rock in the mountains",
+        "attendus": [
+          "bouteille"
+        ],
+        "predits": [
+          "bouteille"
+        ],
+        "corrects": [
+          "bouteille"
+        ],
+        "en_trop": [],
+        "oublies": [],
+        "precision": 1.0,
+        "rappel": 1.0,
+        "ajouts_verifies": [],
+        "en_trop_corrige": []
+      },
+      {
+        "id": 20,
+        "scene": "a television and a potted plant in a living room",
+        "attendus": [
+          "télévision",
+          "plante"
+        ],
+        "predits": [
+          "plante",
+          "télévision",
+          "canapé",
+          "vase"
+        ],
+        "corrects": [
+          "plante",
+          "télévision"
+        ],
+        "en_trop": [
+          "canapé",
+          "vase"
+        ],
+        "oublies": [],
+        "precision": 0.5,
+        "rappel": 1.0,
+        "ajouts_verifies": [
+          "vase"
+        ],
+        "en_trop_corrige": [
+          "canapé"
+        ]
+      }
+    ],
+    "precision": 0.714,
+    "precision_corrigee": 0.875,
+    "rappel": 0.93,
+    "precision_moyenne_scenes": 0.791,
+    "moteur": "DETR (local)",
+    "temps": {
+      "moyenne_ms": 2250,
+      "max_ms": 2603,
+      "n": 19
+    },
+    "premier_appel_ms": 38242
+  },
+  "legendes": {
+    "n": 20,
+    "reussis": 20,
+    "lignes": [
+      {
+        "id": 1,
+        "scene": "a cat sleeping on a sofa in a living room",
+        "legende_en": "a cat is laying on a couch",
+        "legende_fr": "un chat est couché sur un canapé",
+        "clip": 25.8,
+        "clip_reference": 29.87
+      },
+      {
+        "id": 2,
+        "scene": "a dog playing with a ball in a garden",
+        "legende_en": "a dog playing with a ball in the grass",
+        "legende_fr": "un chien jouant avec une balle dans l'herbe",
+        "clip": 31.37,
+        "clip_reference": 34.18
+      },
+      {
+        "id": 3,
+        "scene": "a laptop and a cup of coffee on a wooden desk",
+        "legende_en": "a cup of coffee and a laptop on a wooden table",
+        "legende_fr": "une tasse de café et un ordinateur portable sur une table en bois",
+        "clip": 31.81,
+        "clip_reference": 32.77
+      },
+      {
+        "id": 4,
+        "scene": "a bicycle parked next to a bench in a park",
+        "legende_en": "a bike parked in the middle of a park",
+        "legende_fr": "un vélo garé au milieu d'un parc",
+        "clip": 31.23,
+        "clip_reference": 31.61
+      },
+      {
+        "id": 5,
+        "scene": "a plate of pizza and a glass of wine on a restaurant table",
+        "legende_en": "two plates with pizza and wine on them",
+        "legende_fr": "deux assiettes avec pizza et vin sur eux",
+        "clip": 31.03,
+        "clip_reference": 32.77
+      },
+      {
+        "id": 6,
+        "scene": "a red car parked in front of a house",
+        "legende_en": "a red car parked in front of a house",
+        "legende_fr": "une voiture rouge garée devant une maison",
+        "clip": 32.78,
+        "clip_reference": 32.78
+      },
+      {
+        "id": 7,
+        "scene": "two people walking on a beach with an umbrella",
+        "legende_en": "a person walking on the beach with an umbrella",
+        "legende_fr": "une personne marchant sur la plage avec un parasol",
+        "clip": 31.53,
+        "clip_reference": 30.01
+      },
+      {
+        "id": 8,
+        "scene": "a birthday cake with candles on a table",
+        "legende_en": "a birthday cake with candles and decorations",
+        "legende_fr": "un gâteau d'anniversaire avec des bougies et des décorations",
+        "clip": 31.85,
+        "clip_reference": 31.71
+      },
+      {
+        "id": 9,
+        "scene": "a family having dinner at a dining table",
+        "legende_en": "a family eating dinner together",
+        "legende_fr": "une famille qui dîne ensemble",
+        "clip": 26.98,
+        "clip_reference": 28.15
+      },
+      {
+        "id": 10,
+        "scene": "a boat on a calm sea at sunset",
+        "legende_en": "a boat is floating in the water at sunset",
+        "legende_fr": "un bateau flotte dans l'eau au coucher du soleil",
+        "clip": 31.6,
+        "clip_reference": 33.74
+      },
+      {
+        "id": 11,
+        "scene": "a kitchen with a refrigerator and an oven",
+        "legende_en": "a kitchen with white cabinets and white appliances",
+        "legende_fr": "une cuisine avec armoires blanches et appareils électroménagers blancs",
+        "clip": 30.46,
+        "clip_reference": 29.04
+      },
+      {
+        "id": 12,
+        "scene": "a bowl of fruits with bananas and apples on a kitchen table",
+        "legende_en": "a bowl of fruit and fruit on a table",
+        "legende_fr": "un bol de fruits et fruits sur une table",
+        "clip": 31.1,
+        "clip_reference": 31.44
+      },
+      {
+        "id": 13,
+        "scene": "a man reading a book on a chair",
+        "legende_en": "a man sitting in a chair reading a book",
+        "legende_fr": "un homme assis dans une chaise lisant un livre",
+        "clip": 31.5,
+        "clip_reference": 31.89
+      },
+      {
+        "id": 14,
+        "scene": "a horse in a green field",
+        "legende_en": "a horse standing in a field of grass",
+        "legende_fr": "un cheval debout dans un champ d'herbe",
+        "clip": 32.55,
+        "clip_reference": 32.36
+      },
+      {
+        "id": 15,
+        "scene": "a bus on a city street",
+        "legende_en": "a double decker bus in new york",
+        "legende_fr": "un bus à deux étages à New York",
+        "clip": 28.06,
+        "clip_reference": 30.06
+      },
+      {
+        "id": 16,
+        "scene": "a bedroom with a bed and a lamp",
+        "legende_en": "a bedroom with a bed and a window",
+        "legende_fr": "une chambre avec un lit et une fenêtre",
+        "clip": 27.23,
+        "clip_reference": 29.57
+      },
+      {
+        "id": 17,
+        "scene": "a child holding a teddy bear",
+        "legende_en": "a little girl holding a teddy bear",
+        "legende_fr": "une petite fille tenant un ours en peluche",
+        "clip": 34.29,
+        "clip_reference": 34.86
+      },
+      {
+        "id": 18,
+        "scene": "a woman talking on a cell phone in the street",
+        "legende_en": "a woman talking on a cell phone",
+        "legende_fr": "Une femme qui parle sur un téléphone portable",
+        "clip": 30.88,
+        "clip_reference": 30.09
+      },
+      {
+        "id": 19,
+        "scene": "a bottle of water and a backpack on a rock in the mountains",
+        "legende_en": "a bottle of water sitting on top of a rock",
+        "legende_fr": "une bouteille d'eau assise au-dessus d'une roche",
+        "clip": 28.82,
+        "clip_reference": 32.03
+      },
+      {
+        "id": 20,
+        "scene": "a television and a potted plant in a living room",
+        "legende_en": "a living room with a tv and a plant",
+        "legende_fr": "un salon avec une télévision et une plante",
+        "clip": 35.95,
+        "clip_reference": 34.73
+      }
+    ],
+    "clip_moyen": 30.84,
+    "clip_reference_moyen": 31.68,
+    "humain": null,
+    "moteur": "BLIP (local)",
+    "temps": {
+      "moyenne_ms": 2110,
+      "max_ms": 2763,
+      "n": 19
+    },
+    "premier_appel_ms": 9410
+  }
+}

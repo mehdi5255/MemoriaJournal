@@ -1,0 +1,209 @@
+{
+  "description": "20 scènes (images dans scenes/) avec les objets réellement visibles, annotés à la main en regardant chaque image. Seuls les 80 objets que DETR connaît (jeu COCO) sont annotés, avec leur nom français de Face/services.py. Le texte « scene » est la description donnée au générateur d'images : il n'a pas toujours tout dessiné (pas d'ordinateur portable en 3, pas de banc en 4, pas de sac à dos en 19), l'annotation suit l'image. Après la première évaluation, les objets « en trop » de DETR ont été dessinés sur les images et vérifiés à l'œil : ceux qui sont vraiment visibles sont dans « ajouts_verifies » (en cas de doute, l'objet reste compté comme une erreur).",
+  "scenes": [
+    {
+      "id": 1,
+      "fichier": "scene_01.jpg",
+      "scene": "a cat sleeping on a sofa in a living room",
+      "objets": [
+        "chat",
+        "canapé"
+      ]
+    },
+    {
+      "id": 2,
+      "fichier": "scene_02.jpg",
+      "scene": "a dog playing with a ball in a garden",
+      "objets": [
+        "chien",
+        "ballon"
+      ]
+    },
+    {
+      "id": 3,
+      "fichier": "scene_03.jpg",
+      "scene": "a laptop and a cup of coffee on a wooden desk",
+      "objets": [
+        "clavier",
+        "tasse",
+        "table"
+      ]
+    },
+    {
+      "id": 4,
+      "fichier": "scene_04.jpg",
+      "scene": "a bicycle parked next to a bench in a park",
+      "objets": [
+        "vélo"
+      ]
+    },
+    {
+      "id": 5,
+      "fichier": "scene_05.jpg",
+      "scene": "a plate of pizza and a glass of wine on a restaurant table",
+      "objets": [
+        "pizza",
+        "verre à vin",
+        "table",
+        "fourchette"
+      ],
+      "ajouts_verifies": [
+        "couteau"
+      ]
+    },
+    {
+      "id": 6,
+      "fichier": "scene_06.jpg",
+      "scene": "a red car parked in front of a house",
+      "objets": [
+        "voiture"
+      ]
+    },
+    {
+      "id": 7,
+      "fichier": "scene_07.jpg",
+      "scene": "two people walking on a beach with an umbrella",
+      "objets": [
+        "personne",
+        "parapluie"
+      ]
+    },
+    {
+      "id": 8,
+      "fichier": "scene_08.jpg",
+      "scene": "a birthday cake with candles on a table",
+      "objets": [
+        "gâteau"
+      ]
+    },
+    {
+      "id": 9,
+      "fichier": "scene_09.jpg",
+      "scene": "a family having dinner at a dining table",
+      "objets": [
+        "personne",
+        "table",
+        "verre à vin",
+        "bol"
+      ],
+      "ajouts_verifies": [
+        "chaise",
+        "fourchette",
+        "plante",
+        "vase"
+      ]
+    },
+    {
+      "id": 10,
+      "fichier": "scene_10.jpg",
+      "scene": "a boat on a calm sea at sunset",
+      "objets": [
+        "bateau"
+      ]
+    },
+    {
+      "id": 11,
+      "fichier": "scene_11.jpg",
+      "scene": "a kitchen with a refrigerator and an oven",
+      "objets": [
+        "réfrigérateur",
+        "four",
+        "micro-ondes",
+        "évier"
+      ],
+      "ajouts_verifies": [
+        "plante"
+      ]
+    },
+    {
+      "id": 12,
+      "fichier": "scene_12.jpg",
+      "scene": "a bowl of fruits with bananas and apples on a kitchen table",
+      "objets": [
+        "banane",
+        "pomme",
+        "bol"
+      ],
+      "ajouts_verifies": [
+        "table"
+      ]
+    },
+    {
+      "id": 13,
+      "fichier": "scene_13.jpg",
+      "scene": "a man reading a book on a chair",
+      "objets": [
+        "personne",
+        "livre",
+        "chaise"
+      ]
+    },
+    {
+      "id": 14,
+      "fichier": "scene_14.jpg",
+      "scene": "a horse in a green field",
+      "objets": [
+        "cheval"
+      ]
+    },
+    {
+      "id": 15,
+      "fichier": "scene_15.jpg",
+      "scene": "a bus on a city street",
+      "objets": [
+        "bus",
+        "feu de circulation"
+      ],
+      "ajouts_verifies": [
+        "personne"
+      ]
+    },
+    {
+      "id": 16,
+      "fichier": "scene_16.jpg",
+      "scene": "a bedroom with a bed and a lamp",
+      "objets": [
+        "lit"
+      ]
+    },
+    {
+      "id": 17,
+      "fichier": "scene_17.jpg",
+      "scene": "a child holding a teddy bear",
+      "objets": [
+        "personne",
+        "ours en peluche"
+      ]
+    },
+    {
+      "id": 18,
+      "fichier": "scene_18.jpg",
+      "scene": "a woman talking on a cell phone in the street",
+      "objets": [
+        "personne",
+        "téléphone",
+        "voiture"
+      ]
+    },
+    {
+      "id": 19,
+      "fichier": "scene_19.jpg",
+      "scene": "a bottle of water and a backpack on a rock in the mountains",
+      "objets": [
+        "bouteille"
+      ]
+    },
+    {
+      "id": 20,
+      "fichier": "scene_20.jpg",
+      "scene": "a television and a potted plant in a living room",
+      "objets": [
+        "télévision",
+        "plante"
+      ],
+      "ajouts_verifies": [
+        "vase"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "description": "Protocole d'évaluation des visages sur Labeled Faces in the Wild (LFW), jeu public de photos de personnalités publiques, téléchargé par scikit-learn (fetch_lfw_people) : les images ne sont PAS dans Git. Les photos d'une personne sont prises dans l'ordre du jeu de données.",
+  "lfw": {"min_faces_per_person": 20},
+  "identification": {
+    "description": "Comme dans l'application : chaque proche a 3 photos de référence (moyenne des empreintes), puis on identifie 6 autres photos de chacun. Les « inconnus » ne sont jamais enregistrés : l'application doit répondre « Inconnu ».",
+    "proches": ["Colin Powell", "Tony Blair", "Donald Rumsfeld", "Gerhard Schroeder", "Ariel Sharon"],
+    "photos_reference": 3,
+    "photos_test": 6,
+    "inconnus": ["Hugo Chavez", "Junichiro Koizumi", "Jean Chretien", "John Ashcroft", "Jacques Chirac"],
+    "photos_par_inconnu": 3
+  },
+  "detection": {
+    "description": "20 photos de test : chacune est un collage de 2 x 2 vignettes de 250 pixels. Une vignette « lfw » contient un visage (photo LFW), une vignette « scene » n'en contient aucun (scènes de objets.json sans personne). On connaît donc exactement le nombre et la place des visages.",
+    "taille_vignette": 250,
+    "visages_secondaires_description": "Les photos LFW contiennent parfois d'autres personnes à l'arrière-plan. Après la première évaluation, les détections en plus ont été dessinées sur les collages et vérifiées à l'œil : toutes sont de vrais visages (personnes derrière Vladimir Putin, à côté de Lula ou de George W Bush, foule). Nombre vérifié par collage (numéro du collage, à partir de 1) :",
+    "visages_secondaires": {"3": 3, "9": 2, "11": 1, "18": 1, "19": 1, "20": 1},
+    "collages": [
+      [["lfw", "Serena Williams", 0], ["scene", 1], ["scene", 2], ["scene", 3]],
+      [["lfw", "Vladimir Putin", 0], ["lfw", "Luiz Inacio Lula da Silva", 0], ["scene", 4], ["scene", 5]],
+      [["lfw", "George W Bush", 0], ["lfw", "Serena Williams", 1], ["lfw", "Vladimir Putin", 1], ["scene", 6]],
+      [["lfw", "George W Bush", 1], ["lfw", "Serena Williams", 2], ["lfw", "Vladimir Putin", 2], ["lfw", "Luiz Inacio Lula da Silva", 1]],
+      [["scene", 8], ["scene", 10], ["scene", 11], ["scene", 12]],
+      [["lfw", "Luiz Inacio Lula da Silva", 2], ["scene", 14], ["scene", 16], ["scene", 19]],
+      [["lfw", "George W Bush", 2], ["lfw", "Serena Williams", 3], ["scene", 20], ["scene", 1]],
+      [["lfw", "Vladimir Putin", 3], ["lfw", "Luiz Inacio Lula da Silva", 3], ["lfw", "George W Bush", 3], ["scene", 2]],
+      [["lfw", "Serena Williams", 4], ["lfw", "Vladimir Putin", 4], ["lfw", "Luiz Inacio Lula da Silva", 4], ["lfw", "George W Bush", 4]],
+      [["scene", 3], ["scene", 4], ["scene", 5], ["scene", 6]],
+      [["lfw", "George W Bush", 5], ["scene", 8], ["scene", 10], ["scene", 11]],
+      [["lfw", "Serena Williams", 5], ["lfw", "Vladimir Putin", 5], ["scene", 12], ["scene", 14]],
+      [["lfw", "Luiz Inacio Lula da Silva", 5], ["lfw", "George W Bush", 6], ["lfw", "Serena Williams", 6], ["scene", 16]],
+      [["lfw", "Vladimir Putin", 6], ["lfw", "Luiz Inacio Lula da Silva", 6], ["lfw", "George W Bush", 7], ["lfw", "Serena Williams", 7]],
+      [["scene", 19], ["scene", 20], ["scene", 1], ["scene", 2]],
+      [["lfw", "Vladimir Putin", 7], ["scene", 3], ["scene", 4], ["scene", 5]],
+      [["lfw", "Luiz Inacio Lula da Silva", 7], ["lfw", "George W Bush", 8], ["scene", 6], ["scene", 8]],
+      [["lfw", "Serena Williams", 8], ["lfw", "Vladimir Putin", 8], ["lfw", "Luiz Inacio Lula da Silva", 8], ["scene", 10]],
+      [["lfw", "George W Bush", 9], ["lfw", "Serena Williams", 9], ["lfw", "Vladimir Putin", 9], ["lfw", "Luiz Inacio Lula da Silva", 9]],
+      [["lfw", "George W Bush", 10], ["lfw", "Serena Williams", 10], ["scene", 11], ["scene", 12]]
+    ]
+  }
+}
