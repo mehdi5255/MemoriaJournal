@@ -10,6 +10,9 @@ urlpatterns = [
     path('rappels/<int:pk>/', views.ReminderDetailView.as_view(), name='reminder_detail'),
     path('rappels/<int:pk>/modifier/', views.ReminderUpdateView.as_view(), name='reminder_update'),
     path('rappels/<int:pk>/supprimer/', views.ReminderDeleteView.as_view(), name='reminder_delete'),
+    path('rappels/<int:pk>/heure-conseillee/', views.ReminderSuggestView.as_view(), name='reminder_suggest'),
+    path('rappels/<int:pk>/appliquer/', views.ReminderApplyView.as_view(), name='reminder_apply'),
+    path('rappels/<int:pk>/question/', views.PromptGenerateView.as_view(), name='prompt_generate'),
 
     # Questions du jour
     path('questions/', views.PromptListView.as_view(), name='prompt_list'),

@@ -7,6 +7,9 @@ from django.utils import timezone
 from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
+from Account.services import launch_task
+
+from . import tasks
 from .forms import AnswerForm, DailyPromptForm, ReminderForm
 from .models import DailyPrompt, Reminder
 
@@ -64,6 +67,8 @@ class ReminderDetailView(ReminderOwnerMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['prompts'] = self.object.prompts.order_by('-prompt_date')[:10]
+        context['task_id'] = self.request.GET.get('task', '')           # tâche IA en cours
+        context['task_type'] = self.request.GET.get('type', '')
         return context
 
 
@@ -212,3 +217,39 @@ class PromptIgnoreView(PromptOwnerMixin, View):
         messages.info(request, "D'accord, à demain !")
         # Retour sur la page d'où vient le clic (jamais une adresse libre venant du formulaire)
         return redirect('account:home' if request.POST.get('depuis') == 'accueil' else 'reminder:reminder_list')
+
+
+# ---------- Fonctionnalités IA ----------
+
+class ReminderSuggestView(ReminderOwnerMixin, View):
+    """« Calculer l'heure conseillée » : KMeans sur les heures d'écriture (tâche Celery)."""
+    http_method_names = ['post']
+
+    def post(self, request, pk):
+        reminder = get_object_or_404(self.get_queryset(), pk=pk)
+        task_id = launch_task(request, tasks.suggest_time_task, reminder.pk, request.user.pk)
+        url = reverse('reminder:reminder_detail', args=[reminder.pk])
+        return redirect(f"{url}?task={task_id}&type=heure" if task_id else url)
+
+
+class ReminderApplyView(ReminderOwnerMixin, View):
+    """« Appliquer » : l'heure conseillée devient l'heure du rappel."""
+    http_method_names = ['post']
+
+    def post(self, request, pk):
+        reminder = get_object_or_404(self.get_queryset(), pk=pk, suggested_time__isnull=False)
+        reminder.reminder_time = reminder.suggested_time
+        reminder.save(update_fields=['reminder_time'])
+        messages.success(request, f"Le rappel sonnera désormais à {reminder.reminder_time:%H:%M}.")
+        return redirect('reminder:reminder_detail', pk=reminder.pk)
+
+
+class PromptGenerateView(ReminderOwnerMixin, View):
+    """« Générer la question du jour » : NER sur les 3 dernières entrées (tâche Celery)."""
+    http_method_names = ['post']
+
+    def post(self, request, pk):
+        reminder = get_object_or_404(self.get_queryset(), pk=pk)
+        task_id = launch_task(request, tasks.generate_prompt_task, reminder.pk, request.user.pk)
+        url = reverse('reminder:reminder_detail', args=[reminder.pk])
+        return redirect(f"{url}?task={task_id}&type=question" if task_id else url)

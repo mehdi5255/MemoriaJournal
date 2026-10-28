@@ -62,6 +62,15 @@ CAPTION_MODEL = os.getenv('CAPTION_MODEL', 'Salesforce/blip-image-captioning-bas
 OBJECT_MODEL = os.getenv('OBJECT_MODEL', 'facebook/detr-resnet-50')
 TRANSLATION_MODEL = os.getenv('TRANSLATION_MODEL', 'Helsinki-NLP/opus-mt-en-fr')
 
+# Module Reminder : entités nommées des entrées (huggingface, local ou auto)
+REMINDER_BACKEND = os.getenv('REMINDER_BACKEND', 'huggingface').lower()
+NER_MODEL = os.getenv('NER_MODEL', 'Jean-Baptiste/camembert-ner')
+
+# Module Journal : recherche par le sens (local) et suggestion d'étiquettes (huggingface, local ou auto)
+JOURNAL_BACKEND = os.getenv('JOURNAL_BACKEND', 'huggingface').lower()
+EMBEDDING_MODEL = os.getenv('EMBEDDING_MODEL', 'paraphrase-multilingual-MiniLM-L12-v2')
+ZERO_SHOT_MODEL = os.getenv('ZERO_SHOT_MODEL', 'MoritzLaurer/mDeBERTa-v3-base-mnli-xnli')
+
 
 # --- Applications ---
 
@@ -174,6 +183,8 @@ LOGOUT_REDIRECT_URL = 'account:login'
 
 EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'MemoriA <noreply@memoria.local>')
+# Adresse du site dans les e-mails de rappel
+SITE_URL = os.getenv('SITE_URL', 'http://127.0.0.1:8000').rstrip('/')
 
 
 # --- Celery + Redis (tâches IA asynchrones) ---
@@ -183,6 +194,11 @@ CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 300           # une tâche IA ne dure jamais plus de 5 minutes
+
+# Celery Beat : envoi des rappels toutes les 5 minutes (celery -A MemoriA beat -l info)
+CELERY_BEAT_SCHEDULE = {
+    'envoyer-les-rappels': {'task': 'Reminder.tasks.send_reminders_task', 'schedule': 300.0},
+}
 
 # Pendant les tests : tâches exécutées tout de suite, sans Redis
 TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
@@ -194,6 +210,8 @@ if TESTING:
     IMAGE_BACKEND = 'huggingface'
     VOICE_BACKEND = 'huggingface'
     FACE_BACKEND = 'huggingface'
+    REMINDER_BACKEND = 'huggingface'
+    JOURNAL_BACKEND = 'huggingface'
     # Jamais de vrai appel IA pendant les tests (CLAUDE.md : tous les appels sont mockés)
     GEMINI_API_KEY = ''
     HF_TOKEN = ''
